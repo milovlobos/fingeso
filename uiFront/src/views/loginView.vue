@@ -152,12 +152,12 @@ export default{ // me sale error pero no cache como solucionarlo....
 <style scoped>
 .general{
 
-    background-image: url("./media/usach.jpg");
+    background: linear-gradient(45deg, #ffffff, #ffb6c1, #00aaff, #800080);
 
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url("./media/usach.jpg");
+    background: linear-gradient(45deg, #ffffff, #ffb6c1, #00aaff, #800080);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
