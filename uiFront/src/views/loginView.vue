@@ -154,15 +154,15 @@ export default{ // me sale error pero no cache como solucionarlo....
 
     background-image: url("./media/usach.jpg");
 
-    height: 100vh;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-
     display: flex;
     justify-content: center;
     align-items: center;
-    align-content: center;
+    background-image: url("./media/usach.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: auto; /* Ajusta la altura según el contenido */
+    min-height: 100vh;
 }
 .sessionButton{
 

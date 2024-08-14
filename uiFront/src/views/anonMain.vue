@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="container main">
         <header>
             <div class="container1">
                 <h1 class="alineacion">InstaHome</h1>
