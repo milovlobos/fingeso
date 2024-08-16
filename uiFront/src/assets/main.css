@@ -25,3 +25,37 @@ img {
   }
 }
 
+.btn-primary {
+  background-color: #6d997a; /* Color de fondo del botón */
+  border-color: #6d997a;
+  color: white; /* Color del texto del botón */
+}
+
+/* Cambiar el color del botón al pasar el mouse */
+.btn-primary:hover, .btn:focus, .btn:active {
+  background-color: #42282c; /* Color de fondo al pasar el mouse */
+}
+
+.btn-secondary {
+    background-color: #42282c; /* Color de fondo del botón */
+    border-color: #42282c;
+    color: white; /* Color del texto del botón */
+    display: inline-flex; /* Usa Flexbox para alinear elementos en línea */
+    align-items: center; /* Alinea verticalmente el contenido en el centro */
+    padding: 10px 20px; /* Ajusta el tamaño y el espaciado del botón */
+    margin-left: 10px; /* Espacio entre los botones */
+    border: none; /* Elimina el borde del botón */
+    border-radius: 4px; /* Opcional: redondea las esquinas del botón */
+    cursor: pointer; /* Cambia el cursor a una mano al pasar sobre el botón */
+    font-size: 16px; /* Tamaño del texto del botón */
+    text-decoration: none; /* Elimina el subrayado en el texto */
+}
+
+/* Cambiar el color del botón al pasar el mouse */
+.btn-secondary:hover {
+  background-color: #50373b; /* Color de fondo al pasar el mouse */
+}
+
+.btn-secondary i {
+    margin-right: 8px; /* Espacio entre el ícono y el texto */
+}

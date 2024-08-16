@@ -16,6 +16,18 @@ const router = createRouter({
             component: () => import('../views/loginView.vue'),
             alias: '/inicio',
         },
+        {
+            path: '/publish',
+            name: 'publish',
+            component: () => import('../views/publishView.vue'),
+            alias: '/inicio',
+        },
+        {
+            path: '/buy',
+            name: 'buy',
+            component: () => import('../views/buyView.vue'),
+            alias: '/inicio',
+        },
     ],
 });
 

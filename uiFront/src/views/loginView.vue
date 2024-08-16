@@ -1,13 +1,10 @@
-<script setup>
-
-</script>
-
 <template>
     <main>
-        <div class="general">
+        <div class="container main">
             <div class="content">
                 <img class="image" src="./media/usach2.png">
-                <div class="header">Inicio de sesion</div>
+                <div class="header" v-if="!register">Inicio de sesion</div>
+                <div class="header" v-else>Registrarse</div>
                 <div class="headerDescription" v-if="!register">Completar campos para iniciar sesion</div>
                 <div class="headerDescription" v-else>Completar campos para registro</div>
                 <div class="inputContainer" v-if="!register">
@@ -21,12 +18,39 @@
                     <input type="password" v-model="passwordRegisterConfirmation" placeholder="Repita contraseña">
                     <button class="sessionButton" @click="add">Registrar</button>
                 </div>
-                <div class="alsoButtons"> // aqui se maneja en el login si quieres iniciar sesion o quieres registarte
+                <div class="alsoButtons"> 
                     <div class="alsoButton" @click="handleChanger" v-if="!register">Registrarse</div>
                     <div class="alsoButton" @click="handleChanger" v-else>Iniciar sesion</div>
                     <router-link to="/">
-                        <div class="alsoButton" @click="handleChanger">Ingreso anonimo</div>
+                        <div class="alsoButton" @click="handleChanger" v-if="register">Ingreso anonimo</div>
                     </router-link>
+                    <div class="alsoButton" data-bs-toggle="modal" data-bs-target="#contactModal" v-if="!register">Recuperar contraseña</div>
+                    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="contactModalLabel">Recuperacion de contraseña</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="contactForm">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Correo Electrónico</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" onclick="submitForm()">Enviar</button>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -150,14 +174,12 @@ export default{ // me sale error pero no cache como solucionarlo....
 </script>
 
 <style scoped>
-.general{
-
-    background: linear-gradient(45deg, #ffffff, #ffb6c1, #00aaff, #800080);
+.main{
 
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(45deg, #ffffff, #ffb6c1, #00aaff, #800080);
+    background: linear-gradient(45deg, #ded1b6, #ded1b6, #6ca19e, #6d997a);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -167,11 +189,11 @@ export default{ // me sale error pero no cache como solucionarlo....
 .sessionButton{
 
     height: 30px;
-    background-color: #1769aa;
+    background-color: #6d997a;
     color: #f5f5f5;
     font-size: 16px;
     font-weight: 500;
-    border: #1769aa solid 2px;
+    border: #6d997a solid 2px;
     border-radius: 3px;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -179,7 +201,7 @@ export default{ // me sale error pero no cache como solucionarlo....
 }
 
 .sessionButton:hover{
-    background-color: #4f8dbe;
+    background-color: #42282c;
     transition: background-color 0.2s;
 
 }
@@ -268,6 +290,14 @@ export default{ // me sale error pero no cache como solucionarlo....
 
     text-decoration: underline;
     transition: all 0.2s;
+}
+.modal-title{
+
+    color: black;
+}
+.form-label{
+
+    color: black;
 }
 @media(min-width: 418px){
 
