@@ -30,7 +30,7 @@ public class Promocionados_servicio {
         Optional<Inmueble> inmuebleOpt = inmuebleRepo.findById(inmuebleId);
         if (inmuebleOpt.isEmpty()) {
             // Si el inmueble no es encontrado, retorna -1 (indica error o inmueble no encontrado)
-            return -1; // Alternativamente, se podría lanzar una excepción específica
+            return 0; // Alternativamente, se podría lanzar una excepción específica
         }
 
         // Verifica cuántas publicaciones promocionadas ya están agendadas para la fecha dada
@@ -38,7 +38,7 @@ public class Promocionados_servicio {
 
         if (count >= 10) {
             // Si ya hay 10 o más publicaciones programadas para esa fecha, retorna 1 (indica límite alcanzado)
-            return 1; // Alternativamente, se podría lanzar una excepción específica
+            return 0; // Alternativamente, se podría lanzar una excepción específica
         }
 
         // Establece el precio de la promoción
@@ -58,7 +58,7 @@ public class Promocionados_servicio {
         // Guardar la boleta en la base de datos
         boleta_repositorio.save(boleta);
 
-        // Retorna 0 para indicar que la promoción fue exitosa
-        return 0;
+        // Retorna 1 para indicar que la promoción fue exitosa
+        return 1;
     }
 }

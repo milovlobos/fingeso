@@ -5,6 +5,8 @@ import com.example.demo.Service.Usuarioservicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/usuario")
@@ -14,7 +16,7 @@ public class usuariocontrolador {
     @PostMapping("/register")
     // registro usuario
     public Usuario register(@RequestBody Usuario Nuser) {
-        return usuarioservicio.register(Nuser.getName(),Nuser.getPassword(),Nuser.getEmail(),"Usuario");
+        return usuarioservicio.register(Nuser.getName(),Nuser.getPassword(),Nuser.getEmail());
 
     }
     //login usuario
@@ -24,15 +26,15 @@ public class usuariocontrolador {
     }
     // buscar por if
     @GetMapping("/Id")
-    public Usuario getUsuariobyId(@RequestParam("Id") String id) {
+    public Usuario getUsuariobyId(@RequestParam("Id") long id) {
         System.out.printf("ID a buscar: %d\n", id);
-        return usuarioservicio.getUsuariobyId(Integer.parseInt(id));
+        return usuarioservicio.getUsuariobyId(id);
     }
     // pagar premium
-    @PutMapping("/premium")
-    public int premium(@RequestParam("Id") String id,@RequestParam String metodoPago) {
-         return usuarioservicio.GetPremium(Integer.parseInt(id),metodoPago);
-
+    @PostMapping("/premium")
+    public int premium(@RequestBody Map<String, Object> body) {
+        long id = Long.parseLong(body.get("Id").toString());
+        String metodoPago = body.get("metodoPago").toString();
+        return usuarioservicio.GetPremium(id, metodoPago);
     }
-
 }

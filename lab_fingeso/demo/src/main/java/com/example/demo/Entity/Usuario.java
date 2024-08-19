@@ -15,17 +15,19 @@ public class Usuario {
     private String name;       // Nombre del usuario
     private String password;   // Contraseña del usuario
     private String email;      // Correo electrónico del usuario
-    private String roll;       // Rol del usuario (ej. "Vendedor", "Comprador", etc.)
     private boolean premium;   // Indica si el usuario tiene una cuenta premium
+    private boolean admin;
+    private boolean asistente;
 
     // Constructor parametrizado para inicializar un nuevo Usuario con todos sus atributos
-    public Usuario(String name, String password, String email, String roll, boolean premium) {
+    public Usuario(String name, String password, String email, boolean premium, boolean admin, boolean asistente) {
 
         this.name = name;
         this.password = password;
         this.email = email;
-        this.roll = roll;
         this.premium = premium;
+        this.admin = admin;
+        this.asistente = asistente;
     }
 
     // Constructor por defecto necesario para JPA
@@ -66,19 +68,27 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getRoll() {
-        return roll;
-    }
-
-    public void setRoll(String roll) {
-        this.roll = roll;
-    }
-
     public boolean isPremium() {
         return premium;
     }
 
     public void setPremium(boolean premium) {
         this.premium = premium;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public boolean isAsistente() {
+        return asistente;
+    }
+
+    public void setAsistente(boolean asistente) {
+        this.asistente = asistente;
     }
 }

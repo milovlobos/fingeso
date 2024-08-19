@@ -36,14 +36,6 @@ public class Inmueble_servicio {
     // Método para crear un nuevo inmueble
     public Inmueble createInmueble(long userId, String name, String description, long metroCuadrados, String tipo, String direccion, long precio, String fotoUrl) {
         // Buscar el usuario por su ID, lanzar excepción si no se encuentra
-        Usuario user = userRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Establecer el rol del usuario como "Vendedor"
-        user.setRoll("Vendedor"); // Cambia esto según tu implementación de rol
-
-        // Guardar los cambios en el usuario en la base de datos
-        userRepo.save(user);
 
         // Crear y configurar un nuevo inmueble con los detalles proporcionados
         Inmueble inmueble = new Inmueble(false,false,fotoUrl,precio,direccion,tipo,metroCuadrados,description,name,userId);
@@ -87,7 +79,7 @@ public class Inmueble_servicio {
             if (inmueble.getIdUser() == userId) {
                 // Buscar el usuario por su ID y verificar si tiene el rol de "Vendedor"
                 Optional<Usuario> usuarioOpt = userRepo.findById(userId);
-                if (usuarioOpt.isPresent() && usuarioOpt.get().getRoll().equals("Vendedor")) {
+
                     // Eliminar el inmueble si se cumplen todas las condiciones
                     inmuebleRepo.deleteById(inmuebleId);
                 } else {
@@ -98,10 +90,9 @@ public class Inmueble_servicio {
                 // Lanzar excepción si el usuario no es el propietario del inmueble
                 throw new SecurityException("El usuario no es el propietario del inmueble");
             }
-        } else {
-            // Lanzar excepción si el inmueble no se encuentra
-            throw new NoSuchElementException("Inmueble no encontrado");
-        }
+
+        // Lanzar excepción si el inmueble no se encuentra
+        throw new NoSuchElementException("Inmueble no encontrado");
     }
 
     // Método para comprar un inmueble

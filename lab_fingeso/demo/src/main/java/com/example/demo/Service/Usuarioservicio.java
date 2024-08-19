@@ -19,9 +19,9 @@ public class Usuarioservicio {
     private com.example.demo.Repository.boleta_repositorio boleta_repositorio;
 
     // Método para registrar un nuevo usuario
-    public Usuario register(String name, String password, String email, String rol) {
+    public Usuario register(String name, String password, String email) {
         // Crear un nuevo objeto Usuario con los datos proporcionados y sin premium
-        Usuario usuario = new Usuario(name, password, email, rol, false);
+        Usuario usuario = new Usuario(name, password, email, false,false,false);
 
         // Verificar si ya existe un usuario con el mismo email
         Usuario existe = userRepo.findByemail(usuario.getEmail());
@@ -41,7 +41,7 @@ public class Usuarioservicio {
             // Si el usuario existe, verificar que la contraseña sea correcta
             if (password.equals(user.getPassword())) {
                 // Si la contraseña es correcta , retornar 1 (login exitoso)
-               return 1;
+                return 1;
             }
         }
         // Si el login falla, retornar 0
