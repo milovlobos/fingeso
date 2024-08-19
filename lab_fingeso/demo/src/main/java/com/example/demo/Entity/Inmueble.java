@@ -3,37 +3,39 @@ package com.example.demo.Entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "inmueble")
+@Table(name = "inmueble")  // Especifica que esta clase se mapeará a una tabla llamada "inmueble" en la base de datos
 public class Inmueble {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Anotación que indica que este campo es la clave primaria y se generará automáticamente
     private long id;
-    @Column(name = "id_User")
+
+    @Column(name = "id_User")  // Mapea el campo "idUser" a la columna "id_User" en la tabla
     private long idUser;
 
-    private String name;
+    private String name;  // Nombre del inmueble
 
-    private String description;
+    private String description;  // Descripción del inmueble
 
-    private long metros2;
+    private long metros2;  // Metros cuadrados del inmueble
 
-    private String type;
+    private String type;  // Tipo de inmueble (por ejemplo, casa, departamento, etc.)
 
-    private String direccion;
+    private String direccion;  // Dirección del inmueble
 
-    private long precio;
+    private long precio;  // Precio del inmueble
 
-    private String fotoUrl;
+    private String fotoUrl;  // URL de la foto del inmueble
 
-    private boolean  verificado_admin;
+    private boolean verificado_admin;  // Indicador de si el inmueble ha sido verificado por un administrador
 
-    private boolean verificado;
+    private boolean verificado;  // Indicador de si el inmueble ha sido verificado (puede referirse a una verificación general o por el usuario)
 
-
-
+    // Constructor sin argumentos requerido por JPA
     public Inmueble() {}
 
-    public Inmueble(long id, boolean verificado, boolean verificado_admin, String fotoUrl, long precio, String direccion, String type, long metros2, String description, String name, long idUser) {
+    // Constructor parametrizado para inicializar todos los campos de la clase
+    public Inmueble(boolean verificado, boolean verificado_admin, String fotoUrl, long precio, String direccion, String type, long metros2, String description, String name, long idUser) {
         this.id = id;
         this.verificado = verificado;
         this.verificado_admin = verificado_admin;
@@ -47,7 +49,8 @@ public class Inmueble {
         this.idUser = idUser;
     }
 
-    // Getters y setters
+    // Métodos getters y setters para cada atributo de la clase
+
     public long getId() {
         return id;
     }

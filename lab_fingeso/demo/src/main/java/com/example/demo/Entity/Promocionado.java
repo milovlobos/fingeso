@@ -5,33 +5,38 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="promocionado")
+@Table(name="promocionado") // Define que esta clase es una entidad que se mapea a una tabla llamada "promocionado"
 public class Promocionado {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // El campo id es la clave primaria de la tabla "promocionado" y se genera automáticamente
     private long id;
 
     @JoinColumn(name = "inmueble_id", referencedColumnName = "id")
+    // Define la columna que hace referencia a la clave foránea (foreign key) del inmueble asociado
     private long inmueble_id;
 
+    // Almacena el precio de la promoción
     private double precio;
 
+    // Almacena la fecha y hora de la promoción
     private LocalDateTime fecha;
 
 
-
-    public Promocionado( long inmueble_id, double precio, LocalDateTime fecha) {
-        this.id=id;
+    public Promocionado(long inmueble_id, double precio, LocalDateTime fecha) {
+        this.id = id;  // El ID se maneja automáticamente, por lo que no es necesario asignarlo aquí
         this.inmueble_id = inmueble_id;
         this.precio = precio;
-        this.fecha=fecha;
+        this.fecha = fecha;
+
     }
 
+    public Promocionado() {
 
+    }
 
-
+    // Métodos getters y setters para acceder y modificar los atributos de Promocionado
 
     public LocalDateTime getFecha() {
         return fecha;
@@ -40,8 +45,6 @@ public class Promocionado {
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
-
-
 
     public long getId() {
         return id;

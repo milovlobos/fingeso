@@ -3,22 +3,24 @@ package com.example.demo.Entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="usuario")
-
+@Table(name="usuario") // Define que esta clase es una entidad que se mapea a una tabla llamada "usuario"
 public class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    //atributos
+    // El campo ID es la clave primaria de la tabla "usuario" y se genera automáticamente
     private long ID;
-    private String name;
-    private String password;
-    private String email;
-    private String roll;
-    private boolean premium;
 
+    // Atributos de la entidad Usuario
+    private String name;       // Nombre del usuario
+    private String password;   // Contraseña del usuario
+    private String email;      // Correo electrónico del usuario
+    private String roll;       // Rol del usuario (ej. "Vendedor", "Comprador", etc.)
+    private boolean premium;   // Indica si el usuario tiene una cuenta premium
+
+    // Constructor parametrizado para inicializar un nuevo Usuario con todos sus atributos
     public Usuario(String name, String password, String email, String roll, boolean premium) {
-        this.ID = ID;
+        this.ID = ID;  // Aunque este atributo se inicializa, su valor se gestiona automáticamente por la base de datos.
         this.name = name;
         this.password = password;
         this.email = email;
@@ -26,9 +28,11 @@ public class Usuario {
         this.premium = premium;
     }
 
+    // Constructor por defecto necesario para JPA
     public Usuario() {
-
     }
+
+    // Métodos getters y setters para acceder y modificar los atributos del Usuario
 
     public Long getID() {
         return ID;
@@ -70,7 +74,6 @@ public class Usuario {
         this.roll = roll;
     }
 
-
     public boolean isPremium() {
         return premium;
     }
@@ -79,5 +82,3 @@ public class Usuario {
         this.premium = premium;
     }
 }
-
-
