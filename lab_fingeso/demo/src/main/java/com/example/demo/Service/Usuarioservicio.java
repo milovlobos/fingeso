@@ -61,6 +61,8 @@ public class Usuarioservicio {
         if (user.isPremium()) {
             // Si el usuario ya es premium, imprimir un mensaje y no hacer nada más
             System.out.println("Usuario ya es Premium");
+            // retorna 0 si no se realizo el upgrade a premium
+            return 0;
         }
 
         // Establecer el precio de la membresía premium
