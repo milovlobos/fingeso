@@ -14,10 +14,10 @@ propiedades
 
 INSERT INTO inmueble (idUser, name, description, metros2, type, direccion, precio, fotoUrl, verificado_admin, verificado)
 VALUES 
-(1, 'Casa en la playa', 'Hermosa casa con vista al mar', 120, 'Casa', 'Avenida del Mar, 23', 250000, 'http://example.com/casa_playa.jpg', FALSE, FALSE),
-(2, 'Oficina en el centro', 'Espacio de oficina con excelentes instalaciones', 60, 'Oficina', 'Calle Central, 45', 75000, 'http://example.com/oficina_centro.jpg', FALSE, FALSE),
-(3, 'Loft moderno', 'Loft con diseño contemporáneo', 80, 'Loft', 'Plaza del Arte, 12', 95000, 'http://example.com/loft_moderno.jpg', FALSE, FALSE),
-(4, 'Chalet en la montaña', 'Chalet acogedor en una ubicación montañosa', 150, 'Chalet', 'Camino de la Sierra, 78', 300000, 'http://example.com/chalet_montana.jpg', FALSE, FALSE),
-(1, 'Departamento en suburbio', 'Departamento cómodo en una zona tranquila', 90, 'Departamento', 'Calle del Sol, 56', 95000, 'http://example.com/departamento_suburbio.jpg', FALSE, FALSE),
-(2, 'Estudio en el casco antiguo', 'Estudio acogedor en el casco antiguo de la ciudad', 45, 'Estudio', 'Plaza Vieja, 8', 60000, 'http://example.com/estudio_casco_antiguo.jpg', FALSE, FALSE),
-(3, 'Bungalow en la colina', 'Bungalow con vista panorámica en una colina', 100, 'Bungalow', 'Camino de la Colina, 99', 120000, 'http://example.com/bungalow_colina.jpg', FALSE, FALSE);
+(1, 'Casa en la playa', 'Hermosa casa con vista al mar', 120, 'Casa', 'Avenida del Mar, 23', 250000, 'https://imgix.cosentino.com/es/wp-content/uploads/2023/07/Lumire-70-Facade-MtWaverley-vic-1.jpg?auto=format%2Ccompress&ixlib=php-3.3.0', FALSE, FALSE),
+(2, 'Oficina en el centro', 'Espacio de oficina con excelentes instalaciones', 60, 'Oficina', 'Calle Central, 45', 75000, 'https://http2.mlstatic.com/D_NQ_NP_839640-MLC53605509708_022023-O.webp', FALSE, FALSE),
+(3, 'Loft moderno', 'Loft con diseño contemporáneo', 80, 'Loft', 'Plaza del Arte, 12', 95000, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_zLI-8I5ddNnubnWKljaFGs4brq4IRzhcHA&s', FALSE, FALSE),
+(4, 'Chalet en la montaña', 'Chalet acogedor en una ubicación montañosa', 150, 'Chalet', 'Camino de la Sierra, 78', 300000, 'https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/newsletter/_FI.jpg?1563747560', FALSE, FALSE),
+(1, 'Departamento en suburbio', 'Departamento cómodo en una zona tranquila', 90, 'Departamento', 'Calle del Sol, 56', 95000, 'https://images.homify.com/v1441307340/p/photo/image/876952/19TV.jpg', FALSE, FALSE),
+(2, 'Estudio en el casco antiguo', 'Estudio acogedor en el casco antiguo de la ciudad', 45, 'Estudio', 'Plaza Vieja, 8', 60000, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGJyqVx9PviD1rqIsUhLtHRVFDAbv6DOVm8Q&s', FALSE, FALSE),
+(3, 'Bungalow en la colina', 'Bungalow con vista panorámica en una colina', 100, 'Bungalow', 'Camino de la Colina, 99', 120000, 'https://proxyimg.ecn.cl/120/imgclasificados1.emol.com/Proyectos/imagenes/docs_corredores/archivos/1070/1368209/b9c20f64226eee28a81ad799fe5b40c0.jpg', FALSE, FALSE);
