@@ -20,7 +20,7 @@ public class Usuario {
 
     // Constructor parametrizado para inicializar un nuevo Usuario con todos sus atributos
     public Usuario(String name, String password, String email, String roll, boolean premium) {
-        this.ID = ID;  // Aunque este atributo se inicializa, su valor se gestiona automáticamente por la base de datos.
+
         this.name = name;
         this.password = password;
         this.email = email;

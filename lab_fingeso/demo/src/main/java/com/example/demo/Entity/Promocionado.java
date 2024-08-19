@@ -25,7 +25,7 @@ public class Promocionado {
 
 
     public Promocionado(long inmueble_id, double precio, LocalDateTime fecha) {
-        this.id = id;  // El ID se maneja automáticamente, por lo que no es necesario asignarlo aquí
+
         this.inmueble_id = inmueble_id;
         this.precio = precio;
         this.fecha = fecha;

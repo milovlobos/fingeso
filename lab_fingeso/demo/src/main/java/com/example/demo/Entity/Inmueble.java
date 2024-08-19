@@ -36,7 +36,6 @@ public class Inmueble {
 
     // Constructor parametrizado para inicializar todos los campos de la clase
     public Inmueble(boolean verificado, boolean verificado_admin, String fotoUrl, long precio, String direccion, String type, long metros2, String description, String name, long idUser) {
-        this.id = id;
         this.verificado = verificado;
         this.verificado_admin = verificado_admin;
         this.fotoUrl = fotoUrl;

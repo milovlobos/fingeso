@@ -60,11 +60,7 @@ public class Usuarioservicio {
     public int GetPremium(long id, String metodoPago) {
         // Buscar el usuario por ID
         Usuario user = userRepo.findById(id).get();
-        if (user == null) {
-            // Si el usuario no existe, retornar 0
-            return 0;
-        }
-        if (user.isPremium() == true) {
+        if (user.isPremium()) {
             // Si el usuario ya es premium, imprimir un mensaje y no hacer nada más
             System.out.println("Usuario ya es Premium");
         }
