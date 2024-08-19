@@ -25,17 +25,26 @@ public class Inmueble {
 
     private String fotoUrl;
 
+    private boolean  verificado_admin;
+
+    private boolean verificado;
+
+
+
     public Inmueble() {}
 
-    public Inmueble(long IdUser, String name, String description, long metros2, String type, String direccion, long precio, String fotoUrl) {
-        this.idUser = IdUser;
-        this.name = name;
-        this.description = description;
-        this.metros2 = metros2;
-        this.type = type;
-        this.direccion = direccion;
-        this.precio = precio;
+    public Inmueble(long id, boolean verificado, boolean verificado_admin, String fotoUrl, long precio, String direccion, String type, long metros2, String description, String name, long idUser) {
+        this.id = id;
+        this.verificado = verificado;
+        this.verificado_admin = verificado_admin;
         this.fotoUrl = fotoUrl;
+        this.precio = precio;
+        this.direccion = direccion;
+        this.type = type;
+        this.metros2 = metros2;
+        this.description = description;
+        this.name = name;
+        this.idUser = idUser;
     }
 
     // Getters y setters
@@ -109,5 +118,21 @@ public class Inmueble {
 
     public void setFotoUrl(String fotoUrl) {
         this.fotoUrl = fotoUrl;
+    }
+
+    public boolean isVerificado_admin() {
+        return verificado_admin;
+    }
+
+    public void setVerificado_admin(boolean verificado_admin) {
+        this.verificado_admin = verificado_admin;
+    }
+
+    public boolean isVerificado() {
+        return verificado;
+    }
+
+    public void setVerificado(boolean verificado) {
+        this.verificado = verificado;
     }
 }

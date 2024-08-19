@@ -14,12 +14,14 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/api/inmueble")
 public class inmueble_controlador {
+
     @Autowired
     private Inmueble_servicio inmuebleServicio;
 
     // Crear un nuevo inmueble
     @PostMapping("/create")
     public Inmueble createInmueble(@RequestBody Inmueble inmueble) {
+        // Los atributos verificado_admin y verificado se establecerán por defecto como false
         return inmuebleServicio.createInmueble(
                 inmueble.getIdUser(),
                 inmueble.getName(),
@@ -43,7 +45,9 @@ public class inmueble_controlador {
                 inmueble.getType(),
                 inmueble.getDireccion(),
                 inmueble.getPrecio(),
-                inmueble.getFotoUrl()
+                inmueble.getFotoUrl(),
+                inmueble.isVerificado_admin(),  // Nuevo parámetro
+                inmueble.isVerificado()        // Nuevo parámetro
         );
     }
 

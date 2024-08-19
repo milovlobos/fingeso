@@ -2,25 +2,46 @@ package com.example.demo.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name="promocionado")
 public class Promocionado {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne
     @JoinColumn(name = "inmueble_id", referencedColumnName = "id")
-    private Inmueble inmueble;
+    private long inmueble_id;
 
     private double precio;
 
-    public Promocionado() {}
+    private LocalDateTime fecha;
 
-    public Promocionado(Inmueble inmueble, double precio) {
-        this.inmueble = inmueble;
+
+
+    public Promocionado( long inmueble_id, double precio, LocalDateTime fecha) {
+        this.id=id;
+        this.inmueble_id = inmueble_id;
         this.precio = precio;
+        this.fecha=fecha;
     }
+
+
+
+
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
+    }
+
+
 
     public long getId() {
         return id;
@@ -30,12 +51,12 @@ public class Promocionado {
         this.id = id;
     }
 
-    public Inmueble getInmueble() {
-        return inmueble;
+    public long getInmueble_id() {
+        return inmueble_id;
     }
 
-    public void setInmueble(Inmueble inmueble) {
-        this.inmueble = inmueble;
+    public void setInmueble_id(long inmueble_id) {
+        this.inmueble_id = inmueble_id;
     }
 
     public double getPrecio() {

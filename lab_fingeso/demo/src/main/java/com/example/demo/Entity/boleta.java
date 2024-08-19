@@ -10,29 +10,45 @@ public class boleta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Usuario usuario;
+    @Column(name = "user_id")
+    private Long idUser;
 
-    @ManyToOne
-    @JoinColumn(name = "inmueble_id")
-    private Inmueble inmueble;
+    @Column(name = "inmueble_id")
+    private Long idInmueble;
 
     private long precio;
     private Date fecha;
     private String metodoPago;
+    private String descripcion;
 
-    public boleta() {}
+    public boleta(long id_user, long precio, Date date, String metodoPago, String descripcion) {
+        this.idUser = id_user;
+        this.precio = precio;
+        this.fecha = date;
+        this.metodoPago = metodoPago;
+        this.descripcion = descripcion;
 
-    public boleta(Usuario usuario, Inmueble inmueble, long precio, Date fecha, String metodoPago) {
-        this.usuario = usuario;
-        this.inmueble = inmueble;
+    }
+
+    public boleta(long id_usuario, long id_inmueble, long precio, Date fecha, String metodoPago, String descripcion) {
+        this.idUser = id_usuario;
+        this.idInmueble = id_inmueble;
         this.precio = precio;
         this.fecha = fecha;
         this.metodoPago = metodoPago;
+        this.descripcion = descripcion;
+
     }
 
     // Getters y setters
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     public long getId() {
         return id;
@@ -42,20 +58,20 @@ public class boleta {
         this.id = id;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public long getId_user() {
+        return idUser;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setId_user(long id_user) {
+        this.idUser = id_user;
     }
 
-    public Inmueble getInmueble() {
-        return inmueble;
+    public long getId_inmueble() {
+        return idInmueble;
     }
 
-    public void setInmueble(Inmueble inmueble) {
-        this.inmueble = inmueble;
+    public void setId_inmueble(long id_inmueble) {
+        this.idInmueble = id_inmueble;
     }
 
     public long getPrecio() {

@@ -15,13 +15,15 @@ public class Usuario {
     private String password;
     private String email;
     private String roll;
+    private boolean premium;
 
-    public Usuario(String name, String password, String email, String roll) {
+    public Usuario(String name, String password, String email, String roll, boolean premium) {
         this.ID = ID;
         this.name = name;
         this.password = password;
         this.email = email;
         this.roll = roll;
+        this.premium = premium;
     }
 
     public Usuario() {
@@ -66,6 +68,15 @@ public class Usuario {
 
     public void setRoll(String roll) {
         this.roll = roll;
+    }
+
+
+    public boolean isPremium() {
+        return premium;
+    }
+
+    public void setPremium(boolean premium) {
+        this.premium = premium;
     }
 }
 

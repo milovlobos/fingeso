@@ -28,5 +28,11 @@ public class usuariocontrolador {
         System.out.printf("ID a buscar: %d\n", id);
         return usuarioservicio.getUsuariobyId(Integer.parseInt(id));
     }
+    // pagar premium
+    @PutMapping("/premium")
+    public int premium(@RequestParam("Id") String id,@RequestParam String metodoPago) {
+         return usuarioservicio.GetPremium(Integer.parseInt(id),metodoPago);
+
+    }
 
 }

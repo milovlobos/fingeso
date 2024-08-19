@@ -1,8 +1,10 @@
 package com.example.demo.Service;
 
+import com.example.demo.Entity.Promocionado;
 import com.example.demo.Entity.boleta;
 import com.example.demo.Entity.Inmueble;
 import com.example.demo.Entity.Usuario;
+import com.example.demo.Repository.Promocionado_repositorio;
 import com.example.demo.Repository.boleta_repositorio;
 import com.example.demo.Repository.Usuariorepositorio;
 import com.example.demo.Repository.inmueble_repositorio;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,10 +31,12 @@ public class Inmueble_servicio{
 
     @Autowired
     private boleta_repositorio boletaRepository;
+    @Autowired
+    private Promocionado_repositorio promocionado_repositorio;
 
     // Crear un nuevo inmueble
     public Inmueble createInmueble(long userId, String name, String description, long metroCuadrados, String tipo, String direccion, long precio, String fotoUrl) {
-        Usuario  user = userRepo.findById(userId)
+        Usuario user = userRepo.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Establecer el rol de vendedor
@@ -50,12 +55,14 @@ public class Inmueble_servicio{
         inmueble.setDireccion(direccion);
         inmueble.setPrecio(precio);
         inmueble.setFotoUrl(fotoUrl);
+        inmueble.setVerificado_admin(false);  // Valor por defecto al crear
+        inmueble.setVerificado(false);       // Valor por defecto al crear
 
         return inmuebleRepo.save(inmueble);
     }
 
     // Actualizar un inmueble existente
-    public Inmueble updateInmueble(long id, String name, String description, long metroCuadrados, String tipo, String direccion, long precio, String fotoUrl) {
+    public Inmueble updateInmueble(long id, String name, String description, long metroCuadrados, String tipo, String direccion, long precio, String fotoUrl, boolean verificadoAdmin, boolean verificado) {
         Optional<Inmueble> inmuebleOpt = inmuebleRepo.findById(id);
         if (inmuebleOpt.isPresent()) {
             Inmueble inmueble = inmuebleOpt.get();
@@ -66,6 +73,8 @@ public class Inmueble_servicio{
             inmueble.setDireccion(direccion);
             inmueble.setPrecio(precio);
             inmueble.setFotoUrl(fotoUrl);
+            inmueble.setVerificado_admin(verificadoAdmin); // Actualizar valor
+            inmueble.setVerificado(verificado);           // Actualizar valor
             return inmuebleRepo.save(inmueble);
         } else {
             throw new NoSuchElementException("Inmueble no encontrado");
@@ -94,13 +103,19 @@ public class Inmueble_servicio{
 
     // Comprar un inmueble
     public boleta comprarInmueble(long inmuebleId, long userId, String metodoPago) {
+        String descripcion  = "compra imbueble";
         Optional<Inmueble> inmuebleOpt = inmuebleRepo.findById(inmuebleId);
         if (inmuebleOpt.isPresent()) {
             Inmueble inmueble = inmuebleOpt.get();
             Optional<Usuario> usuarioOpt = userRepo.findById(userId);
             if (usuarioOpt.isPresent()) {
                 Usuario usuario = usuarioOpt.get();
-                boleta boleta = new boleta(usuario, inmueble, inmueble.getPrecio(), new Date(), metodoPago);
+                boleta boleta = new boleta(usuario.getID(), inmueble.getId(), inmueble.getPrecio(), new Date(), metodoPago, descripcion);
+
+                // Si el inmueble se compra, se considera verificado
+                inmueble.setVerificado(true);
+                inmuebleRepo.save(inmueble);
+
                 return boletaRepository.save(boleta);
             } else {
                 throw new NoSuchElementException("Usuario no encontrado");
@@ -136,4 +151,6 @@ public class Inmueble_servicio{
         Page<Inmueble> page = inmuebleRepo.findAll(pageable);
         return page.getContent();
     }
+
+
 }
