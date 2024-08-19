@@ -40,10 +40,8 @@ public class Usuarioservicio {
         if (user != null) {
             // Si el usuario existe, verificar que la contraseña sea correcta
             if (password.equals(user.getPassword())) {
-                // Si la contraseña es correcta y el rol es "usuario", retornar 1 (login exitoso)
-                if (user.getRoll().equals("usuario")) {
-                    return 1;
-                }
+                // Si la contraseña es correcta , retornar 1 (login exitoso)
+               return 1;
             }
         }
         // Si el login falla, retornar 0
