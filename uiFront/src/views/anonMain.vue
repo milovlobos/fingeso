@@ -4,27 +4,58 @@
             <section class="header-section">
                 <h1 class="page-title">InstaHome</h1>
                 <div class="button-container1" v-if="logged">
-                        <router-link to="/publish">
+                        <router-link to = "/publish">
                             <div type="button" class="btn btn-secondary">
                                 <i class="fi fi-rr-home"></i>Publicar
                             </div>
                         </router-link>
-                        <div type="button" class="btn btn-secondary">
+                        <div type="button" class="btn btn-secondary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <i class="fi fi-rr-menu-burger"></i>Menu
                         </div>
                 </div>
                 <div class="button-container1" v-if="!logged">
-                    <router-link to="/login">
+                    <router-link to = "/login">
                         <div type="button" class="btn btn-secondary">
                             <i class="fi fi-rr-user"></i>Ingreso
                         </div>
                     </router-link>
-                        <div type="button" class="btn btn-secondary">
-                            <i class="fi fi-rr-menu-burger"></i>Menu
-                        </div>
                 </div>
             </section>
         </header>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" v-if="user">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasRightLabel">Menu de usuario</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul>
+                    <li>
+                        <router-link to="/account">
+                            <div class="alsoButton">Mi cuenta</div>
+                        </router-link>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" v-if="asistant">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasRightLabel">Menu de asistente</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                ...
+            </div>
+        </div>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" v-if="admin">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasRightLabel">Menu de administrador</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                ...
+            </div>
+        </div>
 
         <section>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -80,64 +111,82 @@
                 </div>
             </nav>
         </section>
-        
+
         <section id="properties">
             <h1 class="main-title">Propiedades Disponibles</h1>
             <div class="card-container">
                 <div class="card">
-                    <img src="./media/casa1.jpg" alt="Imagen de la propiedad">
+                    <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
                     <div class="card-content">
                         <h3 class="letter">Propiedad 1</h3>
                         <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
                         <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" onclick="setModalContent('Propiedad 6', './media/casa6.jpg', 'Descripción de la propiedad: Texto de ejemplo', 'Valor: Texto de ejemplo')">Ver mas</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal">Ver mas</button>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="./media/casa6.jpg" alt="Imagen de la propiedad">
+                    <img src="./media/dpto_stock.jpg" alt="Imagen de la propiedad">
                     <div class="card-content">
                         <h3 class="letter">Propiedad 2</h3>
                         <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
                         <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" onclick="setModalContent('Propiedad 6', './media/casa6.jpg', 'Descripción de la propiedad: Texto de ejemplo', 'Valor: Texto de ejemplo')">Ver mas</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="./media/casa3.jpg" alt="Imagen de la propiedad">
+                    <img src="./media/dpto_stock.jpg" alt="Imagen de la propiedad">
                     <div class="card-content">
                         <h3 class="letter">Propiedad 3</h3>
                         <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
                         <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" onclick="setModalContent('Propiedad 6', './media/casa6.jpg', 'Descripción de la propiedad: Texto de ejemplo', 'Valor: Texto de ejemplo')">Ver mas</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
+                    <div class="card-content">
+                        <h3 class="letter">Propiedad 4</h3>
+                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
+                        <p class="letter">Valor:"Texto de ejemplo"</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
                     </div>
                 </div>
             </div>
             <div class="card-container">
                 <div class="card">
-                    <img src="./media/casa3.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 4</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" onclick="setModalContent('Propiedad 6', './media/casa6.jpg', 'Descripción de la propiedad: Texto de ejemplo', 'Valor: Texto de ejemplo')">Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/casa5.jpg" alt="Imagen de la propiedad">
+                    <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
                     <div class="card-content">
                         <h3 class="letter">Propiedad 5</h3>
                         <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
                         <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" onclick="setModalContent('Propiedad 6', './media/casa6.jpg', 'Descripción de la propiedad: Texto de ejemplo', 'Valor: Texto de ejemplo')">Ver mas</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
                     </div>
                 </div>
                 <div class="card">
-                    <img src="./media/casa6.jpg" alt="Imagen de la propiedad">
+                    <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
                     <div class="card-content">
                         <h3 class="letter">Propiedad 6</h3>
                         <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
                         <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" onclick="setModalContent('Propiedad 6', './media/casa6.jpg', 'Descripción de la propiedad: Texto de ejemplo', 'Valor: Texto de ejemplo')">Ver mas</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
+                    <div class="card-content">
+                        <h3 class="letter">Propiedad 7</h3>
+                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
+                        <p class="letter">Valor:"Texto de ejemplo"</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="./media/dpto_stock.jpg" alt="Imagen de la propiedad">
+                    <div class="card-content">
+                        <h3 class="letter">Propiedad 8</h3>
+                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
+                        <p class="letter">Valor:"Texto de ejemplo"</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
                     </div>
                 </div>
             </div>
@@ -223,36 +272,54 @@
 
 <script>
 
-    function setModalContent(title, imageSrc, description, value){
-        document.getElementById('modalTitle').innerText = title;
-        document.getElementById('modalImage').src = imageSrc;
-        document.getElementById('modalDescription').innerText = description;
-        document.getElementById('modalValue').innerText = value;
-    }
-
     export default{
+
+        name: 'anonMain',
+        mounted(){
+
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js';
+            script.async = true;
+            document.body.appendChild(script);
+        },
+
+        beforeUnmount(){
+
+            const script = document.querySelector('script[src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"]');
+            script.forEach((script)=>{
+
+                script.remove();
+            });
+
+        },
 
         data(){
 
             return{
 
+                isDropdownVisible: false,
                 logged:true,
+                user:true,
+                asistant:false,
+                admin:false,
                 locationFilter: false,
+                
             }
         },
 
         methods:{
 
-            setLocation(){
+            setLog(newLog){
 
-                const item = document.getElementById(elementId);
-                const texto = item.textContent || item.innerText;
-                this.locationFilter = !this.locationFilter;
-                dropdownToggle.textContent = texto;
+                this.logged = newLog;
 
             },
+            toggleDropdown() {
+                this.isDropdownVisible = !this.isDropdownVisible;
+            }
 
-        }
+        },
+
 
     }
 
@@ -261,7 +328,9 @@
 
 
 
-<style>
+<style scoped>
+
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css");
 
 .main{
 
@@ -320,8 +389,9 @@
 .card img{
 
     border-radius: 8px 8px 0 0;
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
 }
 
 .card-content{
@@ -444,4 +514,40 @@
 
     color:black;
 }
+
+.btn-primary {
+  background-color: #6d997a; /* Color de fondo del botón */
+  border-color: #6d997a;
+  color: white; /* Color del texto del botón */
+}
+
+/* Cambiar el color del botón al pasar el mouse */
+.btn-primary:hover, .btn:focus, .btn:active {
+  background-color: #42282c; /* Color de fondo al pasar el mouse */
+}
+
+.btn-secondary {
+    background-color: #42282c; /* Color de fondo del botón */
+    border-color: #42282c;
+    color: white; /* Color del texto del botón */
+    display: inline-flex; /* Usa Flexbox para alinear elementos en línea */
+    align-items: center; /* Alinea verticalmente el contenido en el centro */
+    padding: 10px 20px; /* Ajusta el tamaño y el espaciado del botón */
+    margin-left: 10px; /* Espacio entre los botones */
+    border: none; /* Elimina el borde del botón */
+    border-radius: 4px; /* Opcional: redondea las esquinas del botón */
+    cursor: pointer; /* Cambia el cursor a una mano al pasar sobre el botón */
+    font-size: 16px; /* Tamaño del texto del botón */
+    text-decoration: none; /* Elimina el subrayado en el texto */
+}
+
+/* Cambiar el color del botón al pasar el mouse */
+.btn-secondary:hover {
+  background-color: #50373b; /* Color de fondo al pasar el mouse */
+}
+
+.btn-secondary i {
+    margin-right: 8px; /* Espacio entre el ícono y el texto */
+}
+
 </style>

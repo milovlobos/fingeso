@@ -23,9 +23,15 @@ const router = createRouter({
             alias: '/inicio',
         },
         {
-            path: '/buy',
-            name: 'buy',
-            component: () => import('../views/buyView.vue'),
+            path: '/account',
+            name: 'account',
+            component: () => import('../views/accountView.vue'),
+            alias: '/inicio',
+        },
+        {
+            path: '/tier',
+            name: 'tier',
+            component: () => import('../views/tierView.vue'),
             alias: '/inicio',
         },
     ],

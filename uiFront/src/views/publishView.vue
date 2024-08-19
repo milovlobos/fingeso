@@ -32,14 +32,14 @@
                 </form>
         </div>
 
-        <div class="content2" id="personal-form">
+        <div class="content2" id="personal-form" @submit.prevent="handleSubmit">
             <div class="progress">
                 <div class="progress-bar":class="{ 'progress-bar-full': progressWidth === '100%' }"  role="progressbar" :style="{ width: progressWidth }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <form class="row g-3"v-if="progress==25">
                 <div class="col-md-6" >
                     <label for="inputusername4" class="form-label">Nombre Completo*</label>
-                    <input type="username" class="form-control" id="inputusernamel4">
+                    <input v-model="property.username" type="username" class="form-control" id="inputusernamel4">
                 </div>
                 <div class="col-md-6">
                     <label for="inputRut4" class="form-label">Rut*</label>
@@ -92,7 +92,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="inputusername4" class="form-label">Tipo de propiedad*</label>
-                        <select id="inputRegion" class="form-select">
+                        <select v-model="property.propertyType"id="inputRegion" class="form-select">
                             <option selected>...</option>
                             <option>Departamento</option>
                             <option>Casa</option>
@@ -101,11 +101,11 @@
                     </div>
                 <div class="col-md-6">
                     <label for="inputRut4" class="form-label">Direccion*</label>
-                    <input type="text" class="form-control" id="inputRut4">
+                    <input v-model="property.propertyDirection"type="text" class="form-control" id="inputRut4">
                 </div>
                 <div class="col-12">
                     <label for="inputAddress" class="form-label">Fotos de la vivienda*</label>
-                    <input type="file" class="form-control" id="inputAddress">
+                    <input type="file" class="form-control" id="inputAddress" >
                 </div>
                 <div class="col-md-6">
                     <label for="inputRegion" class="form-label">Region*</label>
@@ -131,12 +131,12 @@
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <label for="inputState" class="form-label">Comuna*</label>
-                    <input type="text" class="form-control" id="inputCity">
+                    <label for="inputState" class="form-label">Precio*</label>
+                    <input v-model="property.propertyPrice"type="text" class="form-control" id="inputCity">
                 </div>
                 <div class="col-12">
                     <label for="inputDescription" class="form-label">Descripcion</label>
-                    <textarea id="inputDescription" class="form-control" rows="3"></textarea>
+                    <textarea v-model="property.userDescription"id="inputDescription" class="form-control" rows="3"></textarea>
                 </div>
             </div>
             </form>
@@ -244,6 +244,16 @@
                 apartmentType: false,
                 terrainType: false,
                 imageSrc: null,
+                property: {
+                    userID: '',
+                    username: '',
+                    userDescription: '',
+                    userM2: '',
+                    propertyType: '',
+                    propertyDirection: '',
+                    propertyPrice: '',
+                    propertyImg: '',
+                }
             }
         },
         computed: {
@@ -282,6 +292,16 @@
                 } else {
                     this.imageSrc = null;
                 }
+            },
+            handleSubmit() {
+                // Aquí envías los datos a través de Axios
+                axios.post(import.meta.env.VITE_BASE_URL + "api/inmueble/create", this.form)
+                .then(response => {
+                    console.log('Datos enviados exitosamente:', response.data);
+                })
+                .catch(error => {
+                    console.error('Error al enviar datos:', error);
+                });
             }
             
         }
@@ -536,4 +556,43 @@ a {
 .final-publish {
     margin-top: auto; /* Empuja el botón al final del contenedor */
 }
+.card-container{
+    margin-right: 3px;
+}
+
+.btn-primary {
+  background-color: #6d997a; /* Color de fondo del botón */
+  border-color: #6d997a;
+  color: white; /* Color del texto del botón */
+}
+
+/* Cambiar el color del botón al pasar el mouse */
+.btn-primary:hover, .btn:focus, .btn:active {
+  background-color: #42282c; /* Color de fondo al pasar el mouse */
+}
+
+.btn-secondary {
+    background-color: #42282c; /* Color de fondo del botón */
+    border-color: #42282c;
+    color: white; /* Color del texto del botón */
+    display: inline-flex; /* Usa Flexbox para alinear elementos en línea */
+    align-items: center; /* Alinea verticalmente el contenido en el centro */
+    padding: 10px 20px; /* Ajusta el tamaño y el espaciado del botón */
+    margin-left: 10px; /* Espacio entre los botones */
+    border: none; /* Elimina el borde del botón */
+    border-radius: 4px; /* Opcional: redondea las esquinas del botón */
+    cursor: pointer; /* Cambia el cursor a una mano al pasar sobre el botón */
+    font-size: 16px; /* Tamaño del texto del botón */
+    text-decoration: none; /* Elimina el subrayado en el texto */
+}
+
+/* Cambiar el color del botón al pasar el mouse */
+.btn-secondary:hover {
+  background-color: #50373b; /* Color de fondo al pasar el mouse */
+}
+
+.btn-secondary i {
+    margin-right: 8px; /* Espacio entre el ícono y el texto */
+}
+
 </style>

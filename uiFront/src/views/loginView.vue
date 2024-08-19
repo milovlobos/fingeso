@@ -2,7 +2,7 @@
     <main>
         <div class="container main">
             <div class="content">
-                <img class="image" src="./media/usach2.png">
+                <img class="image" src="./media/logo.png">
                 <div class="header" v-if="!register">Inicio de sesion</div>
                 <div class="header" v-else>Registrarse</div>
                 <div class="headerDescription" v-if="!register">Completar campos para iniciar sesion</div>
@@ -16,7 +16,7 @@
                     <input type="email" v-model="usernameRegister" placeholder="Ingrese correo">
                     <input type="password" v-model="passwordRegister" placeholder="Ingrese contraseña">
                     <input type="password" v-model="passwordRegisterConfirmation" placeholder="Repita contraseña">
-                    <button class="sessionButton" @click="add">Registrar</button>
+                    <button class="sessionButton" @click="addUser">Registrar</button>
                 </div>
                 <div class="alsoButtons"> 
                     <div class="alsoButton" @click="handleChanger" v-if="!register">Registrarse</div>
@@ -63,22 +63,24 @@ import axios from 'axios'
 //Funciones de Redireccionamiento a vistas. lo ideal es que estas se dentro de los metodos declarados debajo :p
 function redirectUserLogin(){
 
-    window.location.href = '/user';
+    window.location.href = '/';
+    window.location.reload();
 }
 
 function redirectUserAnon(){
 
     window.location.href = '/';
+    window.location.reload();
 }
 
-export default{ // me sale error pero no cache como solucionarlo....
+export default{
+
 
     data(){
 
         return{//datos predeterminados
             username: '',
             password: '',
-            logged: false,
             register: false,
             usernameRegister: '',
             passwordRegister: '',
@@ -88,7 +90,7 @@ export default{ // me sale error pero no cache como solucionarlo....
     },
 
     methods:{
-
+        
         async login(){
 
             //envio de datos al backend los cuales tienen que tener los mismos identificadores
@@ -100,21 +102,12 @@ export default{ // me sale error pero no cache como solucionarlo....
             };
             try{
 
-                const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/user/login",user);//enviando los datos al back y esperando una conexion. si no conecta lo
+                const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/login",user);//enviando los datos al back y esperando una conexion. si no conecta lo
                 //mas seguro es que este mal el puerto,la variable de entorno o la ruta asi que revisar bien....
-
-                //tipos de usuario
+                
                 if(respuesta.data == 1){
 
-                    return 0;
-                }
-                if(respuesta.data == 2){
-
-                    return 0;
-                }
-                if(respuesta.data == 3){
-
-                    localStorage.setItem("login",JSON.stringify(this.username));//guardando datos en el navegador
+                    localStorage.setItem("login",JSON.stringify(this.ID,this.username));//guardando datos en el navegador
                     redirectUserLogin();//redireccionar a la vista del usuario en la pagina principal
                 }
                 if(respuesta.data == 0){
@@ -138,7 +131,6 @@ export default{ // me sale error pero no cache como solucionarlo....
 
             this.username= "anon";
             redirectUserAnon();//redireccionar a la pagina pricnipal como anonimo, osea simplemente no hace nada ajskajksas :p
-            localStorage.setItem("login",JSON.stringify(this.username))
 
         },
         async addUser(){//registro de usuario
@@ -150,15 +142,16 @@ export default{ // me sale error pero no cache como solucionarlo....
 
                         "email":this.usernameRegister,
                         "password":this.passwordRegister,
-                        "rol": "user",
+                        "rol": "Usuario",
                     }
                     try{
-                        const registro = await axios.post(import.meta.env.VITE_BASE_URL + "api/user/register",new_user); //guardando datos en el back
+                        const registro = await axios.post(import.meta.env.VITE_BASE_URL + "/api/usuario/register",new_user); 
                         console.log(registro);
                         alert("Usuario creado con exito");
+
                     } catch(error){
 
-                        alert("El usuario no se pudo registrar");//si es que no hubo conexion se da el aviso
+                        alert("El usuario no se pudo registrar");
                     }
                 } else {
 
