@@ -37,7 +37,7 @@
             <div class="progress">
                 <div class="progress-bar":class="{ 'progress-bar-full': progressWidth === '100%' }"  role="progressbar" :style="{ width: progressWidth }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
-            <form class="row g-3"v-if="progress==25">
+            <form class="row g-3"v-show="progress==25">
                 <div class="col-md-6" >
                     <label for="inputusername4" class="form-label">Nombre Completo</label>
                     <input type="username" class="form-control" id="inputusernamel4">
@@ -89,11 +89,11 @@
             </div>
             </form>
 
-            <form class="row g-3" v-if="progress==50">
+            <form class="row g-3" v-show="progress==50">
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="inputusername4" class="form-label">Tipo de propiedad*</label>
-                        <select v-model="property.propertyType"id="inputRegion" class="form-select">
+                        <label for="inputType" class="form-label">Tipo de propiedad*</label>
+                        <select v-model="property.propertyType"id="inputType" class="form-select">
                             <option selected>...</option>
                             <option>Departamento</option>
                             <option>Casa</option>
@@ -101,16 +101,16 @@
                         </select>
                     </div>
                 <div class="col-md-6">
-                    <label for="inputRut4" class="form-label">Direccion*</label>
-                    <input v-model="property.propertyDirection"type="text" class="form-control" id="inputRut4">
+                    <label for="inputDirection" class="form-label">Direccion*</label>
+                    <input v-model="property.propertyDirection"type="text" class="form-control" id="inputDirection">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputAddress" class="form-label">Metros cuadrados*</label>
-                    <input v-model="property.propertyM2" type="text" class="form-control" id="inputAddress" >
+                    <label for="inputM2" class="form-label">Metros cuadrados*</label>
+                    <input v-model="property.propertyM2" type="text" class="form-control" id="inputM2" >
                 </div>
                 <div class="col-md-6">
-                    <label for="inputAddress" class="form-label">Nombre en publicacion*</label>
-                    <input v-model="property.propertyName"type="text" class="form-control" id="inputAddress" >
+                    <label for="inputName" class="form-label">Nombre en publicacion*</label>
+                    <input v-model="property.propertyName"type="text" class="form-control" id="inputName" >
                 </div>
                 <div class="col-md-6">
                     <label for="inputRegion" class="form-label">Region</label>
@@ -136,17 +136,17 @@
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <label for="inputState" class="form-label">Precio*</label>
-                    <input v-model="property.propertyPrice"type="text" class="form-control" id="inputCity">
+                    <label for="inputPrice" class="form-label">Precio*</label>
+                    <input v-model="property.propertyPrice"type="text" class="form-control" id="inputPrice">
                 </div>
                 <div class="col-12">
                     <label for="inputDescription" class="form-label">Descripcion*</label>
-                    <textarea v-model="property.userDescription"id="inputDescription" class="form-control" rows="3"></textarea>
+                    <textarea v-model="property.propertyDescription"id="inputDescription" class="form-control" rows="3"></textarea>
                 </div>
             </div>
             </form>
 
-            <form class="row g-3" v-if="progress==75">
+            <form class="row g-3" v-show="progress==75">
                 <div class="row">
                     <fieldset class="row mb-3">
                         <div class="col-md-6">
@@ -190,7 +190,7 @@
                 </div>
             </form>
 
-            <form class="row g-3" v-if="progress==100">
+            <form class="row g-3" v-show="progress==100">
                 <div class="card-container">
                     <div class="card">
 
@@ -253,14 +253,14 @@
                 activeItem: 1,
                 progress: 25,
                 property: { //Objeto que almacena los datos de la propiedad
-                    userID: '',
+                    propertyId: '1',
                     propertyType: '',
                     propertyName: '',
                     propertyDirection: '',
                     propertyPrice: '',
-                    userDescription: '',
+                    propertyDescription: '',
                     propertyM2: '',
-                    propertyImg: '',
+                    propertyUrl: '',
                 },
             }
         },
@@ -275,22 +275,45 @@
         methods:{ //Metodo que permite la publicacion de la propiedad
             async publish(){
 
-                if(this.propertyType == null || this.propertyName == null || this.propertyDirection == null || this.propertyPrice == null || this.userDescription == null || this.propertyM2 == null || this.propertyImg == null){
+                if(this.property.propertyType == null){
 
-                    alert("Por favor complete todos los campos obligatorios (*)");
-                    return;
+                    alert("Falta tipo de propiedad");
+
+                } else if(this.property.propertyName == null){
+
+                    alert("Falta nombre de en publicacion");
+
+                } else if(this.property.propertyType == null){
+
+                    alert("Falta tipo de propiedad");
+
+                } else if(this.property.propertyDirection == null){
+
+                    alert("Falta direccion de la propiedad");
+
+                } else if(this.property.propertyPrice == null){
+
+                    alert("Falta precio de la propiedad");
+
+                } else if(this.property.propertyDescription == null){
+
+                    alert("Falta descripcion de la propiedad");
+
+                } else if(this.property.propertyM2 == null){
+
+                    alert("Falta metros cuadrados de la propiedad");
+
                 }
 
                 const property = { 
-
-                    userID: this.userID,
-                    propertyType: this.propertyType,
-                    propertyName: this.propertyName,
-                    propertyDirection: this.propertyDirection,
-                    propertyPrice: this.propertyPrice,
-                    userDescription: this.userDescription,
-                    propertyM2: this.propertyM2,
-                    propertyImg: this.propertyImg,
+                    propertyId: this.property.propertyId,
+                    propertyType: this.property.propertyType,
+                    propertyName: this.property.propertyName,
+                    propertyDirection: this.property.propertyDirection,
+                    propertyPrice: this.property.propertyPrice,
+                    propertyDescription: this.property.propertyDescription,
+                    propertyM2: this.property.propertyM2,
+                    propertyUrl: this.property.propertyUrl,
                 };
                 try{
 
