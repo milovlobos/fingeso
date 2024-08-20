@@ -64,6 +64,7 @@ public class inmueble_controlador {
         return inmuebleServicio.getInmuebleById(id);
     }
 
+
     // Obtener todos los inmuebles de un usuario
     @GetMapping("/usuario/{idUser}")
     public List<Inmueble> getInmueblesByUserId(@PathVariable Long idUser) {

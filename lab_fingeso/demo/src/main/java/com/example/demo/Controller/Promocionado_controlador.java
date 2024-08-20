@@ -14,7 +14,7 @@ public class Promocionado_controlador {
     private Promocionados_servicio promocionados_servicio;
 
     @PostMapping("/promocionar")
-    public int promocionarInmueble(@RequestParam long inmuebleId, @RequestParam LocalDateTime precio, String metodoPago) {
-        return promocionados_servicio.promocionarInmueble(inmuebleId, precio,metodoPago);
+    public int promocionarInmueble(@RequestParam long inmuebleId, @RequestParam LocalDateTime fecha, @RequestParam String metodoPago) {
+        return promocionados_servicio.promocionarInmueble(inmuebleId, fecha,metodoPago);
     }
 }

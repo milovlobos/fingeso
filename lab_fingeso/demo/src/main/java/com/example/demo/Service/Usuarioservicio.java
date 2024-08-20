@@ -47,7 +47,6 @@ public class Usuarioservicio {
         // Si el login falla, retornar 0
         return 0;
     }
-
     // Método para obtener un usuario por su ID
     public Usuario getUsuariobyId(long id) {
         // Buscar el usuario por ID y retornarlo (asume que el usuario siempre existe)

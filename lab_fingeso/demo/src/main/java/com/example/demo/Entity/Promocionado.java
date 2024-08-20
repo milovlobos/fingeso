@@ -17,7 +17,7 @@ public class Promocionado {
     // Define la columna que hace referencia a la clave foránea (foreign key) del inmueble asociado
     private long inmueble_id;
 
-    // Almacena el precio de la promoción
+    // Almacena el metodo de pago
     private double precio;
 
     // Almacena la fecha y hora de la promoción

@@ -2,8 +2,10 @@ package com.example.demo.Service;
 
 import com.example.demo.Entity.Inmueble;
 import com.example.demo.Entity.Promocionado;
+import com.example.demo.Entity.Usuario;
 import com.example.demo.Entity.boleta;
 import com.example.demo.Repository.Promocionado_repositorio;
+import com.example.demo.Repository.Usuariorepositorio;
 import com.example.demo.Repository.inmueble_repositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,10 @@ public class Promocionados_servicio {
     private inmueble_repositorio inmuebleRepo;
     @Autowired
     private com.example.demo.Repository.boleta_repositorio boleta_repositorio;
+    @Autowired
+    private Usuariorepositorio usuariorepositorio;
+    @Autowired
+    private Usuarioservicio usuarioservicio;
 
     // Método para promocionar un inmueble en una fecha específica
     public int promocionarInmueble(long inmuebleId, LocalDateTime fecha, String metodoPago) {
@@ -32,6 +38,11 @@ public class Promocionados_servicio {
             // Si el inmueble no es encontrado, retorna -1 (indica error o inmueble no encontrado)
             return 0; // Alternativamente, se podría lanzar una excepción específica
         }
+        Usuario user = usuarioservicio.getUsuariobyId(inmuebleOpt.get().getIdUser());
+        if (!(user.isPremium())){
+            return 0;
+        }
+
 
         // Verifica cuántas publicaciones promocionadas ya están agendadas para la fecha dada
         long count = promocionadoRepo.countByFecha(fecha);
@@ -51,7 +62,7 @@ public class Promocionados_servicio {
         String descripcion = "Promoción Top 10";
 
         // Crea una nueva boleta para el pago de la promoción
-        boleta boleta = new boleta(inmuebleId, precio, new Date(), metodoPago, descripcion);
+        boleta boleta = new boleta(inmuebleOpt.get().getIdUser(), inmuebleId, precio, new Date(), metodoPago, descripcion);
 
         // Guarda la promoción en la base de datos
         promocionadoRepo.save(promocionado);
