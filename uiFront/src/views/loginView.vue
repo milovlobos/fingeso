@@ -2,18 +2,19 @@
     <main>
         <div class="container main">
             <div class="content">
-                <img class="image" src="./media/logo.png">
+                <img class="image-login" src="./media/logo.png">
                 <div class="header" v-if="!register">Inicio de sesion</div>
                 <div class="header" v-else>Registrarse</div>
                 <div class="headerDescription" v-if="!register">Completar campos para iniciar sesion</div>
                 <div class="headerDescription" v-else>Completar campos para registro</div>
                 <div class="inputContainer" v-if="!register">
-                    <input type="email" v-model="username" placeholder="Ingrese correo">
+                    <input type="email" v-model="usermail" placeholder="Ingrese correo">
                     <input type="password" v-model="password" placeholder="Ingrese contraseña">
                     <button class="sessionButton" @click="login">Iniciar sesion</button>
                 </div>
                 <div class="inputContainer" v-else>
-                    <input type="email" v-model="usernameRegister" placeholder="Ingrese correo">
+                    <input type="text" v-model="usernameRegister" placeholder="Ingrese su nombre">
+                    <input type="email" v-model="useremailRegister" placeholder="Ingrese correo">
                     <input type="password" v-model="passwordRegister" placeholder="Ingrese contraseña">
                     <input type="password" v-model="passwordRegisterConfirmation" placeholder="Repita contraseña">
                     <button class="sessionButton" @click="addUser">Registrar</button>
@@ -55,60 +56,66 @@
             </div>
         </div>
     </main>
+    <div id="app">
+        <mainComponent/>
+    </div> 
 </template>
 
 <script> 
 import axios from 'axios'
+import mainComponent from '../components/mainComponent.vue'
+import { mapGetters, mapActions } from 'vuex';
 
-//Funciones de Redireccionamiento a vistas. lo ideal es que estas se dentro de los metodos declarados debajo :p
 function redirectUserLogin(){
 
     window.location.href = '/';
-    window.location.reload();
 }
 
 function redirectUserAnon(){
 
     window.location.href = '/';
-    window.location.reload();
 }
 
 export default{
 
-
+    components: {
+        mainComponent
+    },
     data(){
 
-        return{//datos predeterminados
-            username: '',
+        return{
+            usermail: '',
             password: '',
             register: false,
             usernameRegister: '',
+            useremailRegister: '',
             passwordRegister: '',
             passwordRegisterConfirmation: '',
 
         }
     },
-
+    computed: {
+        ...mapGetters(['isLog']) 
+    },
     methods:{
-        
+        ...mapActions(['setLogStatus']),
         async login(){
 
-            //envio de datos al backend los cuales tienen que tener los mismos identificadores
             const user = {
 
-                "email":this.username,
+                "email":this.usermail,
                 "password":this.password,
 
             };
             try{
 
-                const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/login",user);//enviando los datos al back y esperando una conexion. si no conecta lo
-                //mas seguro es que este mal el puerto,la variable de entorno o la ruta asi que revisar bien....
+                const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/login",user);
                 
                 if(respuesta.data == 1){
 
-                    localStorage.setItem("login",JSON.stringify(this.ID,this.username));//guardando datos en el navegador
-                    redirectUserLogin();//redireccionar a la vista del usuario en la pagina principal
+                    localStorage.setItem("login", JSON.stringify({username: this.username}));
+                    this.setLogStatus(true);
+                    redirectUserLogin();
                 }
                 if(respuesta.data == 0){
 
@@ -116,6 +123,7 @@ export default{
                 }
                 respuesta.data = 0;
                 console.log(respuesta.data);
+
             } catch (error) {
 
                 alert("Fallo en la conexion con el servidor");//aqui uno se da cuenta si axio fallo
@@ -135,14 +143,14 @@ export default{
         },
         async addUser(){//registro de usuario
 
-            if(this.usernameRegister!= " " && this.passwordRegisterConfirmation!=" "){
+            if(this.useremailRegister != null && this.passwordRegisterConfirmation != null && this.passwordRegister != null && this.usernameRegister != null){
                 if(this.passwordRegister == this.passwordRegisterConfirmation){
 
                     const new_user = {
 
-                        "email":this.usernameRegister,
+                        "username":this.usernameRegister,
                         "password":this.passwordRegister,
-                        "rol": "Usuario",
+                        "email":this.usernameRegister,
                     }
                     try{
                         const registro = await axios.post(import.meta.env.VITE_BASE_URL + "/api/usuario/register",new_user); 
@@ -291,6 +299,14 @@ export default{
 .form-label{
 
     color: black;
+}
+
+.image-login{
+
+    width: 250px;
+    height: 80px;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 @media(min-width: 418px){
 

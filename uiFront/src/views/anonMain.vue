@@ -1,19 +1,25 @@
 <template>
+    
     <div class="container main">
         <header>
             <section class="header-section">
-                <h1 class="page-title">InstaHome</h1>
-                <div class="button-container1" v-if="logged">
+                <img class="main-logo" src="./media/logo.png">
+                <div class="button-container1" v-if="isLog">
                         <router-link to = "/publish">
                             <div type="button" class="btn btn-secondary">
                                 <i class="fi fi-rr-home"></i>Publicar
                             </div>
                         </router-link>
-                        <div type="button" class="btn btn-secondary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                            <i class="fi fi-rr-menu-burger"></i>Menu
+                        <router-link to ="/account">
+                            <div type="button" class="btn btn-secondary">
+                                <i class="fi fi-rr-user"></i>Mi cuenta
+                            </div>
+                        </router-link>
+                        <div type="button" class="btn btn-secondary" @click="unlogUser">
+                                <i class="fi fi-rr-user"></i>Cerrar sesion
                         </div>
                 </div>
-                <div class="button-container1" v-if="!logged">
+                <div class="button-container1" v-if="!isLog">
                     <router-link to = "/login">
                         <div type="button" class="btn btn-secondary">
                             <i class="fi fi-rr-user"></i>Ingreso
@@ -22,40 +28,6 @@
                 </div>
             </section>
         </header>
-
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" v-if="user">
-            <div class="offcanvas-header">
-                <h5 id="offcanvasRightLabel">Menu de usuario</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <ul>
-                    <li>
-                        <router-link to="/account">
-                            <div class="alsoButton">Mi cuenta</div>
-                        </router-link>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" v-if="asistant">
-            <div class="offcanvas-header">
-                <h5 id="offcanvasRightLabel">Menu de asistente</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                ...
-            </div>
-        </div>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" v-if="admin">
-            <div class="offcanvas-header">
-                <h5 id="offcanvasRightLabel">Menu de administrador</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                ...
-            </div>
-        </div>
 
         <section>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -113,7 +85,7 @@
         </section>
 
         <section id="properties">
-            <h1 class="main-title">Propiedades Disponibles</h1>
+            <h1 class="main-title">Mejores propiedades</h1>
             <div class="card-container">
                 <div class="card">
                     <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
@@ -206,9 +178,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                            <router-link to="/buy">
-                                <button type="button" class="btn btn-primary">Comprar</button>
-                            </router-link>
+                            <button type="button" class="btn btn-primary">Comprar</button>
                         </div>
                     </div>
                 </div>
@@ -232,87 +202,39 @@
                 </li>
             </ul>
         </nav>
-        
-        <footer class="footer1">
-            <p>&copy; 2024 Portal de arriendo.Todos los derechos reservados</p>
-            <p><a href="#contact" data-bs-toggle="modal" data-bs-target="#contactModal">Contactanos</a> para mas informacion</p>
-                <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="contactModalLabel">Envíanos un Correo</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="contactForm">
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" id="name" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Correo Electrónico</label>
-                                        <input type="email" class="form-control" id="email" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="message" class="form-label">Mensaje</label>
-                                        <textarea class="form-control" id="message" rows="3" required></textarea>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" onclick="submitForm()">Enviar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer> 
+
+        <div id="app">
+            <mainComponent/>
+        </div> 
     </div>
 </template>
 
 <script>
+    import mainComponent from '../components/mainComponent.vue'
+    import { mapGetters, mapActions } from 'vuex';
 
     export default{
-
-        name: 'anonMain',
-        mounted(){
-
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js';
-            script.async = true;
-            document.body.appendChild(script);
+        
+        components: {
+            mainComponent
         },
-
-        beforeUnmount(){
-
-            const script = document.querySelector('script[src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"]');
-            script.forEach((script)=>{
-
-                script.remove();
-            });
-
-        },
-
         data(){
 
             return{
 
                 isDropdownVisible: false,
-                logged:true,
-                user:true,
-                asistant:false,
-                admin:false,
                 locationFilter: false,
                 
             }
         },
-
+        computed: {
+            ...mapGetters(['isLog']) 
+        },
         methods:{
 
-            setLog(newLog){
-
-                this.logged = newLog;
-
+            ...mapActions(['toggleIsLog']),
+            unlogUser(){
+                this.toggleIsLog();
             },
             toggleDropdown() {
                 this.isDropdownVisible = !this.isDropdownVisible;
@@ -326,11 +248,7 @@
 
 </script>
 
-
-
 <style scoped>
-
-@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css");
 
 .main{
 
@@ -341,6 +259,11 @@
     padding: 20px;
 }
 
+.main-logo{
+    margin-bottom: 10px;
+    width: 250px;
+    height: 80px;
+}
 .header-section {
     display: flex;
     justify-content: space-between;
@@ -364,6 +287,7 @@
 }
 
 .card-container{
+
     display: flex;
     justify-content: space-between;
     margin: 20px;
@@ -548,6 +472,20 @@
 
 .btn-secondary i {
     margin-right: 8px; /* Espacio entre el ícono y el texto */
+}
+
+.menu-list {
+    list-style: disc; /* Muestra los puntos de lista predeterminados */
+    padding-left: 20px; /* Ajusta el espacio a la izquierda para alinear con los puntos */
+}
+
+.menu-list li {
+    display: flex;
+    align-items: center; /* Alinea verticalmente el contenido */
+}
+
+.alsoButton {
+    margin-left: 8px; /* Espacio entre el punto y el contenido */
 }
 
 </style>

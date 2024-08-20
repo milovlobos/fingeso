@@ -28,12 +28,6 @@ const router = createRouter({
             component: () => import('../views/accountView.vue'),
             alias: '/inicio',
         },
-        {
-            path: '/tier',
-            name: 'tier',
-            component: () => import('../views/tierView.vue'),
-            alias: '/inicio',
-        },
     ],
 });
 

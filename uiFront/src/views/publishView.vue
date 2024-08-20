@@ -3,12 +3,13 @@
     <div class="container main">
 
         <header>
-            <section class="header-section">
+            <section class="header-section-publish">
                 <router-link to="/">
-                    <h1 class="page-title">InstaHome</h1>
+                    <img class="main-logo-publish"src="./media/logo.png">
                 </router-link>
             </section>
         </header>
+
         <div class="content">
             <div class="colum-content1">
                 <ul class="nav flex-column">
@@ -29,7 +30,7 @@
             <form class="d-flex">
                 <button class="btn btn-primary" @click.prevent="prevSection()" id="prevButton">Atras</button>
                 <button class="btn btn-primary" @click.prevent="nextSection()" id="nextButton">Siguiente</button>
-                </form>
+            </form>
         </div>
 
         <div class="content2" id="personal-form" @submit.prevent="handleSubmit">
@@ -38,23 +39,23 @@
             </div>
             <form class="row g-3"v-if="progress==25">
                 <div class="col-md-6" >
-                    <label for="inputusername4" class="form-label">Nombre Completo*</label>
-                    <input v-model="property.username" type="username" class="form-control" id="inputusernamel4">
+                    <label for="inputusername4" class="form-label">Nombre Completo</label>
+                    <input type="username" class="form-control" id="inputusernamel4">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputRut4" class="form-label">Rut*</label>
+                    <label for="inputRut4" class="form-label">Rut</label>
                     <input type="text" class="form-control" id="inputRut4">
                 </div>
                 <div class="col-12">
-                    <label for="inputAddress" class="form-label">Direccion*</label>
+                    <label for="inputAddress" class="form-label">Direccion</label>
                     <input type="text" class="form-control" id="inputAddress" placeholder="Calle falsa #123">
                 </div>
                 <div class="col-12">
-                    <label for="inputAddress2" class="form-label">Numero de telefono*</label>
+                    <label for="inputAddress2" class="form-label">Numero de telefono</label>
                     <input type="text" class="form-control" id="inputAddress2" placeholder="+56 9 1234 56789">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputRegion" class="form-label">Region*</label>
+                    <label for="inputRegion" class="form-label">Region</label>
                     <select id="inputRegion" class="form-select">
                         <option selected>...</option>
                         <option>Arica y parinacota</option>
@@ -77,7 +78,7 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="inputState" class="form-label">Comuna*</label>
+                    <label for="inputState" class="form-label">Comuna</label>
                     <input type="text" class="form-control" id="inputCity">
                 </div>
                 <div class="col-md-2">
@@ -103,12 +104,16 @@
                     <label for="inputRut4" class="form-label">Direccion*</label>
                     <input v-model="property.propertyDirection"type="text" class="form-control" id="inputRut4">
                 </div>
-                <div class="col-12">
-                    <label for="inputAddress" class="form-label">Fotos de la vivienda*</label>
-                    <input type="file" class="form-control" id="inputAddress" >
+                <div class="col-md-6">
+                    <label for="inputAddress" class="form-label">Metros cuadrados*</label>
+                    <input v-model="property.propertyM2" type="text" class="form-control" id="inputAddress" >
                 </div>
                 <div class="col-md-6">
-                    <label for="inputRegion" class="form-label">Region*</label>
+                    <label for="inputAddress" class="form-label">Nombre en publicacion*</label>
+                    <input v-model="property.propertyName"type="text" class="form-control" id="inputAddress" >
+                </div>
+                <div class="col-md-6">
+                    <label for="inputRegion" class="form-label">Region</label>
                     <select id="inputRegion" class="form-select">
                         <option selected>...</option>
                         <option>Arica y parinacota</option>
@@ -135,7 +140,7 @@
                     <input v-model="property.propertyPrice"type="text" class="form-control" id="inputCity">
                 </div>
                 <div class="col-12">
-                    <label for="inputDescription" class="form-label">Descripcion</label>
+                    <label for="inputDescription" class="form-label">Descripcion*</label>
                     <textarea v-model="property.userDescription"id="inputDescription" class="form-control" rows="3"></textarea>
                 </div>
             </div>
@@ -222,38 +227,41 @@
                 </div>
             </form>
             <div class="final-publish">
-                <router-link to="/">
-                    <button class="btn btn-primary" type="submit" :disabled="!isPublishEnabled">Publicar</button>
-                </router-link>
+                <button class="btn btn-primary" type="submit" @click="publish" :disabled="!isPublishEnabled">Publicar</button>
             </div>
         </div>
     </div>
 
 </template>
-<script>
-    // Inicializa mostrando la sección de Datos Personales
-    export default{
 
+<script>
+    import axios from 'axios';
+    import mainComponent from '../components/mainComponent.vue'
+
+    function redirectMain(){
+        window.location.href = '/';
+    }   
+
+    export default{
+        components: {
+            mainComponent
+        },
         data(){
 
             return{
 
                 activeItem: 1,
                 progress: 25,
-                houseType: false,
-                apartmentType: false,
-                terrainType: false,
-                imageSrc: null,
                 property: {
                     userID: '',
-                    username: '',
-                    userDescription: '',
-                    userM2: '',
                     propertyType: '',
+                    propertyName: '',
                     propertyDirection: '',
                     propertyPrice: '',
+                    userDescription: '',
+                    propertyM2: '',
                     propertyImg: '',
-                }
+                },
             }
         },
         computed: {
@@ -265,7 +273,42 @@
             }
         },
         methods:{
+            async publish(){
 
+                if(this.propertyType == null || this.propertyName == null || this.propertyDirection == null || this.propertyPrice == null || this.userDescription == null || this.propertyM2 == null || this.propertyImg == null){
+
+                    alert("Por favor complete todos los campos obligatorios (*)");
+                    return;
+                }
+
+                const property = {
+
+                    userID: this.userID,
+                    propertyType: this.propertyType,
+                    propertyName: this.propertyName,
+                    propertyDirection: this.propertyDirection,
+                    propertyPrice: this.propertyPrice,
+                    userDescription: this.userDescription,
+                    propertyM2: this.propertyM2,
+                    propertyImg: this.propertyImg,
+                };
+                try{
+
+                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/inmueble/create",property);
+
+                    if(respuesta.data != null){
+
+                        alert("Publicacion exitosa");
+                        redirectMain();
+                    }
+
+                }catch(error){
+
+                    console.log(error);
+                    alert("Fallo en la conexion con el servidor");
+                }
+
+            },
             setActive(index) {
                 this.activeItem = index;
             },
@@ -294,7 +337,7 @@
                 }
             },
             handleSubmit() {
-                // Aquí envías los datos a través de Axios
+                
                 axios.post(import.meta.env.VITE_BASE_URL + "api/inmueble/create", this.form)
                 .then(response => {
                     console.log('Datos enviados exitosamente:', response.data);
@@ -312,287 +355,244 @@
 
 <style>
 
-.main{
+    .main{
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(45deg, #ded1b6, #ded1b6, #6ca19e, #6d997a);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: auto; /* Ajusta la altura según el contenido */
-    min-height: 100vh;
-}
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(45deg, #ded1b6, #ded1b6, #6ca19e, #6d997a);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        height: auto; 
+        min-height: 100vh;
+    }
 
-.content{
+    .content{
 
-    box-sizing: border-box;
-    align-items: left;
-    background-color: #f8f6f6f3;
-    flex-direction: column;
-    min-width: 300px;
-    max-width: 300px;
-    width: 1%;
-    margin: 0px 10px 0px 10px;
-    min-height: 500px;
-    max-height: 550px;
-    height: 100%;
-    border-radius: 10px;
-    display: flex; /* Usa flexbox para alinear elementos */
-    justify-content: flex-start; /* Alinea los elementos al inicio (izquierda) */
-}
+        box-sizing: border-box;
+        align-items: left;
+        background-color: #f8f6f6f3;
+        flex-direction: column;
+        min-width: 300px;
+        max-width: 300px;
+        width: 1%;
+        margin: 0px 10px 0px 10px;
+        min-height: 500px;
+        max-height: 550px;
+        height: 100%;
+        border-radius: 10px;
+        display: flex; 
+        justify-content: flex-start; 
+    }
 
-.content2{
+    .content2{
 
-    box-sizing: border-box;
-    align-items: left;
-    background-color: #f8f6f6f3;
-    flex-direction: column;
-    min-width: 300px;
-    max-width: 1000px;
-    width: 100%;
-    margin: 0px 10px 0px 10px;
-    min-height: 500px;
-    max-height: 550px;
-    height: 100%;
-    border-radius: 10px;
-    display: flex; /* Usa flexbox para alinear elementos */
-    justify-content: flex-start; /* Alinea los elementos al inicio (izquierda) */
-}
+        box-sizing: border-box;
+        align-items: left;
+        background-color: #f8f6f6f3;
+        flex-direction: column;
+        min-width: 300px;
+        max-width: 1000px;
+        width: 100%;
+        margin: 0px 10px 0px 10px;
+        min-height: 500px;
+        max-height: 550px;
+        height: 100%;
+        border-radius: 10px;
+        display: flex; 
+        justify-content: flex-start; 
+    }
 
-.colum-content1 {
-    width: 300px; /* Ajusta el ancho según tus necesidades */
-    height: 300px;
-    /* Opcional: Añade un fondo o bordes para destacar el contenedor */
-    padding: 0; /* Elimina el padding si es necesario */
-    margin: 0; /* Elimina el margen si es necesario */
-}
+    .main-logo-publish{
+        margin-bottom: 10px;
+        width: 250px;
+        height: 80px;
 
-/* Estilo para la lista de navegación */
-.nav {
-    width: 100%; /* Asegura que la lista use el 100% del ancho del contenedor */
-    padding: 0; /* Elimina el padding */
-    margin: 0; /* Elimina el margen */
-    list-style: none; /* Elimina los puntos de lista */
-}
+    }
+    .colum-content1 {
+        width: 300px; 
+        height: 300px;
+        padding: 0;
+        margin: 0; 
+    }
 
-/* Estilo para los ítems de navegación */
-.nav-item {
-    width: 100%; /* Asegura que cada ítem use el 100% del ancho de la lista */
-}
+    .nav {
+        width: 100%; 
+        padding: 0; 
+        margin: 0; 
+        list-style: none; 
+    }
 
-/* Estilo para los enlaces de navegación */
-.nav-link {
-    display: block; /* Hace que el enlace ocupe el bloque completo del ítem */
-    width: 100%; /* Asegura que el enlace use el 100% del ancho del ítem */
-    padding: 10px; /* Añade espaciado interno opcional */
-    text-align: left; /* Alinea el texto a la izquierda */
-    color: #42282c; /* Color de texto opcional */
-    text-decoration: none; /* Elimina el subrayado por defecto */
-    border-radius: 10px;
-}
+    .nav-item {
+        width: 100%; 
+    }
 
-/* Estilo para el enlace activo */
-.nav-link.active {
-    background-color: #6d997a; /* Color de fondo del enlace activo */
-    color: white; /* Color del texto del enlace activo */
-    width: 100%;
-}
+    .nav-link {
+        display: block; 
+        width: 100%; 
+        padding: 10px; 
+        text-align: left; 
+        color: #42282c; 
+        text-decoration: none;
+        border-radius: 10px;
+    }
 
-.btn-primary{
+    .nav-link.active {
+        background-color: #6d997a; 
+        color: white; 
+        width: 100%;
+    }
+
+    .btn-primary{
     
-    padding-bottom: 10px;
-    width: 100%;
-}
+        padding-bottom: 10px;
+        width: 100%;
+    }
 
-form.d-flex {
-    margin-top: auto; /* Empuja el botón hacia el final del contenedor */
-}
+    form.d-flex {
+        margin-top: auto;
+    }
 
-form {
-    width: 100%; /* Asegura que el formulario ocupe todo el ancho del contenedor */
-}
+    form {
+        width: 100%;
+    }
 
-/* Estilo para los elementos del formulario */
-.form-label {
-    margin-bottom: 0.5rem; /* Espaciado debajo de las etiquetas del formulario */
-}
+    .form-label {
+        margin-bottom: 0.5rem; 
+    }
 
-.form-control, .form-select {
-    margin-left: 10px;
-    margin-bottom: 1rem; /* Espaciado debajo de los campos del formulario */
-}
+    .form-control, .form-select {
+        margin-left: 10px;
+        margin-bottom: 1rem; 
+    }
 
-/* Asegura que el formulario use espacio disponible en el contenedor */
-.row.g-3 {
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-}
+    .row.g-3 {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+    }
 
-.row.g-3 .col-md-6, 
-.row.g-3 .col-md-4, 
-.row.g-3 .col-md-2 {
-    box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total del elemento */
-}
+    .row.g-3 .col-md-6, 
+    .row.g-3 .col-md-4, 
+    .row.g-3 .col-md-2 {
+        box-sizing: border-box;
+    }
 
-/* Estilo opcional para el checkbox */
-.form-check {
-    display: flex;
-    align-items: center;
-}
-.form-label{
-    margin-left: 10px;
-    color: black;
-}
-header {
-    position: absolute; /* Posiciona el encabezado en relación al contenedor más cercano con posición no estática */
-    top: 0; /* Alinea al borde superior del contenedor */
-    left: 0; /* Alinea al borde izquierdo del contenedor */
-    width: 100%; /* Asegura que el encabezado ocupe todo el ancho del contenedor */
-    z-index: 1000; /* Asegura que el encabezado esté por encima de otros elementos */
-    padding: 10px; /* Ajusta el padding según sea necesario */
-    box-sizing: border-box; /* Incluye padding en el ancho total del contenedor */
-    margin-left: 25px;
-}
+    .form-check {
+        display: flex;
+        align-items: center;
+    }
 
-.header-section {
-    display: flex; /* Usa flexbox para alinear el contenido dentro del header */
-    justify-content: flex-start; /* Alinea el contenido al inicio del contenedor */
-}
+    .form-label{
+        margin-left: 10px;
+        color: black;
+    }
 
-.page-title {
-    color: black;
-    margin: 0; /* Elimina el margen predeterminado */
-    font-size: 2rem; /* Ajusta el tamaño de la fuente según sea necesario */
-}
+    header {
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        z-index: 1000; 
+        padding: 10px; 
+        box-sizing: border-box; 
+        margin-left: 25px;
+    }
 
-a {
-    text-decoration: none; /* Elimina el subrayado de todos los enlaces */
-}
+    .header-section-publish {
+        display: flex;
+        justify-content: flex-start;
+    }
 
-/* Si quieres eliminar el subrayado solo de los enlaces en el nav */
-.nav-link {
-    text-decoration: none; /* Elimina el subrayado solo de los enlaces en la barra de navegación */
-}
+    .page-title {
+        color: black;
+        margin: 0; 
+        font-size: 2rem; 
+    }
 
-.form-instruction{
+    a {
+        text-decoration: none; 
+    }
 
-    color: black;
-    margin-left: 315px;
-}
+    .nav-link {
+        text-decoration: none; 
+    }
 
-.btn-primary:disabled {
-    background-color: #6ca19e; /* Color de fondo cuando está desactivado */
-    border-color: #c0c0c0; /* Color del borde cuando está desactivado */
-    color: #6c757d; /* Color del texto cuando está desactivado */
-    cursor: not-allowed; /* Cambia el cursor para indicar que no se puede hacer clic */
-}
-.progress-bar{
-    transition: width 0.8s ease, background-color 0.3s ease;
-    background-color: #42282c;
-}
-.progress-bar-full{
+    .form-instruction{
+
+        color: black;
+        margin-left: 315px;
+    }
+
+    .btn-primary:disabled {
+        background-color: #6ca19e; 
+        border-color: #c0c0c0;
+        color: #6c757d; 
+        cursor: not-allowed; 
+    }
+
+    .progress-bar{
+        transition: width 0.8s ease, background-color 0.3s ease;
+        background-color: #42282c;
+    }
+    .progress-bar-full{
     
-    background-color: #6ca19e;
-}
-.form-check-label{
+        background-color: #6ca19e;
+    }
+    .form-check-label{
 
-    color:black;
-}
-.col-form-label{
+        color:black;
+    }
+    .col-form-label{
 
-    color: black;
-}
+        color: black;
+    }
 
-.image-preview {
-    margin-top: 10px;
-}
+    .card-container {
+        margin-top: 70px;
+        display: flex;
+        justify-content: space-between; 
+        flex-wrap: wrap; 
+    }
 
-.img-thumbnail {
-    max-width: 200px;
-    height: auto;
-    border: 1px solid #ddd;
-    padding: 5px;
-}
+    .card {
+        color: black;
+        flex: 1 1 30%; 
+        margin: 10px; 
+        border: 1px solid #ddd; 
+        border-radius: 8px; 
+        overflow: hidden; 
+    }
 
-.card-container {
-    margin-top: 70px;
-    display: flex;
-    justify-content: space-between; /* Espacio igual entre las cartas */
-    flex-wrap: wrap; /* Permite que las cartas se muevan a la siguiente línea si no caben en una sola línea */
-}
+    .card img {
+        width: 100%;
+        height: auto;
+    }
 
-.card {
-    color: black;
-    flex: 1 1 30%; /* Cada carta ocupará aproximadamente el 30% del ancho del contenedor, y se ajustará según sea necesario */
-    margin: 10px; /* Espacio alrededor de cada carta */
-    border: 1px solid #ddd; /* Borde alrededor de las cartas */
-    border-radius: 8px; /* Bordes redondeados */
-    overflow: hidden; /* Asegura que el contenido no se desborde fuera del borde de la carta */
-}
+    .card-content {
+        color: black;
+        padding: 15px; 
+    }
 
-.card img {
-    width: 100%; /* Asegura que la imagen ocupe todo el ancho de la carta */
-    height: auto; /* Mantiene la proporción de la imagen */
-}
+    .check-pay{
 
-.card-content {
-    color: black;
-    padding: 15px; /* Espacio interno dentro de la carta */
-}
+        margin-left: 10px;
+    }
 
-.check-pay{
+    .final-instructions{
 
-    margin-left: 10px;
-}
+        margin-top: 20px;
+    }
 
-.final-instructions{
+    .final-publish {
 
-    margin-top: 20px;
+        margin-top: auto; 
+    }
 
-}
-.final-publish {
-    margin-top: auto; /* Empuja el botón al final del contenedor */
-}
-.card-container{
-    margin-right: 3px;
-}
+    .card-container{
 
-.btn-primary {
-  background-color: #6d997a; /* Color de fondo del botón */
-  border-color: #6d997a;
-  color: white; /* Color del texto del botón */
-}
-
-/* Cambiar el color del botón al pasar el mouse */
-.btn-primary:hover, .btn:focus, .btn:active {
-  background-color: #42282c; /* Color de fondo al pasar el mouse */
-}
-
-.btn-secondary {
-    background-color: #42282c; /* Color de fondo del botón */
-    border-color: #42282c;
-    color: white; /* Color del texto del botón */
-    display: inline-flex; /* Usa Flexbox para alinear elementos en línea */
-    align-items: center; /* Alinea verticalmente el contenido en el centro */
-    padding: 10px 20px; /* Ajusta el tamaño y el espaciado del botón */
-    margin-left: 10px; /* Espacio entre los botones */
-    border: none; /* Elimina el borde del botón */
-    border-radius: 4px; /* Opcional: redondea las esquinas del botón */
-    cursor: pointer; /* Cambia el cursor a una mano al pasar sobre el botón */
-    font-size: 16px; /* Tamaño del texto del botón */
-    text-decoration: none; /* Elimina el subrayado en el texto */
-}
-
-/* Cambiar el color del botón al pasar el mouse */
-.btn-secondary:hover {
-  background-color: #50373b; /* Color de fondo al pasar el mouse */
-}
-
-.btn-secondary i {
-    margin-right: 8px; /* Espacio entre el ícono y el texto */
-}
+        margin-right: 3px;
+    }
 
 </style>

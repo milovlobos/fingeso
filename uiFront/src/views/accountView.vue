@@ -2,77 +2,49 @@
 
     <div class="container main">
 
-        <header class="profile-header">
-                <div class="header-section">
-                    <router-link to ="/">
-                        <h1 class="page-title">InstaHome</h1>
-                    </router-link>
-                </div>
-                <div class="button-container">
-                    <button class="btn btn-primary" v-if="!premium"> Hazte Premium </button>
-                </div>
-                <div class="profile-main">
-                    <img src="./media/nah_id_win.jpg" alt="Foto de perfil" class="profile-picture">
-                    <div class="profile-info">
-                        <h2>Nombre del Usuario</h2>
-                        <p>correo@ejemplo.com</p>
-                    </div>
-                </div>
+        <header>
+            <router-link to ="/">
+                <img class="main-logo-account" src="./media/logo.png">
+            </router-link>
+            <div class="button-container-acount">
+                <button class="btn btn-secondary" v-if="!premium"> Hazte Premium </button>
+            </div>
         </header>
+
+        <div class="profile-main">
+            <img src="./media/profile.jpg" alt="Foto de perfil" class="profile-picture">
+            <div class="profile-info">
+                <h2>Nombre del Usuario</h2>
+                <p>correo@ejemplo.com</p>
+            </div>
+        </div>
 
         <section>
             <div class="account-propieties">
-                <h1 class="main-title">Tus propiedades</h1>
-                <div class="card-container">
-                    <div class="card">
+                <h1 class="main-title-account">Tus propiedades</h1>
+                <div class="card-container-account">
+                    <div class="card-account">
                         <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
-                        <div class="card-content">
-                            <h3 class="letter">Propiedad 5</h3>
+                        <div class="card-content-account">
+                            <h3 class="letter">Propiedad 1</h3>
                             <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
                             <p class="letter">Valor:"Texto de ejemplo"</p>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card-account">
                         <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
-                        <div class="card-content">
-                            <h3 class="letter">Propiedad 6</h3>
+                        <div class="card-content-account">
+                            <h3 class="letter">Propiedad 2</h3>
                             <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
                             <p class="letter">Valor:"Texto de ejemplo"</p>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
                         </div>
                     </div>
-                    <div class="card">
+                    <div class="card-account">
                         <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
-                        <div class="card-content">
-                            <h3 class="letter">Propiedad 6</h3>
-                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                            <p class="letter">Valor:"Texto de ejemplo"</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
-                        <div class="card-content">
-                            <h3 class="letter">Propiedad 6</h3>
-                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                            <p class="letter">Valor:"Texto de ejemplo"</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
-                        <div class="card-content">
-                            <h3 class="letter">Propiedad 7</h3>
-                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                            <p class="letter">Valor:"Texto de ejemplo"</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="./media/dpto_stock.jpg" alt="Imagen de la propiedad">
-                        <div class="card-content">
-                            <h3 class="letter">Propiedad 8</h3>
+                        <div class="card-content-account">
+                            <h3 class="letter">Propiedad 3</h3>
                             <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
                             <p class="letter">Valor:"Texto de ejemplo"</p>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
@@ -80,20 +52,73 @@
                     </div>
                 </div>
             </div>
-        </section>      
+        </section>
+        
+        <section>
+            <div class="account-propieties">
+                <h1 class="main-title-account">Tus favoritos</h1>
+                <div class="card-container-account">
+                    <div class="card-account">
+                        <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
+                        <div class="card-content-account">
+                            <h3 class="letter">Propiedad 1</h3>
+                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
+                            <p class="letter">Valor:"Texto de ejemplo"</p>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
+                        </div>
+                    </div>
+                    <div class="card-account">
+                        <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
+                        <div class="card-content-account">
+                            <h3 class="letter">Propiedad 2</h3>
+                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
+                            <p class="letter">Valor:"Texto de ejemplo"</p>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
+                        </div>
+                    </div>
+                    <div class="card-account">
+                        <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
+                        <div class="card-content-account">
+                            <h3 class="letter">Propiedad 3</h3>
+                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
+                            <p class="letter">Valor:"Texto de ejemplo"</p>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="app">
+            <mainComponent/>
+        </div> 
+
     </div>
 </template>
+
 <script>
 
+    import mainComponent from '../components/mainComponent.vue'
+
     export default {
+        components: {
+            mainComponent
+        },
         data() {
             return {
-                premium: false
+                premium: false,
+                id:'',
             }
+        },
+        methods: {
+            submitForm() {
+                alert('Formulario enviado');
+            },
         }
     }
 
 </script>
+
 <style>
 
     .main{
@@ -108,48 +133,25 @@
         padding: 20px;
     }
     
-    .header-section {
+    header {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        justify-content: space-between; /* Espacia los elementos hijos */
+        align-items: center; /* Alinea verticalmente los elementos */
+        padding: 10px; /* Ajusta el espacio interno si es necesario */
     }
 
-    .page-title {
-        
-        text-align: left;
-        color: black;
-        margin: 0;
-    }
-    .main-title{
-        margin-left: 700px;
+    .main-title-account{
+
+        margin-left: 785px;
         align-items: center;
         padding-top: 15px;
         color: black;
     }
+
     .profile-header {
         padding: 10px 20px;
         background-color: #f5f5f5;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .page-title {
-
-        color: black;
-    }
-
-    .btn-primary {
-        align-items: right;
-        background-color: #6d997a;
-        border: none;
-        border-radius: 4px;
-        color: white;
-        cursor: pointer;
-        padding: 10px 20px;
-        text-align: center;
-    }
-
-    .btn-primary:hover {
-        background-color: #42282c;
     }
 
     .profile-main {
@@ -183,64 +185,24 @@
         color: #777;
     }
 
-    .card-container{
-
-        display: flex;
-        flex-wrap: wrap; /* Permite que las cartas se envuelvan en múltiples filas si es necesario */
-        justify-content: center; /* Centra las cartas en la fila */
-        gap: 20px; /* Espacio entre las cartas */
-        box-sizing: border-box;
-        align-items: center;
-        background-color: #f8f6f6f3;
-        flex-direction: column;
-        min-width: 300px;
-        max-width: 1850px;
-        width: 100%;
-        margin: 0px 10px 0px 10px;
-        min-height: 500px;
-        max-height: 1000px;
-        height: 100%;
-        border-radius: 10px;
-
-    }
-
-    .card{
-
-        background-color: #f8f6f691;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        margin: 20px;
-        max-width: 300px;
-        overflow: hidden;
-        transition: transform 0.3s;
-        flex: 1 1 auto;
-    }
-
-    .card:hover{
+    .card-account:hover{
         transform: scale(1.05);
     }
 
-    .card img{
+    .card-account img{
 
         width: 100%;
         height: 200px;
         object-fit: cover;
     }
 
-    .card-content{
-
-        color: black;
-        padding: 15px;
-    }
-
-    .card-content h3{
+    .card-content-account h3{
 
         font-size: 1.5em;
         margin: 0.5em 0;
     }
 
-    .card-content button{
+    .card-content-account button{
 
         background-color: #6d997a;
         border: none;
@@ -251,17 +213,45 @@
         width: 100%;
     }
 
-    .card-content button:hover{
+    .card-content-account button:hover{
 
         background-color: #42282c;
     }
 
-    .main-title{
-
-        color: black;
+    .card-container-account {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between; /* Espacio igual entre las cartas */
+        flex-wrap: wrap; /* Permite que las cartas se muevan a la siguiente línea si no caben en una sola línea */
     }
 
-    .button-container {
+    .card-account {
+        
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        color: black;
+        flex: 1 1 30%; /* Cada carta ocupará aproximadamente el 30% del ancho del contenedor, y se ajustará según sea necesario */
+        margin: 10px; /* Espacio alrededor de cada carta */
+        border: 1px solid #ddd; /* Borde alrededor de las cartas */
+        border-radius: 8px; /* Bordes redondeados */
+        overflow: hidden; /* Asegura que el contenido no se desborde fuera del borde de la carta */
+    }
+
+    .card-content-account {
+        color: black;
+        padding: 15px; /* Espacio interno dentro de la carta */
+    }
+
+    .button-container-account {
         text-align: right; /* Alinea los botones a la derecha */
     }
+
+    .main-logo-account{
+        margin-bottom: 10px;
+        width: 250px;
+        height: 80px;
+    }
+
 </style>
