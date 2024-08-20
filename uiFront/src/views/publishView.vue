@@ -10,7 +10,7 @@
             </section>
         </header>
 
-        <div class="content">
+        <div class="content"><!--Seccion que indica la navegacion entre las distintas secciones de la vista-->
             <div class="colum-content1">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -33,7 +33,7 @@
             </form>
         </div>
 
-        <div class="content2" id="personal-form" @submit.prevent="handleSubmit">
+        <div class="content2" id="personal-form" @submit.prevent="handleSubmit"> <!--Seccion de rellenado de datos-->
             <div class="progress">
                 <div class="progress-bar":class="{ 'progress-bar-full': progressWidth === '100%' }"  role="progressbar" :style="{ width: progressWidth }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
@@ -227,7 +227,7 @@
                 </div>
             </form>
             <div class="final-publish">
-                <button class="btn btn-primary" type="submit" @click="publish" :disabled="!isPublishEnabled">Publicar</button>
+                <button class="btn btn-primary" type="submit" @click="publish" :disabled="!isPublishEnabled">Publicar</button><!--Una vez alcanzado el 100% se habilita el boton de publicar-->
             </div>
         </div>
     </div>
@@ -252,7 +252,7 @@
 
                 activeItem: 1,
                 progress: 25,
-                property: {
+                property: { //Objeto que almacena los datos de la propiedad
                     userID: '',
                     propertyType: '',
                     propertyName: '',
@@ -264,7 +264,7 @@
                 },
             }
         },
-        computed: {
+        computed: { //Metodos que permiten la navegacion entre las distintas secciones de la vista
             progressWidth() {
                 return `${this.progress}%`;
             },
@@ -272,7 +272,7 @@
                 return this.progress === 100;
             }
         },
-        methods:{
+        methods:{ //Metodo que permite la publicacion de la propiedad
             async publish(){
 
                 if(this.propertyType == null || this.propertyName == null || this.propertyDirection == null || this.propertyPrice == null || this.userDescription == null || this.propertyM2 == null || this.propertyImg == null){
@@ -281,7 +281,7 @@
                     return;
                 }
 
-                const property = {
+                const property = { 
 
                     userID: this.userID,
                     propertyType: this.propertyType,
@@ -294,21 +294,22 @@
                 };
                 try{
 
-                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/inmueble/create",property);
+                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/inmueble/create",property); //Se envian los datos de la propiedad al servidor
 
-                    if(respuesta.data != null){
+                    if(respuesta.data != null){ //Si la publicacion es exitosa se redirige al usuario a la pagina principal
 
                         alert("Publicacion exitosa");
                         redirectMain();
                     }
 
-                }catch(error){
+                }catch(error){ //En caso de error se muestra un mensaje de alerta
 
                     console.log(error);
                     alert("Fallo en la conexion con el servidor");
                 }
 
             },
+            //Metodos que permiten la navegacion entre las distintas secciones de la vista
             setActive(index) {
                 this.activeItem = index;
             },
@@ -335,16 +336,6 @@
                 } else {
                     this.imageSrc = null;
                 }
-            },
-            handleSubmit() {
-                
-                axios.post(import.meta.env.VITE_BASE_URL + "api/inmueble/create", this.form)
-                .then(response => {
-                    console.log('Datos enviados exitosamente:', response.data);
-                })
-                .catch(error => {
-                    console.error('Error al enviar datos:', error);
-                });
             }
             
         }

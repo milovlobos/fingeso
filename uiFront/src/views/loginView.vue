@@ -4,15 +4,15 @@
             <div class="content">
                 <img class="image-login" src="./media/logo.png">
                 <div class="header" v-if="!register">Inicio de sesion</div>
-                <div class="header" v-else>Registrarse</div>
+                <div class="header" v-else>Registrarse</div> <!--Si el usuario escoge la opcion de registrarse, se mostrara el titulo "Registrarse"-->
                 <div class="headerDescription" v-if="!register">Completar campos para iniciar sesion</div>
-                <div class="headerDescription" v-else>Completar campos para registro</div>
+                <div class="headerDescription" v-else>Completar campos para registro</div><!--De igual manera se mostrara un texto diferente dependiendo de la opcion escogida-->
                 <div class="inputContainer" v-if="!register">
                     <input type="email" v-model="usermail" placeholder="Ingrese correo">
                     <input type="password" v-model="password" placeholder="Ingrese contraseña">
                     <button class="sessionButton" @click="login">Iniciar sesion</button>
                 </div>
-                <div class="inputContainer" v-else>
+                <div class="inputContainer" v-else><!--Si el usuario escoge la opcion de registrarse, se mostrara un formulario para el registro de usuario sino sera el de inicio de sesion-->
                     <input type="text" v-model="usernameRegister" placeholder="Ingrese su nombre">
                     <input type="email" v-model="useremailRegister" placeholder="Ingrese correo">
                     <input type="password" v-model="passwordRegister" placeholder="Ingrese contraseña">
@@ -21,11 +21,11 @@
                 </div>
                 <div class="alsoButtons"> 
                     <div class="alsoButton" @click="handleChanger" v-if="!register">Registrarse</div>
-                    <div class="alsoButton" @click="handleChanger" v-else>Iniciar sesion</div>
+                    <div class="alsoButton" @click="handleChanger" v-else>Iniciar sesion</div> //Manejador de opciones para cambiar entre iniciar sesion y registrarse
                     <router-link to="/">
                         <div class="alsoButton" @click="handleChanger" v-if="register">Ingreso anonimo</div>
                     </router-link>
-                    <div class="alsoButton" data-bs-toggle="modal" data-bs-target="#contactModal" v-if="!register">Recuperar contraseña</div>
+                    <div class="alsoButton" data-bs-toggle="modal" data-bs-target="#contactModal" v-if="!register">Recuperar contraseña</div> <!--Boton para recuperar contraseña-->
                     <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -66,12 +66,7 @@ import axios from 'axios'
 import mainComponent from '../components/mainComponent.vue'
 import { mapGetters, mapActions } from 'vuex';
 
-function redirectUserLogin(){
-
-    window.location.href = '/';
-}
-
-function redirectUserAnon(){
+function redirectUser(){
 
     window.location.href = '/';
 }
@@ -115,7 +110,7 @@ export default{
 
                     localStorage.setItem("login", JSON.stringify({username: this.username}));
                     this.setLogStatus(true);
-                    redirectUserLogin();
+                    redirectUser();
                 }
                 if(respuesta.data == 0){
 
@@ -138,7 +133,7 @@ export default{
         anon(){
 
             this.username= "anon";
-            redirectUserAnon();//redireccionar a la pagina pricnipal como anonimo, osea simplemente no hace nada ajskajksas :p
+            redirectUser();//redireccionar a la pagina pricnipal como anonimo, osea simplemente no hace nada ajskajksas :p
 
         },
         async addUser(){//registro de usuario

@@ -4,7 +4,7 @@
         <header>
             <section class="header-section">
                 <img class="main-logo" src="./media/logo.png">
-                <div class="button-container1" v-if="isLog">
+                <div class="button-container1" v-if="isLog"> <!--Si el usuario se encuentra logeado se mostraran los botones de publicar, cuenta y cerrar sesion-->
                         <router-link to = "/publish">
                             <div type="button" class="btn btn-secondary">
                                 <i class="fi fi-rr-home"></i>Publicar
@@ -19,7 +19,7 @@
                                 <i class="fi fi-rr-user"></i>Cerrar sesion
                         </div>
                 </div>
-                <div class="button-container1" v-if="!isLog">
+                <div class="button-container1" v-if="!isLog"> <!--Sino se mostrara el boton de ingreso-->
                     <router-link to = "/login">
                         <div type="button" class="btn btn-secondary">
                             <i class="fi fi-rr-user"></i>Ingreso
@@ -29,7 +29,7 @@
             </section>
         </header>
 
-        <section>
+        <section> <!--Seccion dedicada a la barra de filtro y busqueda de propiedades-->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,7 @@
             </nav>
         </section>
 
-        <section id="properties">
+        <section id="properties"> <!--Seccion de propiedades destacadas-->
             <h1 class="main-title">Mejores propiedades</h1>
             <div class="card-container">
                 <div class="card">
@@ -163,7 +163,7 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true">
+            <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -185,7 +185,7 @@
             </div>
         </section>
 
-        <nav class="nav-bar1"aria-label="Page navigation example">
+        <nav class="nav-bar1"aria-label="Page navigation example"><!--Componente de paginacion de la web, el cual se espera habilitar una vez se poblen las tablas de propiedades-->
             <ul class="pagination">
                 <li class="page-item">
                     <a class="page-link" href="#" aria-label="Previous">
@@ -220,17 +220,17 @@
         },
         data(){
 
-            return{
+            return{ //Se inicializan las variables de la vista
 
-                isDropdownVisible: false,
-                locationFilter: false,
+                isDropdownVisible: false, //Variable para el despliegue del dropdown
+                locationFilter: false, //Variable para el filtro de ubicacion
                 
             }
         },
-        computed: {
+        computed: { //Se mapean las variables de la store para su uso en la vista
             ...mapGetters(['isLog']) 
         },
-        methods:{
+        methods:{//Se mapean las acciones de la store para su uso en la vista
 
             ...mapActions(['toggleIsLog']),
             unlogUser(){

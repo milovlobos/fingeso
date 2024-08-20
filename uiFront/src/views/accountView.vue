@@ -7,11 +7,11 @@
                 <img class="main-logo-account" src="./media/logo.png">
             </router-link>
             <div class="button-container-acount">
-                <button class="btn btn-secondary" v-if="!premium"> Hazte Premium </button>
+                <button class="btn btn-secondary" v-if="!premium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
             </div>
         </header>
 
-        <div class="profile-main">
+        <div class="profile-main"> <!--Seccion de perfil de usuario-->
             <img src="./media/profile.jpg" alt="Foto de perfil" class="profile-picture">
             <div class="profile-info">
                 <h2>Nombre del Usuario</h2>
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <section>
+        <section> <!--Seccion de propiedades del usuario-->
             <div class="account-propieties">
                 <h1 class="main-title-account">Tus propiedades</h1>
                 <div class="card-container-account">
@@ -54,7 +54,7 @@
             </div>
         </section>
         
-        <section>
+        <section><!--Seccion de propiedades favoritas del usuario-->
             <div class="account-propieties">
                 <h1 class="main-title-account">Tus favoritos</h1>
                 <div class="card-container-account">
@@ -107,7 +107,6 @@
         data() {
             return {
                 premium: false,
-                id:'',
             }
         },
         methods: {
@@ -121,7 +120,7 @@
 
 <style>
 
-    .main{
+    .main{ 
 
         background: linear-gradient(45deg, #ded1b6, #ded1b6, #6ca19e, #6d997a);
         background-size: cover;
@@ -135,9 +134,9 @@
     
     header {
         display: flex;
-        justify-content: space-between; /* Espacia los elementos hijos */
-        align-items: center; /* Alinea verticalmente los elementos */
-        padding: 10px; /* Ajusta el espacio interno si es necesario */
+        justify-content: space-between; 
+        align-items: center; 
+        padding: 10px; 
     }
 
     .main-title-account{
@@ -157,7 +156,7 @@
     .profile-main {
         display: flex;
         align-items: center;
-        flex-direction: column; /* Alinea los elementos en una columna */
+        flex-direction: column; 
     }
 
     .profile-picture {
@@ -221,8 +220,8 @@
     .card-container-account {
         margin-top: 30px;
         display: flex;
-        justify-content: space-between; /* Espacio igual entre las cartas */
-        flex-wrap: wrap; /* Permite que las cartas se muevan a la siguiente línea si no caben en una sola línea */
+        justify-content: space-between; 
+        flex-wrap: wrap; 
     }
 
     .card-account {
@@ -232,20 +231,20 @@
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         transition: transform 0.3s;
         color: black;
-        flex: 1 1 30%; /* Cada carta ocupará aproximadamente el 30% del ancho del contenedor, y se ajustará según sea necesario */
-        margin: 10px; /* Espacio alrededor de cada carta */
-        border: 1px solid #ddd; /* Borde alrededor de las cartas */
-        border-radius: 8px; /* Bordes redondeados */
-        overflow: hidden; /* Asegura que el contenido no se desborde fuera del borde de la carta */
+        flex: 1 1 30%; 
+        margin: 10px; 
+        border: 1px solid #ddd;
+        border-radius: 8px; 
+        overflow: hidden;
     }
 
     .card-content-account {
         color: black;
-        padding: 15px; /* Espacio interno dentro de la carta */
+        padding: 15px; 
     }
 
     .button-container-account {
-        text-align: right; /* Alinea los botones a la derecha */
+        text-align: right; 
     }
 
     .main-logo-account{
