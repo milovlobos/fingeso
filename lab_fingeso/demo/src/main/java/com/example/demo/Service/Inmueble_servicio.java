@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -34,11 +35,11 @@ public class Inmueble_servicio {
 
 
     // Método para crear un nuevo inmueble
-    public Inmueble createInmueble(long userId, String name, String description, long metroCuadrados, String tipo, String direccion, long precio, String fotoUrl) {
+    public Inmueble createInmueble(long userId, String name, String description, long metroCuadrados, String tipo, String direccion, long precio, String fotoUrl, LocalDate Fecha_termino) {
         // Buscar el usuario por su ID, lanzar excepción si no se encuentra
 
         // Crear y configurar un nuevo inmueble con los detalles proporcionados
-        Inmueble inmueble = new Inmueble(false,false,fotoUrl,precio,direccion,tipo,metroCuadrados,description,name,userId);
+        Inmueble inmueble = new Inmueble(false,false,fotoUrl,precio,direccion,tipo,metroCuadrados,description,name,userId, Fecha_termino);
 
         // Guardar el inmueble en la base de datos y devolverlo
         return inmuebleRepo.save(inmueble);

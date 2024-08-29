@@ -2,6 +2,8 @@ package com.example.demo.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "inmueble")  // Especifica que esta clase se mapeará a una tabla llamada "inmueble" en la base de datos
 public class Inmueble {
@@ -31,11 +33,13 @@ public class Inmueble {
 
     private boolean verificado;  // Indicador de si el inmueble ha sido verificado (puede referirse a una verificación general o por el usuario)
 
+    private LocalDate fecha_termino;
+
     // Constructor sin argumentos requerido por JPA
     public Inmueble() {}
 
     // Constructor parametrizado para inicializar todos los campos de la clase
-    public Inmueble(boolean verificado, boolean verificado_admin, String fotoUrl, long precio, String direccion, String type, long metros2, String description, String name, long idUser) {
+    public Inmueble(boolean verificado, boolean verificado_admin, String fotoUrl, long precio, String direccion, String type, long metros2, String description, String name, long idUser, LocalDate fecha_termino) {
         this.verificado = verificado;
         this.verificado_admin = verificado_admin;
         this.fotoUrl = fotoUrl;
@@ -46,6 +50,7 @@ public class Inmueble {
         this.description = description;
         this.name = name;
         this.idUser = idUser;
+        this.fecha_termino = fecha_termino;
     }
 
     // Métodos getters y setters para cada atributo de la clase
@@ -136,5 +141,13 @@ public class Inmueble {
 
     public void setVerificado(boolean verificado) {
         this.verificado = verificado;
+    }
+
+    public LocalDate getFecha_termino() {
+        return fecha_termino;
+    }
+
+    public void setFecha_termino(LocalDate fecha_termino) {
+        this.fecha_termino = fecha_termino;
     }
 }

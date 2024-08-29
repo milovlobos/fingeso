@@ -37,4 +37,8 @@ public class usuariocontrolador {
         String metodoPago = body.get("metodoPago").toString();
         return usuarioservicio.GetPremium(id, metodoPago);
     }
+    @GetMapping("/getusuario")
+    public Usuario getUsuariobyemail(@RequestParam("email") String email) {
+        return usuarioservicio.getUsuariobyEmail(email);
+    }
 }

@@ -30,7 +30,8 @@ public class inmueble_controlador {
                 inmueble.getType(),
                 inmueble.getDireccion(),
                 inmueble.getPrecio(),
-                inmueble.getFotoUrl()
+                inmueble.getFotoUrl(),
+                inmueble.getFecha_termino()
         );
     }
 

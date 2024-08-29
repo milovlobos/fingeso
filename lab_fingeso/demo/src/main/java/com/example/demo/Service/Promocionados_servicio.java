@@ -10,7 +10,7 @@ import com.example.demo.Repository.inmueble_repositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ public class Promocionados_servicio {
     private Usuarioservicio usuarioservicio;
 
     // Método para promocionar un inmueble en una fecha específica
-    public int promocionarInmueble(long inmuebleId, LocalDateTime fecha, String metodoPago) {
+    public int promocionarInmueble(long inmuebleId, LocalDate fecha, String metodoPago) {
         // Verifica si el inmueble con el ID proporcionado existe en la base de datos
         Optional<Inmueble> inmuebleOpt = inmuebleRepo.findById(inmuebleId);
         if (inmuebleOpt.isEmpty()) {
@@ -45,7 +45,7 @@ public class Promocionados_servicio {
 
 
         // Verifica cuántas publicaciones promocionadas ya están agendadas para la fecha dada
-        long count = promocionadoRepo.countByFecha(fecha);
+        long count = promocionadoRepo.countByfecha(fecha);
 
         if (count >= 10) {
             // Si ya hay 10 o más publicaciones programadas para esa fecha, retorna 1 (indica límite alcanzado)

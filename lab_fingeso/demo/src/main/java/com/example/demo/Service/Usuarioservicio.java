@@ -81,4 +81,8 @@ public class Usuarioservicio {
         // Retornar 1 indicando que la operación fue exitosa
         return 1;
     }
+
+    public Usuario getUsuariobyEmail(String email) {
+        return userRepo.findByemail(email);
+    }
 }

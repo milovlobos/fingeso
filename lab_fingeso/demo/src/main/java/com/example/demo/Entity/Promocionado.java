@@ -2,6 +2,7 @@ package com.example.demo.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,10 +22,10 @@ public class Promocionado {
     private double precio;
 
     // Almacena la fecha y hora de la promoción
-    private LocalDateTime fecha;
+    private LocalDate fecha;
 
 
-    public Promocionado(long inmueble_id, double precio, LocalDateTime fecha) {
+    public Promocionado(long inmueble_id, double precio, LocalDate fecha) {
 
         this.inmueble_id = inmueble_id;
         this.precio = precio;
@@ -38,11 +39,11 @@ public class Promocionado {
 
     // Métodos getters y setters para acceder y modificar los atributos de Promocionado
 
-    public LocalDateTime getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
