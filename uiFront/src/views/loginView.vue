@@ -13,7 +13,7 @@
                     <button class="sessionButton" @click="login">Iniciar sesion</button>
                 </div>
                 <div class="inputContainer" v-else><!--Si el usuario escoge la opcion de registrarse, se mostrara un formulario para el registro de usuario sino sera el de inicio de sesion-->
-                    <input type="text" v-model="usernameRegister" placeholder="Ingrese su nombre">
+                    <input type="text" v-model="nameRegister" placeholder="Ingrese su nombre">
                     <input type="email" v-model="useremailRegister" placeholder="Ingrese correo">
                     <input type="password" v-model="passwordRegister" placeholder="Ingrese contraseña">
                     <input type="password" v-model="passwordRegisterConfirmation" placeholder="Repita contraseña">
@@ -79,10 +79,11 @@ export default{
     data(){
 
         return{
+
             usermail: '',
             password: '',
             register: false,
-            usernameRegister: '',
+            nameRegister: '',
             useremailRegister: '',
             passwordRegister: '',
             passwordRegisterConfirmation: '',
@@ -108,7 +109,7 @@ export default{
                 
                 if(respuesta.data == 1){
 
-                    localStorage.setItem("login", JSON.stringify({username: this.username}));
+                    localStorage.setItem("login", JSON.stringify({name: this.name}));
                     this.setLogStatus(true);
                     redirectUser();
                 }
@@ -121,7 +122,7 @@ export default{
 
             } catch (error) {
 
-                alert("Fallo en la conexion con el servidor");//aqui uno se da cuenta si axio fallo
+                alert("Fallo en la conexion con el servidor");
 
             }
         },
@@ -132,23 +133,25 @@ export default{
         },
         anon(){
 
-            this.username= "anon";
-            redirectUser();//redireccionar a la pagina pricnipal como anonimo, osea simplemente no hace nada ajskajksas :p
+            this.name= "anon";
+            redirectUser();
 
         },
-        async addUser(){//registro de usuario
+        async addUser(){//Registro de usuario
 
-            if(this.useremailRegister != null && this.passwordRegisterConfirmation != null && this.passwordRegister != null && this.usernameRegister != null){
+            if(this.useremailRegister != '' && this.passwordRegisterConfirmation != '' && this.passwordRegister != '' && this.nameRegister != ''){
                 if(this.passwordRegister == this.passwordRegisterConfirmation){
 
                     const new_user = {
 
-                        "username":this.usernameRegister,
+                        "name":this.nameRegister,
+                        "email":this.useremailRegister,
                         "password":this.passwordRegister,
-                        "email":this.usernameRegister,
-                    }
+                        
+                    };
                     try{
-                        const registro = await axios.post(import.meta.env.VITE_BASE_URL + "/api/usuario/register",new_user); 
+
+                        const registro = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/register",new_user); 
                         console.log(registro);
                         alert("Usuario creado con exito");
 
@@ -164,7 +167,7 @@ export default{
 
                 alert("Rellene todos los campos para registrarse");
             }
-        }
+        },
     }
 }
 </script>

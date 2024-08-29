@@ -85,7 +85,8 @@
         </section>
 
         <section id="properties"> <!--Seccion de propiedades destacadas-->
-            <h1 class="main-title">Mejores propiedades</h1>
+            <h1 class="main-title">Mejores 10 publicaciones</h1>
+            <h class="main-title">Semana: {{ weekRange }}</h>
             <div class="card-container">
                 <div class="card">
                     <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
@@ -210,6 +211,7 @@
 </template>
 
 <script>
+
     import mainComponent from '../components/mainComponent.vue'
     import { mapGetters, mapActions } from 'vuex';
 
@@ -224,8 +226,13 @@
 
                 isDropdownVisible: false, //Variable para el despliegue del dropdown
                 locationFilter: false, //Variable para el filtro de ubicacion
+                weekRange: '', //Variable para el rango de la semana
                 
             }
+        },
+        created(){
+
+            this.calculateWeekRange(); //Se calcula el rango de la semana
         },
         computed: { //Se mapean las variables de la store para su uso en la vista
             ...mapGetters(['isLog']) 
@@ -238,6 +245,20 @@
             },
             toggleDropdown() {
                 this.isDropdownVisible = !this.isDropdownVisible;
+            },
+            calculateWeekRange() {
+                const today = new Date();
+                const dayOfWeek = today.getDay(); // Día de la semana (0 - domingo, 6 - sábado)
+                const firstDay = new Date(today);
+                firstDay.setDate(today.getDate() - dayOfWeek + 1); // Lunes
+                const lastDay = new Date(firstDay);
+                lastDay.setDate(firstDay.getDate() + 6); // Domingo
+
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const start = firstDay.toLocaleDateString('es-ES', options);
+                const end = lastDay.toLocaleDateString('es-ES', options);
+
+                this.weekRange = `${start} - ${end}`;
             }
 
         },

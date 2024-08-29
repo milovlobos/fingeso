@@ -424,6 +424,7 @@
         height: 80px;
 
     }
+    
     .colum-content1 {
         width: 300px; 
         height: 300px;

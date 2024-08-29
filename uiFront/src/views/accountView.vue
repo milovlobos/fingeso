@@ -7,8 +7,39 @@
                 <img class="main-logo-account" src="./media/logo.png">
             </router-link>
             <div class="button-container-acount">
-                <button class="btn btn-secondary" v-if="!premium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#propertyModal" v-if="!premium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
+                <router-link to="/top">
+                    <button class="btn btn-secondary" v-if="premium"> Sube el nivel </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
+                </router-link>
             </div>
+
+            <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="propertyModalLabel">Hazte premium y adquiere todos sus beneficios</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h3 id="modalTitle"></h3>
+                            <p id="modalDescription">
+                                <ul>
+                                    <li>Publicaciones ilimitadas</li>
+                                    <li>Acceso a las estadisticas de tus publicaciones</li>
+                                    <li>Acceso al top semanal</li>
+                                    <li>Distintos metodos de pago</li>
+                                </ul>
+                            </p>
+                            <p id="modalValue"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary">Suscribirte</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </header>
 
         <div class="profile-main"> <!--Seccion de perfil de usuario-->
@@ -163,7 +194,6 @@
         width: 60px;
         height: 60px;
         border-radius: 50%;
-        margin-right: 15px;
         object-fit: cover;
         border: 2px solid #ccc;
     }
@@ -251,6 +281,11 @@
         margin-bottom: 10px;
         width: 250px;
         height: 80px;
+    }
+
+    .fade{
+
+        color: black;
     }
 
 </style>
