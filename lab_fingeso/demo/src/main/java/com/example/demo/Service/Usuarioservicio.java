@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+import static com.example.demo.Entity.Security.sha256;
+
 @Service
 public class Usuarioservicio {
 
@@ -20,26 +22,48 @@ public class Usuarioservicio {
 
     // Método para registrar un nuevo usuario
     public Usuario register(String name, String password, String email) {
-        // Crear un nuevo objeto Usuario con los datos proporcionados y sin premium
-        Usuario usuario = new Usuario(name, password, email, false,false,false);
+
+        String hashPassword;
+
+        //Verificacion de que los datos hayan sido rellenados
+        if( name.isEmpty() || password.isEmpty() || email.isEmpty()) {
+            return null;
+        }
+
+
 
         // Verificar si ya existe un usuario con el mismo email
-        Usuario existe = userRepo.findByemail(usuario.getEmail());
+        Usuario existe = userRepo.findByemail(email);
         if (existe != null) {
             // Si el usuario ya existe, se retorna null
             return null;
         }
+
+        //Cifrar contraseña
+        hashPassword = sha256(password);
+
+        // Crear un nuevo objeto Usuario con los datos proporcionados y sin premium
+        Usuario usuario = new Usuario(name, hashPassword, email, false,false,false);
+
         // Si no existe, se guarda el nuevo usuario en la base de datos y se retorna
         return userRepo.save(usuario);
     }
 
     // Método para realizar el login de un usuario
     public int login(String email, String password) {
+
+
+        String hashPassword;
+
         // Buscar el usuario por email
         Usuario user = userRepo.findByemail(email);
+
+        // Obtener cifrado
+        hashPassword = sha256(password);
+
         if (user != null) {
             // Si el usuario existe, verificar que la contraseña sea correcta
-            if (password.equals(user.getPassword())) {
+            if (hashPassword.equals(user.getPassword())) {
                 // Si la contraseña es correcta , retornar 1 (login exitoso)
                 return 1;
             }
@@ -47,6 +71,7 @@ public class Usuarioservicio {
         // Si el login falla, retornar 0
         return 0;
     }
+
     // Método para obtener un usuario por su ID
     public Usuario getUsuariobyId(long id) {
         // Buscar el usuario por ID y retornarlo (asume que el usuario siempre existe)
