@@ -237,15 +237,16 @@
         },
         mounted(){
 
-            const localLog = JSON.parse(localStorage.getItem('isLogged'));
-            this.isLogged = localLog;
+            const sessionLog = JSON.parse(sessionStorage.getItem('isLogged'));
+            this.isLogged = sessionLog;
 
         },
         methods:{//Se mapean las acciones de la store para su uso en la vista
 
             toggleIsLoged(){
                 
-                localStorage.setItem('isLogged',JSON.stringify(false));
+                this.isLogged = false;
+                sessionStorage.setItem('isLogged',JSON.stringify(false));
 
             },
             toggleDropdown() {

@@ -105,10 +105,10 @@ export default{
                 const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/login",user);
                 if(respuesta.data == 1){
 
-                    localStorage.setItem('isLogged',JSON.stringify(true));
+                    sessionStorage.setItem('isLogged',JSON.stringify(true));
                     try{
                         const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/usuario/getusuario",{params:{"email":this.usermail}});
-                        localStorage.setItem('userLogged',JSON.stringify(respuesta.data));
+                        sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
                     } catch(error){
 
                         console.log("Error en axios: Busqueda del usuario");

@@ -34,7 +34,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary">Suscribirte</button>
+                            <button type="button" class="btn btn-primary" @click="setPremium">Suscribirte</button>
                         </div>
                     </div>
                 </div>
@@ -45,8 +45,8 @@
         <div class="profile-main"> <!--Seccion de perfil de usuario-->
             <img src="./media/profile.jpg" alt="Foto de perfil" class="profile-picture">
             <div class="profile-info">
-                <h2>{{ userLogged?.name}}</h2>
-                <p>{{ userLogged?.email}}</p>
+                <h2>{{ userLogged?.name }}</h2>
+                <p>{{ userLogged?.email }}</p>
             </div>
         </div>
 
@@ -130,7 +130,8 @@
 <script>
 
     import mainComponent from '../components/mainComponent.vue'
-    
+    import axios from 'axios'
+
     export default {
 
         components: {
@@ -143,10 +144,44 @@
         },
         mounted(){
 
-            const user = JSON.parse(localStorage.getItem('userLogged'));
+            const user = JSON.parse(sessionStorage.getItem('userLogged'));
             this.userLogged = user;
         },
         methods: {
+
+            async setPremium(){
+
+                const param ={
+
+                    "Id":this.userLogged.id,
+                    "metodoPago":'Automatico',
+
+                }
+                try{
+
+                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/premium",param);
+                    if(respuesta.data == 1){
+
+                        try{
+                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/usuario/getusuario",{params:{"email":this.userLogged.email}});
+                            sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
+                        } catch(error){
+
+                            console.log("Error en axios: Busqueda del usuario");
+                        }
+                        alert("Tu membresia ha sido activada con exito!");
+                    }
+                    if(respuesta.data == 0) {
+
+                        alert("Error en la asignacion de tu membresia")
+                    }
+
+                }catch(error){
+
+                    console.log("Error en axios: Premium");
+                }
+
+            },
             submitForm() {
                 alert('Formulario enviado');
             },
