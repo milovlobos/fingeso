@@ -7,9 +7,9 @@
                 <img class="main-logo-account" src="./media/logo.png">
             </router-link>
             <div class="button-container-acount">
-                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#propertyModal" v-if="!others"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#propertyModal" v-if="!userLogged?.premium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
                 <router-link to="/top">
-                    <button class="btn btn-secondary" v-if="others"> Sube el nivel </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
+                    <button class="btn btn-secondary" v-if="userLogged?.premium"> Sube el nivel </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
                 </router-link>
             </div>
 
@@ -45,8 +45,8 @@
         <div class="profile-main"> <!--Seccion de perfil de usuario-->
             <img src="./media/profile.jpg" alt="Foto de perfil" class="profile-picture">
             <div class="profile-info">
-                <h2>Nombre del Usuario</h2>
-                <p>correo@ejemplo.com</p>
+                <h2>{{ userLogged?.name}}</h2>
+                <p>{{ userLogged?.email}}</p>
             </div>
         </div>
 
@@ -130,7 +130,6 @@
 <script>
 
     import mainComponent from '../components/mainComponent.vue'
-    import { mapGetters } from 'vuex';
     
     export default {
 
@@ -139,12 +138,13 @@
         },
         data() {
             return {
-                others:false,
+                userLogged:null
             }
         },
-        computed:{
+        mounted(){
 
-            ...mapGetters(['getUserLogged']),
+            const user = JSON.parse(localStorage.getItem('userLogged'));
+            this.userLogged = user;
         },
         methods: {
             submitForm() {

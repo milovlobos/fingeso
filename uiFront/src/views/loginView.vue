@@ -64,7 +64,6 @@
 <script> 
 import axios from 'axios'
 import mainComponent from '../components/mainComponent.vue'
-import { mapGetters, mapActions } from 'vuex';
 
 function redirectUser(){
 
@@ -90,12 +89,8 @@ export default{
 
         }
     },
-    computed: {
-        ...mapGetters(['getIsLog','getUserLogged']),
-    },
-    methods:{
 
-        ...mapActions(['setLogStatus','fetchUser']),
+    methods:{
 
         async login(){
 
@@ -110,8 +105,14 @@ export default{
                 const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/login",user);
                 if(respuesta.data == 1){
 
-                    this.setLogStatus(true);
-                    this.fetchUser(this.usermail);
+                    localStorage.setItem('isLogged',JSON.stringify(true));
+                    try{
+                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/usuario/getusuario",{params:{"email":this.usermail}});
+                        localStorage.setItem('userLogged',JSON.stringify(respuesta.data));
+                    } catch(error){
+
+                        console.log("Error en axios: Busqueda del usuario");
+                    }
                     redirectUser();
                 }
                 if(respuesta.data == 0){
@@ -121,7 +122,7 @@ export default{
 
             } catch (error) {
 
-                alert("Fallo en la conexion con el servidor");
+                alert("Error en axios: Login");
 
             }
         },
