@@ -91,10 +91,12 @@ export default{
         }
     },
     computed: {
-        ...mapGetters(['isLog']) 
+        ...mapGetters(['getIsLog','getUserLogged']),
     },
     methods:{
-        ...mapActions(['setLogStatus']),
+
+        ...mapActions(['setLogStatus','fetchUser']),
+
         async login(){
 
             const user = {
@@ -106,19 +108,16 @@ export default{
             try{
 
                 const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/login",user);
-                
                 if(respuesta.data == 1){
 
-                    localStorage.setItem("login", JSON.stringify({name: this.name}));
                     this.setLogStatus(true);
+                    this.fetchUser(this.usermail);
                     redirectUser();
                 }
                 if(respuesta.data == 0){
 
                     alert("Credenciales invalidas");
                 }
-                respuesta.data = 0;
-                console.log(respuesta.data);
 
             } catch (error) {
 

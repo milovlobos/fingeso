@@ -7,9 +7,9 @@
                 <img class="main-logo-account" src="./media/logo.png">
             </router-link>
             <div class="button-container-acount">
-                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#propertyModal" v-if="!premium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#propertyModal" v-if="!others"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
                 <router-link to="/top">
-                    <button class="btn btn-secondary" v-if="premium"> Sube el nivel </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
+                    <button class="btn btn-secondary" v-if="others"> Sube el nivel </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
                 </router-link>
             </div>
 
@@ -130,15 +130,21 @@
 <script>
 
     import mainComponent from '../components/mainComponent.vue'
-
+    import { mapGetters } from 'vuex';
+    
     export default {
+
         components: {
             mainComponent
         },
         data() {
             return {
-                premium: false,
+                others:false,
             }
+        },
+        computed:{
+
+            ...mapGetters(['getUserLogged']),
         },
         methods: {
             submitForm() {
