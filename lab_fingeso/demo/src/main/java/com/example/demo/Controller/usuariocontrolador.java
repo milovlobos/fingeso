@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
+@CrossOrigin()
 @RequestMapping("/api/usuario")
 public class usuariocontrolador {
     @Autowired

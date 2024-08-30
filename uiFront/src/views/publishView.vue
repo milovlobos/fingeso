@@ -93,7 +93,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="inputType" class="form-label">Tipo de propiedad*</label>
-                        <select v-model="property.propertyType"id="inputType" class="form-select">
+                        <select v-model="propertyType"id="inputType" class="form-select">
                             <option selected>...</option>
                             <option>Departamento</option>
                             <option>Casa</option>
@@ -102,15 +102,15 @@
                     </div>
                 <div class="col-md-6">
                     <label for="inputDirection" class="form-label">Direccion*</label>
-                    <input v-model="property.propertyDirection"type="text" class="form-control" id="inputDirection">
+                    <input v-model="propertyDirection"type="text" class="form-control" id="inputDirection">
                 </div>
                 <div class="col-md-6">
                     <label for="inputM2" class="form-label">Metros cuadrados*</label>
-                    <input v-model="property.propertyM2" type="text" class="form-control" id="inputM2" >
+                    <input v-model="propertyM2" type="text" class="form-control" id="inputM2" >
                 </div>
                 <div class="col-md-6">
                     <label for="inputName" class="form-label">Nombre en publicacion*</label>
-                    <input v-model="property.propertyName"type="text" class="form-control" id="inputName" >
+                    <input v-model="propertyName"type="text" class="form-control" id="inputName" >
                 </div>
                 <div class="col-md-6">
                     <label for="inputRegion" class="form-label">Region</label>
@@ -137,11 +137,11 @@
                 </div>
                 <div class="col-md-6">
                     <label for="inputPrice" class="form-label">Precio*</label>
-                    <input v-model="property.propertyPrice"type="text" class="form-control" id="inputPrice">
+                    <input v-model="propertyPrice"type="text" class="form-control" id="inputPrice">
                 </div>
                 <div class="col-12">
                     <label for="inputDescription" class="form-label">Descripcion*</label>
-                    <textarea v-model="property.propertyDescription"id="inputDescription" class="form-control" rows="3"></textarea>
+                    <textarea v-model="propertyDescription"id="inputDescription" class="form-control" rows="3"></textarea>
                 </div>
             </div>
             </form>
@@ -191,39 +191,42 @@
             </form>
 
             <form class="row g-3" v-show="progress==100">
-                <div class="card-container">
-                    <div class="card">
-
-                        <div class="card-content">
-                            <h3 class="letter">Tier 1</h3>
-                            <p class="letter">Descripción de la verificacion: "Texto de ejemplo"</p>
-                            <p class="letter">Valor: "Texto de ejemplo"</p>
-                            <router-link to="/buy">
-                                <button class="btn btn-primary">Comprar</button>
-                            </router-link>
+                <div class="row">
+                    <fieldset class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="inputusername4" class="form-label">Fin de la publicacion</label>
+                            <Datepicker class="date-input-publish" v-model="propertyDate" :format="formatDate" :min-date="minDate"/>
+                        </div>
+                        <div class="check-pay">
+                        <legend class="col-form-label">Tipo de pago</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                    <label class="form-check-label" for="gridCheck1">
+                                    Transferencia
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                    <label class="form-check-label" for="gridCheck1">
+                                    Efectivo
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                    <label class="form-check-label" for="gridCheck1">
+                                    Debito o credito
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="final-instructions">
+                        <div class="col-12">
+                            <label for="inputDescription" class="form-label">Indicaciones</label>
+                            <textarea id="inputDescription" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
-                    <div class="card">
-
-                        <div class="card-content">
-                            <h3 class="letter">Tier 2</h3>
-                            <p class="letter">Descripción de la verificacion: "Texto de ejemplo"</p>
-                            <p class="letter">Valor: "Texto de ejemplo"</p>
-                            <router-link to="/buy">
-                                <button class="btn btn-primary">Comprar</button>
-                            </router-link>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-content">
-                            <h3 class="letter">Tier 3</h3>
-                            <p class="letter">Descripción de la verificacion: "Texto de ejemplo"</p>
-                            <p class="letter">Valor: "Texto de ejemplo"</p>
-                            <router-link to="/buy">
-                                <button class="btn btn-primary">Comprar</button>
-                            </router-link>
-                        </div>
-                    </div>
+                    </fieldset>
                 </div>
             </form>
             <div class="final-publish">
@@ -236,6 +239,10 @@
 
 <script>
     import axios from 'axios';
+    import { ref } from 'vue';
+    import Datepicker from '@vuepic/vue-datepicker';
+    import '@vuepic/vue-datepicker/dist/main.css';
+
     import mainComponent from '../components/mainComponent.vue'
 
     function redirectMain(){
@@ -244,7 +251,26 @@
 
     export default{
         components: {
+            Datepicker,
             mainComponent
+        },
+        setup(){
+
+            const propertyDate = ref(null);
+
+            const minDate = ref(new Date());
+
+            const formatDate = (date) =>{
+
+                return date.toISOString().split('T')[0];
+            }
+            return{
+
+                propertyDate,
+                formatDate,
+                minDate,
+            }
+
         },
         data(){
 
@@ -252,17 +278,19 @@
 
                 activeItem: 1,
                 progress: 25,
-                property: { //Objeto que almacena los datos de la propiedad
-                    propertyId: '1',
-                    propertyType: '',
-                    propertyName: '',
-                    propertyDirection: '',
-                    propertyPrice: '',
-                    propertyDescription: '',
-                    propertyM2: '',
-                    propertyUrl: '',
-                },
+                userLogged:null,
+                propertyType: '',
+                propertyName: '',
+                propertyDirection: '',
+                propertyPrice: '',
+                propertyDescription: '',
+                propertyM2: '',
             }
+        },
+        mounted(){
+
+            const user = JSON.parse(sessionStorage.getItem('userLogged'));
+            this.userLogged = user;
         },
         computed: { //Metodos que permiten la navegacion entre las distintas secciones de la vista
             progressWidth() {
@@ -275,48 +303,52 @@
         methods:{ //Metodo que permite la publicacion de la propiedad
             async publish(){
 
-                if(this.property.propertyType == null){
+                if(this.propertyType == ''){
 
                     alert("Falta tipo de propiedad");
 
-                } else if(this.property.propertyName == null){
+                } else if(this.propertyName == ''){
 
                     alert("Falta nombre de en publicacion");
 
-                } else if(this.property.propertyType == null){
+                } else if(this.propertyType == ''){
 
                     alert("Falta tipo de propiedad");
 
-                } else if(this.property.propertyDirection == null){
+                } else if(this.propertyDirection == ''){
 
                     alert("Falta direccion de la propiedad");
 
-                } else if(this.property.propertyPrice == null){
+                } else if(this.propertyPrice == ''){
 
                     alert("Falta precio de la propiedad");
 
-                } else if(this.property.propertyDescription == null){
+                } else if(this.propertyDescription == ''){
 
                     alert("Falta descripcion de la propiedad");
 
-                } else if(this.property.propertyM2 == null){
+                } else if(this.propertyM2 == ''){
 
                     alert("Falta metros cuadrados de la propiedad");
 
+                } else if(this.propertyDate == null){
+
+                    alert("Debes indicar una fecha limite");
                 }
 
                 const property = { 
-                    propertyId: this.property.propertyId,
-                    propertyType: this.property.propertyType,
-                    propertyName: this.property.propertyName,
-                    propertyDirection: this.property.propertyDirection,
-                    propertyPrice: this.property.propertyPrice,
-                    propertyDescription: this.property.propertyDescription,
-                    propertyM2: this.property.propertyM2,
-                    propertyUrl: this.property.propertyUrl,
+                    "idUser": this.userLogged.id,
+                    "type": this.propertyType,
+                    "name": this.propertyName,
+                    "direccion": this.propertyDirection,
+                    "precio": this.propertyPrice,
+                    "description": this.propertyDescription,
+                    "metrosCuadrados": this.propertyM2,
+                    "fotoUrl": null,
+                    "fecha_termino":this.propertyDate,
                 };
                 try{
-
+                    console.log(property);
                     const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/inmueble/create",property); //Se envian los datos de la propiedad al servidor
 
                     if(respuesta.data != null){ //Si la publicacion es exitosa se redirige al usuario a la pagina principal
@@ -608,6 +640,11 @@
     .card-container{
 
         margin-right: 3px;
+    }
+
+    .date-input-publish{
+
+        margin-left: 8px;
     }
 
 </style>

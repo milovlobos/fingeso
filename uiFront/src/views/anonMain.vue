@@ -4,7 +4,7 @@
         <header>
             <section class="header-section">
                 <img class="main-logo" src="./media/logo.png">
-                <div class="button-container1" v-if="isLog"> <!--Si el usuario se encuentra logeado se mostraran los botones de publicar, cuenta y cerrar sesion-->
+                <div class="button-container1" v-if="isLogged"> <!--Si el usuario se encuentra logeado se mostraran los botones de publicar, cuenta y cerrar sesion-->
                         <router-link to = "/publish">
                             <div type="button" class="btn btn-secondary">
                                 <i class="fi fi-rr-home"></i>Publicar
@@ -15,11 +15,11 @@
                                 <i class="fi fi-rr-user"></i>Mi cuenta
                             </div>
                         </router-link>
-                        <div type="button" class="btn btn-secondary" @click="unlogUser">
+                        <div type="button" class="btn btn-secondary" @click="toggleIsLoged">
                                 <i class="fi fi-rr-user"></i>Cerrar sesion
                         </div>
                 </div>
-                <div class="button-container1" v-if="!isLog"> <!--Sino se mostrara el boton de ingreso-->
+                <div class="button-container1" v-if="!isLogged"> <!--Sino se mostrara el boton de ingreso-->
                     <router-link to = "/login">
                         <div type="button" class="btn btn-secondary">
                             <i class="fi fi-rr-user"></i>Ingreso
@@ -213,7 +213,6 @@
 <script>
 
     import mainComponent from '../components/mainComponent.vue'
-    import { mapGetters, mapActions } from 'vuex';
 
     export default{
         
@@ -224,6 +223,7 @@
 
             return{ //Se inicializan las variables de la vista
 
+                isLogged:false,
                 isDropdownVisible: false, //Variable para el despliegue del dropdown
                 locationFilter: false, //Variable para el filtro de ubicacion
                 weekRange: '', //Variable para el rango de la semana
@@ -233,15 +233,21 @@
         created(){
 
             this.calculateWeekRange(); //Se calcula el rango de la semana
+
         },
-        computed: { //Se mapean las variables de la store para su uso en la vista
-            ...mapGetters(['isLog']) 
+        mounted(){
+
+            const sessionLog = JSON.parse(sessionStorage.getItem('isLogged'));
+            this.isLogged = sessionLog;
+
         },
         methods:{//Se mapean las acciones de la store para su uso en la vista
 
-            ...mapActions(['toggleIsLog']),
-            unlogUser(){
-                this.toggleIsLog();
+            toggleIsLoged(){
+                
+                this.isLogged = false;
+                sessionStorage.setItem('isLogged',JSON.stringify(false));
+
             },
             toggleDropdown() {
                 this.isDropdownVisible = !this.isDropdownVisible;

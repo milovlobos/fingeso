@@ -64,7 +64,6 @@
 <script> 
 import axios from 'axios'
 import mainComponent from '../components/mainComponent.vue'
-import { mapGetters, mapActions } from 'vuex';
 
 function redirectUser(){
 
@@ -90,11 +89,9 @@ export default{
 
         }
     },
-    computed: {
-        ...mapGetters(['isLog']) 
-    },
+
     methods:{
-        ...mapActions(['setLogStatus']),
+
         async login(){
 
             const user = {
@@ -106,23 +103,26 @@ export default{
             try{
 
                 const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/login",user);
-                
                 if(respuesta.data == 1){
 
-                    localStorage.setItem("login", JSON.stringify({name: this.name}));
-                    this.setLogStatus(true);
+                    sessionStorage.setItem('isLogged',JSON.stringify(true));
+                    try{
+                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/usuario/getusuario",{params:{"email":this.usermail}});
+                        sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
+                    } catch(error){
+
+                        console.log("Error en axios: Busqueda del usuario");
+                    }
                     redirectUser();
                 }
                 if(respuesta.data == 0){
 
                     alert("Credenciales invalidas");
                 }
-                respuesta.data = 0;
-                console.log(respuesta.data);
 
             } catch (error) {
 
-                alert("Fallo en la conexion con el servidor");
+                alert("Error en axios: Login");
 
             }
         },
