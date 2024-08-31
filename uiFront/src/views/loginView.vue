@@ -86,6 +86,7 @@ export default{
             useremailRegister: '',
             passwordRegister: '',
             passwordRegisterConfirmation: '',
+            userLogged:null,
 
         }
     },
@@ -109,9 +110,20 @@ export default{
                     try{
                         const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/usuario/getusuario",{params:{"email":this.usermail}});
                         sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
+                        this.userLogged = respuesta.data;
                     } catch(error){
 
                         console.log("Error en axios: Busqueda del usuario");
+                    }
+
+                    try{
+                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/inmueble/usuario/" + this.userLogged.id);
+                        sessionStorage.setItem('userProperties',JSON.stringify(respuesta.data));
+
+                    }catch(error){
+
+                        console.log("Error en axios: Busqueda de propiedades");
+
                     }
                     redirectUser();
                 }

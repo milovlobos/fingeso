@@ -113,28 +113,9 @@
                     <input v-model="propertyName"type="text" class="form-control" id="inputName" >
                 </div>
                 <div class="col-md-6">
-                    <label for="inputRegion" class="form-label">Region</label>
-                    <select id="inputRegion" class="form-select">
-                        <option selected>...</option>
-                        <option>Arica y parinacota</option>
-                        <option>Tarapaca</option>
-                        <option>Antofagasta</option>
-                        <option>Atacama</option>
-                        <option>Coquimbo</option>
-                        <option>Valparaiso</option>
-                        <option>O'Higgins</option>
-                        <option>Maule</option>
-                        <option>Ñuble</option>
-                        <option>Araucania</option>
-                        <option>Los rios</option>
-                        <option>Los lagos</option>
-                        <option>Aysen</option>
-                        <option>Magallanes</option>
-                        <option>Antartica</option>
-                        <option>Isla de pascua</option>
-                        <option>Metropolitana</option>
-                    </select>
-                </div>
+                    <label for="inputPropertyDate" class="form-label">Fin de la publicacion*</label>
+                    <Datepicker class="date-input-publish" v-model="propertyDate" :format="formatDate" :min-date="minDate"/>
+                 </div>
                 <div class="col-md-6">
                     <label for="inputPrice" class="form-label">Precio*</label>
                     <input v-model="propertyPrice"type="text" class="form-control" id="inputPrice">
@@ -191,42 +172,35 @@
             </form>
 
             <form class="row g-3" v-show="progress==100">
-                <div class="row">
+                <div class="row"v-if="!this.userLogged.premium">
                     <fieldset class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="inputusername4" class="form-label">Fin de la publicacion</label>
-                            <Datepicker class="date-input-publish" v-model="propertyDate" :format="formatDate" :min-date="minDate"/>
-                        </div>
-                        <div class="check-pay">
-                        <legend class="col-form-label">Tipo de pago</legend>
-                            <div class="col-sm-10">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="gridCheck1">
-                                    <label class="form-check-label" for="gridCheck1">
-                                    Transferencia
-                                    </label>
+                        <div class="content-premium2">
+                            <h1>Hazte premium y adquiere todos sus beneficios!</h1>
+                            <div class="container-card">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <h3 class="letter">La suscripcion incluye:</h3>
+                                        <p class="letter"> 
+                                            <ul>
+                                                <li>Publicaciones ilimitadas</li>
+                                                <li>Acceso a las estadisticas de tus publicaciones</li>
+                                                <li>Acceso al top semanal</li>
+                                                <li>Distintos metodos de pago</li>
+                                            </ul>
+                                        </p>
+                                    <button class="btn btn-primary" @click="setPremium">Suscribete</button>
+                                    </div>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="gridCheck1">
-                                    <label class="form-check-label" for="gridCheck1">
-                                    Efectivo
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="gridCheck1">
-                                    <label class="form-check-label" for="gridCheck1">
-                                    Debito o credito
-                                    </label>
-                                </div>
+                                <img class="promo-image" src="./media/promo.png" alt="Promo">
                             </div>
                         </div>
-                    <div class="final-instructions">
-                        <div class="col-12">
-                            <label for="inputDescription" class="form-label">Indicaciones</label>
-                            <textarea id="inputDescription" class="form-control" rows="3"></textarea>
-                        </div>
-                    </div>
                     </fieldset>
+                </div>
+                <div class="row" v-if="this.userLogged.premium">
+                    <div class="content-premium1">
+                        <img src="./media/success.png" alt="Success">
+                        <h1>Ya eres premium. Prueba todos sus beneficios en el apartado de tu cuenta!</h1>
+                    </div>
                 </div>
             </form>
             <div class="final-publish">
@@ -278,7 +252,7 @@
 
                 activeItem: 1,
                 progress: 25,
-                userLogged:null,
+                userLogged:JSON.parse(sessionStorage.getItem('userLogged')),
                 propertyType: '',
                 propertyName: '',
                 propertyDirection: '',
@@ -354,6 +328,15 @@
                     if(respuesta.data != null){ //Si la publicacion es exitosa se redirige al usuario a la pagina principal
 
                         alert("Publicacion exitosa");
+                        try{
+                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/inmueble/usuario/" + this.userLogged.id);
+                            sessionStorage.setItem('userProperties',JSON.stringify(respuesta.data));
+
+                        }catch(error){
+
+                            console.log("Error en axios: Busqueda de propiedades");
+
+                        }
                         redirectMain();
                     }
 
@@ -391,7 +374,40 @@
                 } else {
                     this.imageSrc = null;
                 }
-            }
+            },
+            async setPremium(){
+
+                const param ={
+
+                    "Id":this.userLogged.id,
+                    "metodoPago":'Automatico',
+
+                }
+                try{
+
+                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/premium",param);
+                    if(respuesta.data == 1){
+
+                        try{
+                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/usuario/getusuario",{params:{"email":this.userLogged.email}});
+                            sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
+                        } catch(error){
+
+                            console.log("Error en axios: Busqueda del usuario");
+                        }
+                        alert("Tu membresia ha sido activada con exito!");
+                    }
+                    if(respuesta.data == 0) {
+
+                        alert("Error en la asignacion de tu membresia")
+                    }
+
+                }catch(error){
+
+                    console.log("Error en axios: Premium");
+                }
+
+            },
             
         }
     }
@@ -605,7 +621,8 @@
 
     .card {
         color: black;
-        flex: 1 1 30%; 
+        flex: 1 1 30%; /* La carta toma el espacio necesario */
+        width: 45%;; /* Limita el tamaño máximo de la carta */
         margin: 10px; 
         border: 1px solid #ddd; 
         border-radius: 8px; 
@@ -620,6 +637,12 @@
     .card-content {
         color: black;
         padding: 15px; 
+    }
+
+    .card-content h3{
+
+        text-decoration: underline;
+
     }
 
     .check-pay{
@@ -647,4 +670,47 @@
         margin-left: 8px;
     }
 
+    .content-premium1 {
+        align-items: center; /* Centra verticalmente la imagen y el texto */
+    }
+
+    .content-premium1 img {
+        max-width: 400px; /* Ajusta el ancho máximo de la imagen según sea necesario */
+        height: auto; /* Mantiene la proporción de la imagen */
+        margin: 0 auto;/* Espacio entre la imagen y el texto */
+
+    }
+
+    .content-premium1 h1 {
+        color: black;
+        text-align: center;
+        margin-top: 10px; /* Elimina el margen predeterminado del h1 */
+    }
+
+    .content-premium2 {
+        text-align: center;
+    }
+
+    .content-premium2 img {
+        max-width: 300px; /* Ajusta el ancho máximo de la imagen según sea necesario */
+        height: auto; /* Mantiene la proporción de la imagen */
+        margin-left: 10px;
+    }
+
+    .content-premium2 h1 {
+        color: black;
+        text-align: center;
+        margin-top: 10px; /* Elimina el margen predeterminado del h1 */
+        margin-left: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .container-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
 </style>

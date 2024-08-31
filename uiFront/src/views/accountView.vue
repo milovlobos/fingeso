@@ -7,17 +7,14 @@
                 <img class="main-logo-account" src="./media/logo.png">
             </router-link>
             <div class="button-container-acount">
-                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#propertyModal" v-if="!userLogged?.premium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
-                <router-link to="/top">
-                    <button class="btn btn-secondary" v-if="userLogged?.premium"> Sube el nivel </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
-                </router-link>
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#premiumModal" v-if="!userLogged?.premium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
             </div>
 
-            <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
+            <div class="modal fade" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="propertyModalLabel">Hazte premium y adquiere todos sus beneficios</h5>
+                            <h5 class="modal-title" id="premiumModalLabel">Hazte premium y adquiere todos sus beneficios</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -54,36 +51,41 @@
             <div class="account-propieties">
                 <h1 class="main-title-account">Tus propiedades</h1>
                 <div class="card-container-account">
-                    <div class="card-account">
-                        <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
+                    <div class="card-account" v-for="(property,index) in userProperties" :key="index">
+                        <img :src="getImageByType(property.type)" alt="Imagen de la propiedad">
                         <div class="card-content-account">
-                            <h3 class="letter">Propiedad 1</h3>
-                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                            <p class="letter">Valor:"Texto de ejemplo"</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                        </div>
-                    </div>
-                    <div class="card-account">
-                        <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
-                        <div class="card-content-account">
-                            <h3 class="letter">Propiedad 2</h3>
-                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                            <p class="letter">Valor:"Texto de ejemplo"</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                        </div>
-                    </div>
-                    <div class="card-account">
-                        <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
-                        <div class="card-content-account">
-                            <h3 class="letter">Propiedad 3</h3>
-                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                            <p class="letter">Valor:"Texto de ejemplo"</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
+                            <h3 class="letter">{{ property.name }}</h3>
+                            <p class="letter">{{ property.description }}</p>
+                            <p class="letter">${{ property.precio }}</p>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" @click="openModal(property)" >Ver mas</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        
+        <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="propertyModalLabel">Detalles de la Propiedad</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img id="modalImage" :src="getImageByType(propertySelected.type)" alt="Imagen de la propiedad">
+                        <h3 id="modalTitle">{{ propertySelected.name }}</h3>
+                        <p id="modalDescription">{{ propertySelected.description }}</p>
+                        <p id="modalValue">Precio: ${{ propertySelected.precio }}</p>
+                        <p id="modalValue">Metros cuadrados: {{ propertySelected.metros2 }}</p>
+                        <p id="modalValue">Direccion: {{ propertySelected.direccion }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary">Promocionar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <section><!--Seccion de propiedades favoritas del usuario-->
             <div class="account-propieties">
@@ -139,13 +141,19 @@
         },
         data() {
             return {
-                userLogged:null
+                userLogged:null,
+                userProperties:null,
+                propertySelected:[],
             }
         },
         mounted(){
 
             const user = JSON.parse(sessionStorage.getItem('userLogged'));
             this.userLogged = user;
+
+            const properties = JSON.parse(sessionStorage.getItem('userProperties'));
+            this.userProperties = properties;
+
         },
         methods: {
 
@@ -182,9 +190,29 @@
                 }
 
             },
+            openModal(property){
+
+                this.propertySelected = property;
+
+            },
             submitForm() {
                 alert('Formulario enviado');
             },
+            getImageByType(type){
+                if(type == 'Departamento'){
+
+                    return './media/dpto_stock.jpg';
+                } else if(type == 'Casa'){
+
+                    return './media/casa_stock.jpg';
+                } else if(type == 'Terreno'){
+
+                    return './media/terreno_stock.jpg';
+                } else {
+
+                    return './media/fail.jpg';
+                }
+            }
         }
     }
 
@@ -293,6 +321,9 @@
         display: flex;
         justify-content: space-between; 
         flex-wrap: wrap; 
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
     }
 
     .card-account {
