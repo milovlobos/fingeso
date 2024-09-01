@@ -178,11 +178,11 @@
         <section id="filtered properties" v-if="selectedCategory">
             <div class="grid-container">
                 <div v-for="property in paginatedProperties" :key="property.id" class="card">
-                    <img :src="property.property_photourl ? property.property_photourl : './media/terreno_stock.jpg'" alt="Imagen de la propiedad">
+                    <img :src="property.propertyPhotoURL ? property.propertyPhotoURL : './media/terreno_stock.jpg'" alt="Imagen de la propiedad">
                     <div class="card-content">
-                        <h3 >{{ property.property_name }}</h3>
-                        <p><strong>Descripción:</strong> {{ property.property_description }}</p>
-                        <p><strong>Precio:</strong> ${{ property.property_price }}</p>
+                        <h3 >{{ property.propertyName }}</h3>
+                        <p><strong>Descripción:</strong> {{ property.propertyDescription }}</p>
+                        <p><strong>Precio:</strong> ${{ property.propertyPrice }}</p>
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
                     </div>
                 </div>    

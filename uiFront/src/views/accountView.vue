@@ -42,8 +42,8 @@
         <div class="profile-main"> <!--Seccion de perfil de usuario-->
             <img src="./media/profile.jpg" alt="Foto de perfil" class="profile-picture">
             <div class="profile-info">
-                <h2>{{ userLogged?.name }}</h2>
-                <p>{{ userLogged?.email }}</p>
+                <h2>{{ userLogged?.username }}</h2>
+                <p>{{ userLogged?.userEmail }}</p>
             </div>
         </div>
 
@@ -54,9 +54,9 @@
                     <div class="card-account" v-for="(property,index) in userProperties" :key="index">
                         <img :src="getImageByType(property.type)" alt="Imagen de la propiedad">
                         <div class="card-content-account">
-                            <h3 class="letter">{{ property.name }}</h3>
-                            <p class="letter">{{ property.description }}</p>
-                            <p class="letter">${{ property.precio }}</p>
+                            <h3 class="letter">{{ property.propertyName }}</h3>
+                            <p class="letter">{{ property.propertyDescription }}</p>
+                            <p class="letter">${{ property.propertyPrice }}</p>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" @click="openModal(property)" >Ver mas</button>
                         </div>
                     </div>
@@ -73,15 +73,15 @@
                     </div>
                     <div class="modal-body">
                         <img id="modalImage" :src="getImageByType(propertySelected.type)" alt="Imagen de la propiedad">
-                        <h3 id="modalTitle">{{ propertySelected.name }}</h3>
-                        <p id="modalDescription">{{ propertySelected.description }}</p>
-                        <p id="modalValue">Precio: ${{ propertySelected.precio }}</p>
-                        <p id="modalValue">Metros cuadrados: {{ propertySelected.metros2 }}</p>
-                        <p id="modalValue">Direccion: {{ propertySelected.direccion }}</p>
+                        <h3 id="modalTitle">{{ propertySelected.propertyName }}</h3>
+                        <p id="modalDescription">{{ propertySelected.propertyDescription }}</p>
+                        <p id="modalValue">Precio: ${{ propertySelected.propertyPrice }}</p>
+                        <p id="modalValue">Metros cuadrados: {{ propertySelected.propertyMeter2 }}</p>
+                        <p id="modalValue">Direccion: {{ propertySelected.propertyDress }}</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Promocionar</button>
+                        <button type="button" class="btn btn-primary" @click="toPromote()">Promocionar</button>
                     </div>
                 </div>
             </div>
@@ -133,6 +133,11 @@
 
     import mainComponent from '../components/mainComponent.vue'
     import axios from 'axios'
+
+    function redirectPromo(){
+
+        window.location.href = '/top';
+    }   
 
     export default {
 
@@ -212,6 +217,11 @@
 
                     return './media/fail.jpg';
                 }
+            },
+            toPromote(){
+
+                sessionStorage.setItem('propertyToPromote',JSON.stringify(this.propertySelected));
+                redirectPromo();
             }
         }
     }

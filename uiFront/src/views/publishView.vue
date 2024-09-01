@@ -311,25 +311,25 @@
                 }
 
                 const property = { 
-                    "idUser": this.userLogged.id,
-                    "type": this.propertyType,
-                    "name": this.propertyName,
-                    "direccion": this.propertyDirection,
-                    "precio": this.propertyPrice,
-                    "description": this.propertyDescription,
-                    "metrosCuadrados": this.propertyM2,
-                    "fotoUrl": null,
-                    "fecha_termino":this.propertyDate,
+                    "propertyIdUser": this.userLogged.id,
+                    "propertyType": this.propertyType,
+                    "propertyName": this.propertyName,
+                    "propertyDress": this.propertyDirection,
+                    "propertyPrice": this.propertyPrice,
+                    "propertyDescription": this.propertyDescription,
+                    "propertyMeter2": this.propertyM2,
+                    "propertyPhotoURL": null,
+                    "propertyEnd_Date":this.propertyDate,
                 };
                 try{
                     console.log(property);
-                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/inmueble/create",property); //Se envian los datos de la propiedad al servidor
+                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/property/create",property); //Se envian los datos de la propiedad al servidor
 
                     if(respuesta.data != null){ //Si la publicacion es exitosa se redirige al usuario a la pagina principal
 
                         alert("Publicacion exitosa");
                         try{
-                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/inmueble/usuario/" + this.userLogged.id);
+                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/usuario/" + this.userLogged.id);
                             sessionStorage.setItem('userProperties',JSON.stringify(respuesta.data));
 
                         }catch(error){
@@ -385,11 +385,11 @@
                 }
                 try{
 
-                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/premium",param);
+                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/user/premium",param);
                     if(respuesta.data == 1){
 
                         try{
-                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/usuario/getusuario",{params:{"email":this.userLogged.email}});
+                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getusuario",{params:{"UserEmail":this.userLogged.email}});
                             sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
                         } catch(error){
 

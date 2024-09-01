@@ -97,8 +97,8 @@ export default{
 
             const user = {
 
-                "email":this.usermail,
-                "password":this.password,
+                "userEmail":this.usermail,
+                "userPassword":this.password,
 
             };
             try{
@@ -108,7 +108,7 @@ export default{
 
                     sessionStorage.setItem('isLogged',JSON.stringify(true));
                     try{
-                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getusuario",{params:{"email":this.usermail}});
+                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getusuario",{params:{"UserEmail":this.usermail}});
                         sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
                         this.userLogged = respuesta.data;
                     } catch(error){
@@ -117,7 +117,7 @@ export default{
                     }
 
                     try{
-                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/user/" + this.userLogged.id);
+                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/usuario/" + this.userLogged.id);
                         sessionStorage.setItem('userProperties',JSON.stringify(respuesta.data));
 
                     }catch(error){
@@ -134,7 +134,7 @@ export default{
 
             } catch (error) {
 
-                alert("Error en axios: Login");
+                console.log("Error en axios: Login");
 
             }
         },
