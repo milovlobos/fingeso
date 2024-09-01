@@ -37,7 +37,7 @@ public class User_controller {
         String metodoPago = body.get("metodoPago").toString();
         return userService.GetPremium(id, metodoPago);
     }
-    @GetMapping("/getusuario")
+    @GetMapping("/getuser")
     public User getUserbyUserEmail(@RequestParam("UserEmail") String email) {
         return userService.getUserbyEmail(email);
     }

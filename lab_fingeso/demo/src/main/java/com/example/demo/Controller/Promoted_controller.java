@@ -16,7 +16,7 @@ public class Promoted_controller {
     private Promoted_service promotedservice;
 
     @PostMapping("/top_10")
-    public Promoted Promoted_Property(
+    public int Promoted_Property(
             @RequestParam long PropertyId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return promotedservice.Top_10(date, PropertyId);

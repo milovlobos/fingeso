@@ -23,13 +23,22 @@ public class Promoted_service {
 
 
 
-    public Promoted Top_10(LocalDate date, long propertyId) {
+    public int Top_10(LocalDate date, long propertyId) {
         try {
             Optional<Promoted> existingPromotedOpt = promotedRepository.findByDate(date);
             Promoted promoted;
 
             if (existingPromotedOpt.isPresent()) {
                 promoted = existingPromotedOpt.get();
+
+                // Verificar si la propiedad ya está en la lista
+                if (propertyId == promoted.getProperti_id_1() || propertyId == promoted.getProperti_id_2() ||
+                        propertyId == promoted.getProperti_id_3() || propertyId == promoted.getProperti_id_4() ||
+                        propertyId == promoted.getProperti_id_5() || propertyId == promoted.getProperti_id_6() ||
+                        propertyId == promoted.getProperti_id_7() || propertyId == promoted.getProperti_id_8() ||
+                        propertyId == promoted.getProperti_id_9() || propertyId == promoted.getProperti_id_10()) {
+                    return 0; // Retorna 0 si la propiedad ya está en la lista para esta fecha
+                }
 
                 if (promoted.isDisponibilidad()) {
                     boolean added = false;
@@ -70,20 +79,22 @@ public class Promoted_service {
 
                     if (!added) {
                         promoted.setDisponibilidad(false); // Si no se pudo agregar, se marca como no disponible
-
                     }
                 }
-
             } else {
                 // Crear una nueva instancia si no existe
                 promoted = new Promoted(date, true, propertyId, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             }
 
-            return promotedRepository.save(promoted);
+            promotedRepository.save(promoted);
+            return 1; // Retorna 1 si la operación fue exitosa
+        } catch (IllegalArgumentException e) {
+            return 0; // Retorna 0 si la propiedad ya estaba en la lista para esa fecha
         } catch (Exception e) {
             // Manejar la excepción y/o registrar el error
             e.printStackTrace();
-            throw new RuntimeException("Error al procesar la promoción");
+            return -1; // Retorna -1 si hubo un error durante la operación
         }
     }
+
 }
