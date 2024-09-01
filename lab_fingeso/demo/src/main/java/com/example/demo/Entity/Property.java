@@ -91,8 +91,8 @@ public class Property {
         return propertyMeter2;
     }
 
-    public void setPropertyMeter2(long squareMeters) {
-        this.propertyMeter2 = squareMeters;
+    public void setPropertyMeter2(long Meter2) {
+        this.propertyMeter2 = Meter2;
     }
 
     public String getPropertyType() {
@@ -107,8 +107,8 @@ public class Property {
         return propertyDress;
     }
 
-    public void setPropertyDress(String adress) {
-        this.propertyDress = adress;
+    public void setPropertyDress(String dress) {
+        this.propertyDress = dress;
     }
 
     public long getPropertyPrice() {
@@ -123,8 +123,8 @@ public class Property {
         return propertyPhotoURL;
     }
 
-    public void setPropertyPhotoURL(String photoUrl) {
-        this.propertyPhotoURL = photoUrl;
+    public void setPropertyPhotoURL(String photourl) {
+        this.propertyPhotoURL = photourl;
     }
 
     public boolean isPropertyCheck_Admin() {
@@ -147,7 +147,7 @@ public class Property {
         return propertyEnd_Date;
     }
 
-    public void setPropertyEnd_Date(LocalDate End_Date) {
-        this.propertyEnd_Date = End_Date;
+    public void setPropertyEnd_Date(LocalDate date_end) {
+        this.propertyEnd_Date = date_end;
     }
 }

@@ -17,14 +17,7 @@ public class Promoted_service {
     @Autowired
     private Promoted_Repository promotedRepository;
 
-    @Autowired
-    private Property_Repository inmuebleRepo;
-    @Autowired
-    private com.example.demo.Repository.boleta_repositorio boleta_repositorio;
-    @Autowired
-    private User_Repository userRepository;
-    @Autowired
-    private User_Service userService;
+
 
     // Método para promocionar un inmueble en una fecha específica
 

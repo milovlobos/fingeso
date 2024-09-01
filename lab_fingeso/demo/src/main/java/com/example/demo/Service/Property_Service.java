@@ -4,7 +4,7 @@ package com.example.demo.Service;
 import com.example.demo.Entity.ballot;
 import com.example.demo.Entity.Property;
 import com.example.demo.Entity.User;
-import com.example.demo.Repository.boleta_repositorio;
+import com.example.demo.Repository.Ballor_Repository;
 import com.example.demo.Repository.User_Repository;
 import com.example.demo.Repository.Property_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class Property_Service {
     private User_Repository userRepo;
 
     @Autowired
-    private boleta_repositorio ballotRepository;
+    private Ballor_Repository ballotRepository;
 
 
     // Método para crear un nuevo inmueble

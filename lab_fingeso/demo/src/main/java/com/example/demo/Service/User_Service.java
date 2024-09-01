@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Entity.User;
 import com.example.demo.Entity.ballot;
+import com.example.demo.Repository.Ballor_Repository;
 import com.example.demo.Repository.User_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class User_Service {
     private User_Repository userRepo;
 
     @Autowired
-    private com.example.demo.Repository.boleta_repositorio boleta_repositorio;
+    private Ballor_Repository ballot_repositorio;
 
     // Método para registrar un nuevo usuario
     public User register(String name, String password, String email) {
@@ -79,7 +80,7 @@ public class User_Service {
     }
 
     // Método para convertir un usuario a premium
-    public int GetPremium(long id, String metodoPago) {
+    public int GetPremium(long id, String method_payment) {
         // Buscar el usuario por ID
         User user = userRepo.findById(id).get();
         if (user.isUserPremium()) {
@@ -98,10 +99,10 @@ public class User_Service {
         userRepo.save(user);
 
         // Crear una nueva ballot para el pago de la membresía premium
-        ballot ballot = new ballot(user.getID(), precio, new Date(), metodoPago, descripcion);
+        ballot ballot = new ballot(user.getID(), precio, new Date(), method_payment, descripcion);
 
         // Guardar la ballot en la base de datos
-        boleta_repositorio.save(ballot);
+        ballot_repositorio.save(ballot);
 
         // Retornar 1 indicando que la operación fue exitosa
         return 1;

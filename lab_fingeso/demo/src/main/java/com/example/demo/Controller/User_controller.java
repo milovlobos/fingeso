@@ -34,8 +34,8 @@ public class User_controller {
     @PostMapping("/premium")
     public int premium(@RequestBody Map<String, Object> body) {
         long id = Long.parseLong(body.get("Id").toString());
-        String methodPayment = body.get("metodoPago").toString();
-        return userService.GetPremium(id, methodPayment);
+        String metodoPago = body.get("metodoPago").toString();
+        return userService.GetPremium(id, metodoPago);
     }
     @GetMapping("/getusuario")
     public User getUserbyUserEmail(@RequestParam("UserEmail") String email) {
