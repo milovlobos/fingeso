@@ -52,7 +52,7 @@
                 <h1 class="main-title-account">Tus propiedades</h1>
                 <div class="card-container-account">
                     <div class="card-account" v-for="(property,index) in userProperties" :key="index">
-                        <img :src="getImageByType(property.type)" alt="Imagen de la propiedad">
+                        <img :src="property.propertyPhotoURL ? property.propertyPhotoURL : 'https://www.webempresa.com/foro/wp-content/uploads/wpforo/attachments/3200/318277=80538-Sin_imagen_disponible.jpg'" alt="Imagen de la propiedad">
                         <div class="card-content-account">
                             <h3 class="letter">{{ property.propertyName }}</h3>
                             <p class="letter">{{ property.propertyDescription }}</p>
@@ -72,7 +72,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <img id="modalImage" :src="getImageByType(propertySelected.type)" alt="Imagen de la propiedad">
+                        <img id="modalImage" :src="getImageByType(propertySelected.propertyType)" alt="Imagen de la propiedad">
                         <h3 id="modalTitle">{{ propertySelected.propertyName }}</h3>
                         <p id="modalDescription">{{ propertySelected.propertyDescription }}</p>
                         <p id="modalValue">Precio: ${{ propertySelected.propertyPrice }}</p>
@@ -250,11 +250,11 @@
     }
 
     .main-title-account{
-
-        margin-left: 785px;
-        align-items: center;
+        display: flex;      
+        justify-content: center;  
+        align-items: center;  
         padding-top: 15px;
-        color: black;
+        color: black;   
     }
 
     .profile-header {

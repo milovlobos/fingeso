@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-12">
                     <label for="inputAddress2" class="form-label">Numero de telefono</label>
-                    <input type="text" class="form-control" id="inputAddress2" placeholder="+56 9 1234 56789">
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="+56 9 1234 5678">
                 </div>
                 <div class="col-md-6">
                     <label for="inputRegion" class="form-label">Region</label>
@@ -123,6 +123,10 @@
                 <div class="col-12">
                     <label for="inputDescription" class="form-label">Descripcion*</label>
                     <textarea v-model="propertyDescription"id="inputDescription" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="col-12">
+                    <label for="inputImageURL" class="form-label">URL de la imagen de la propiedad*</label>
+                    <input v-model="propertyPhotoURL" type="text" class="form-control" id="inputImageURL" placeholder="Introduce la URL">
                 </div>
             </div>
             </form>
@@ -259,6 +263,7 @@
                 propertyPrice: '',
                 propertyDescription: '',
                 propertyM2: '',
+                propertyPhotoURL: '',
             }
         },
         mounted(){
@@ -308,6 +313,11 @@
                 } else if(this.propertyDate == null){
 
                     alert("Debes indicar una fecha limite");
+
+                } else if (this.propertyPhotoURL === '') {
+
+                    alert("Debes proporcionar la URL de la imagen de la propiedad");
+
                 }else{
 
                     const property = { 
@@ -318,7 +328,7 @@
                         "propertyPrice": this.propertyPrice,
                         "propertyDescription": this.propertyDescription,
                         "propertyMeter2": this.propertyM2,
-                        "propertyPhotoURL": null,
+                        "propertyPhotoURL": this.propertyPhotoURL, 
                         "propertyEnd_Date":this.propertyDate,
                     };
                     try{
