@@ -173,7 +173,8 @@ export default {
             inmuebleSeleccionado: {},
             currentPage: 0,
             totalPages: 1,
-            pageSize: 10
+            pageSize: 10,
+            searchQuery: '' // Agregar esta línea para el término de búsqueda
         };
     },
     created() {

@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-12">
                     <label for="inputAddress2" class="form-label">Numero de telefono</label>
-                    <input type="text" class="form-control" id="inputAddress2" placeholder="+56 9 1234 56789">
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="+56 9 1234 5678">
                 </div>
                 <div class="col-md-6">
                     <label for="inputRegion" class="form-label">Region</label>
@@ -415,7 +415,7 @@
 </script>
 
 
-<style>
+<style scoped>
 
     .main{
 
