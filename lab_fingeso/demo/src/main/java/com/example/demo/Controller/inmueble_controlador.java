@@ -87,8 +87,11 @@ public class inmueble_controlador {
     public Page<Inmueble> getInmuebles(
             @RequestParam("pageNumber") int pageNumber,
             @RequestParam("pageSize") int pageSize) {
-        return (Page<Inmueble>) inmuebleServicio.getInmuebles(pageNumber, pageSize);
+        return inmuebleServicio.getInmuebles(pageNumber, pageSize);
     }
+
+
+
 
     // Comprar un inmueble
     @PostMapping("/comprar/{inmuebleId}")

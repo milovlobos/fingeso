@@ -1,27 +1,26 @@
 <template>
-    
     <div class="container main">
         <header>
             <section class="header-section">
                 <img class="main-logo" src="./media/logo.png">
-                <div class="button-container1" v-if="isLogged"> <!--Si el usuario se encuentra logeado se mostraran los botones de publicar, cuenta y cerrar sesion-->
-                        <router-link to = "/publish">
-                            <div type="button" class="btn btn-secondary">
-                                <i class="fi fi-rr-home"></i>Publicar
-                            </div>
-                        </router-link>
-                        <router-link to ="/account">
-                            <div type="button" class="btn btn-secondary">
-                                <i class="fi fi-rr-user"></i>Mi cuenta
-                            </div>
-                        </router-link>
-                        <div type="button" class="btn btn-secondary" @click="toggleIsLoged">
-                                <i class="fi fi-rr-user"></i>Cerrar sesion
+                <div class="button-container1" v-if="isLogged">
+                    <router-link to="/publish">
+                        <div class="btn btn-secondary">
+                            <i class="fi fi-rr-home"></i>Publicar
                         </div>
+                    </router-link>
+                    <router-link to="/account">
+                        <div class="btn btn-secondary">
+                            <i class="fi fi-rr-user"></i>Mi cuenta
+                        </div>
+                    </router-link>
+                    <div class="btn btn-secondary" @click="toggleIsLogged">
+                        <i class="fi fi-rr-user"></i>Cerrar sesión
+                    </div>
                 </div>
-                <div class="button-container1" v-if="!isLogged"> <!--Sino se mostrara el boton de ingreso-->
-                    <router-link to = "/login">
-                        <div type="button" class="btn btn-secondary">
+                <div class="button-container1" v-if="!isLogged">
+                    <router-link to="/login">
+                        <div class="btn btn-secondary">
                             <i class="fi fi-rr-user"></i>Ingreso
                         </div>
                     </router-link>
@@ -29,7 +28,7 @@
             </section>
         </header>
 
-        <section> <!--Seccion dedicada a la barra de filtro y busqueda de propiedades-->
+        <section>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,33 +37,33 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Ubicacion
+                                <a class="nav-link dropdown-toggle" href="#" id="locationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Ubicacion
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" id="location1">RM</a></li>
-                                    <li><a class="dropdown-item" id="location2">Valparaiso</a></li>
-                                    <li><a class="dropdown-item" id="location3">Viña del mar</a></li>
-                                    <li><a class="dropdown-item" id="location4">Rancagua</a></li>
+                                <ul class="dropdown-menu" aria-labelledby="locationDropdown">
+                                    <li><a class="dropdown-item" href="#">RM</a></li>
+                                    <li><a class="dropdown-item" href="#">Valparaiso</a></li>
+                                    <li><a class="dropdown-item" href="#">Viña del mar</a></li>
+                                    <li><a class="dropdown-item" href="#">Rancagua</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Tipo de propiedad
+                                <a class="nav-link dropdown-toggle" href="#" id="propertyTypeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Tipo de propiedad
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" id="location1">Casa</a></li>
-                                    <li><a class="dropdown-item" id="location2">Terreno</a></li>
-                                    <li><a class="dropdown-item" id="location3">Departamento</a></li>
+                                <ul class="dropdown-menu" aria-labelledby="propertyTypeDropdown">
+                                    <li><a class="dropdown-item" href="#">Casa</a></li>
+                                    <li><a class="dropdown-item" href="#">Terreno</a></li>
+                                    <li><a class="dropdown-item" href="#">Departamento</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Asociacion
+                                <a class="nav-link dropdown-toggle" href="#" id="associationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Asociacion
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" id="location1">Viel.cl</a></li>
-                                    <li><a class="dropdown-item" id="location2">Target</a></li>
+                                <ul class="dropdown-menu" aria-labelledby="associationDropdown">
+                                    <li><a class="dropdown-item" href="#">Viel.cl</a></li>
+                                    <li><a class="dropdown-item" href="#">Target</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item">
@@ -84,120 +83,57 @@
             </nav>
         </section>
 
-        <section id="properties"> <!--Seccion de propiedades destacadas-->
+        <section id="properties">
             <h1 class="main-title">Mejores 10 publicaciones</h1>
             <h class="main-title">Semana: {{ weekRange }}</h>
+            <!-- Mostrar un mensaje si no hay inmuebles -->
+            <div v-if="inmuebles.length === 0" class="alert alert-warning">No se encontraron inmuebles.</div>
             <div class="card-container">
-                <div class="card">
-                    <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
+                <div v-for="inmueble in inmuebles" :key="inmueble.id" class="card">
+                    <img :src="inmueble.fotoUrl || './media/default_image.jpg'" alt="Imagen de la propiedad">
                     <div class="card-content">
-                        <h3 class="letter">Propiedad 1</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal">Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/dpto_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 2</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/dpto_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 3</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 4</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-            </div>
-            <div class="card-container">
-                <div class="card">
-                    <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 5</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 6</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 7</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/dpto_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 8</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="propertyModalLabel">Detalles de la Propiedad</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <img id="modalImage" src="" alt="Imagen de la propiedad">
-                            <h3 id="modalTitle"></h3>
-                            <p id="modalDescription"></p>
-                            <p id="modalValue"></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary">Comprar</button>
-                        </div>
+                        <h3 class="letter">{{ inmueble.name }}</h3>
+                        <p class="letter">{{ inmueble.description }}</p>
+                        <p class="letter">Valor: {{ inmueble.precio }}</p>
+                        <button class="btn btn-primary" @click="verMas(inmueble)">Ver más</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <nav class="nav-bar1"aria-label="Page navigation example"><!--Componente de paginacion de la web, el cual se espera habilitar una vez se poblen las tablas de propiedades-->
+        <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ inmuebleSeleccionado.name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img :src="inmuebleSeleccionado.fotoUrl || './media/default_image.jpg'" alt="Imagen de la propiedad">
+                        <h3>{{ inmuebleSeleccionado.name }}</h3>
+                        <p>{{ inmuebleSeleccionado.description }}</p>
+                        <p>Valor: {{ inmuebleSeleccionado.precio }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary">Comprar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav-bar1" aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+                <li class="page-item" :class="{ disabled: currentPage === 0 }">
+                    <a class="page-link" href="#" aria-label="Previous" @click.prevent="cargarPagina(currentPage - 1)">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                <li class="page-item" v-for="n in totalPages" :key="n">
+                    <a class="page-link" href="#" @click.prevent="cargarPagina(n - 1)">{{ n + 1 }}</a>
+                </li>
+                <li class="page-item" :class="{ disabled: currentPage === totalPages - 1 }">
+                    <a class="page-link" href="#" aria-label="Next" @click.prevent="cargarPagina(currentPage + 1)">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -206,79 +142,105 @@
 
         <div id="app">
             <mainComponent/>
-        </div> 
+        </div>
     </div>
 </template>
 
 <script>
+import mainComponent from '../components/mainComponent.vue';
+import axios from 'axios';
 
-    import mainComponent from '../components/mainComponent.vue'
+// Importar imágenes directamente para asegurar las rutas
+import casaStock from '../views/media/casa_stock.jpg';
+import dptoStock from '../views/media/dpto_stock.jpg';
+import terrenoStock from '../views/media/terreno_stock.jpg';
 
-    export default{
-        
-        components: {
-            mainComponent
+export default {
+    components: {
+        mainComponent
+    },
+    data() {
+        return {
+            isLogged: false,
+            isDropdownVisible: false,
+            locationFilter: false,
+            weekRange: '',
+            inmuebles: [
+                { id: 1, name: "Inmueble de Ejemplo 1", description: "Descripción de ejemplo 1", fotoUrl: casaStock, precio: 100000 },
+                { id: 2, name: "Inmueble de Ejemplo 2", description: "Descripción de ejemplo 2", fotoUrl: dptoStock, precio: 150000 },
+                { id: 3, name: "Inmueble de Ejemplo 3", description: "Descripción de ejemplo 3", fotoUrl: terrenoStock, precio: 200000 }
+            ],
+            inmuebleSeleccionado: {},
+            currentPage: 0,
+            totalPages: 1,
+            pageSize: 10
+        };
+    },
+    created() {
+        this.calculateWeekRange();
+        this.obtenerInmuebles(); // Llamar a la función para obtener inmuebles
+    },
+    mounted() {
+        const sessionLog = JSON.parse(sessionStorage.getItem('isLogged') || 'false');
+        this.isLogged = sessionLog;
+    },
+    methods: {
+        toggleIsLogged() {
+            this.isLogged = false;
+            sessionStorage.setItem('isLogged', JSON.stringify(false));
         },
-        data(){
+        calculateWeekRange() {
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            const firstDay = new Date(today);
+            firstDay.setDate(today.getDate() - dayOfWeek + 1);
+            const lastDay = new Date(firstDay);
+            lastDay.setDate(firstDay.getDate() + 6);
 
-            return{ //Se inicializan las variables de la vista
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const start = firstDay.toLocaleDateString('es-ES', options);
+            const end = lastDay.toLocaleDateString('es-ES', options);
 
-                isLogged:false,
-                isDropdownVisible: false, //Variable para el despliegue del dropdown
-                locationFilter: false, //Variable para el filtro de ubicacion
-                weekRange: '', //Variable para el rango de la semana
-                
+            this.weekRange = `${start} - ${end}`;
+        },
+        async obtenerInmuebles(pageNumber = 0, pageSize = this.pageSize) {
+            try {
+                const response = await axios.get(`/api/inmueble/page`, {
+                    params: {
+                        pageNumber: pageNumber,
+                        pageSize: pageSize
+                    }
+                });
+                console.log('Datos de inmuebles recibidos:', response.data); // Mostrar los datos recibidos en la consola
+                // Asegurarse de que la lista de inmuebles incluya tanto los ejemplos como los obtenidos del backend
+                this.inmuebles = this.inmuebles.concat(response.data.content || []);
+                this.totalPages = response.data.totalPages || 1; // Valor por defecto en caso de error
+            } catch (error) {
+                console.error('Error al obtener los inmuebles:', error);
+                // Mostrar un mensaje al usuario sobre el error (opcional)
+                alert('Error al obtener los inmuebles, revisa la consola para más detalles.');
             }
         },
-        created(){
-
-            this.calculateWeekRange(); //Se calcula el rango de la semana
-
-        },
-        mounted(){
-
-            const sessionLog = JSON.parse(sessionStorage.getItem('isLogged'));
-            this.isLogged = sessionLog;
-
-        },
-        methods:{//Se mapean las acciones de la store para su uso en la vista
-
-            toggleIsLoged(){
-                
-                this.isLogged = false;
-                sessionStorage.setItem('isLogged',JSON.stringify(false));
-
-            },
-            toggleDropdown() {
-                this.isDropdownVisible = !this.isDropdownVisible;
-            },
-            calculateWeekRange() {
-                const today = new Date();
-                const dayOfWeek = today.getDay(); // Día de la semana (0 - domingo, 6 - sábado)
-                const firstDay = new Date(today);
-                firstDay.setDate(today.getDate() - dayOfWeek + 1); // Lunes
-                const lastDay = new Date(firstDay);
-                lastDay.setDate(firstDay.getDate() + 6); // Domingo
-
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                const start = firstDay.toLocaleDateString('es-ES', options);
-                const end = lastDay.toLocaleDateString('es-ES', options);
-
-                this.weekRange = `${start} - ${end}`;
+        async cargarPagina(pagina) {
+            if (pagina >= 0 && pagina < this.totalPages) {
+                this.currentPage = pagina;
+                await this.obtenerInmuebles(this.currentPage, this.pageSize);
             }
-
         },
-
-
+        verMas(inmueble) {
+            this.inmuebleSeleccionado = inmueble;
+            const modalElement = document.getElementById('propertyModal');
+            if (modalElement) {
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            }
+        }
     }
-
-
+};
 </script>
 
 <style scoped>
-
-.main{
-
+.main {
     background: linear-gradient(45deg, #ded1b6, #ded1b6, #6ca19e, #6d997a);
     background-size: cover;
     background-position: center;
@@ -286,11 +248,12 @@
     padding: 20px;
 }
 
-.main-logo{
+.main-logo {
     margin-bottom: 10px;
     width: 250px;
     height: 80px;
 }
+
 .header-section {
     display: flex;
     justify-content: space-between;
@@ -302,26 +265,25 @@
     color: black;
     margin: 0;
 }
-.main-title{
 
+.main-title {
     padding-top: 15px;
     color: black;
 }
-.letter{
 
+.letter {
     padding-top: 5px;
     color: rgb(0, 0, 0);
 }
 
-.card-container{
-
+.card-container {
     display: flex;
     justify-content: space-between;
     margin: 20px;
+    flex-wrap: wrap;
 }
 
-.card{
-
+.card {
     background-color: #f8f6f691;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -330,35 +292,30 @@
     max-width: 450px;
     overflow: hidden;
     transition: transform 0.3s;
-
 }
 
-.card:hover{
+.card:hover {
     transform: scale(1.1);
 }
 
-.card img{
-
+.card img {
     border-radius: 8px 8px 0 0;
     width: 100%;
     height: 200px;
     object-fit: cover;
 }
 
-.card-content{
-
+.card-content {
     color: black;
     padding: 15px;
 }
 
-.card-content h3{
-
+.card-content h3 {
     font-size: 1.5em;
     margin: 0.5em 0;
 }
 
-.card-content button{
-
+.card-content button {
     background-color: #6d997a;
     border: none;
     border-radius: 4px;
@@ -368,8 +325,7 @@
     width: 100%;
 }
 
-.card-content button:hover{
-
+.card-content button:hover {
     background-color: #42282c;
 }
 
@@ -388,19 +344,18 @@
 }
 
 .form-control {
-    height: 38px; /* Asegúrate de que la altura sea la misma para el input */
+    height: 38px;
     padding: 5px 10px;
     font-size: 1rem;
-    border-radius: 5px; /* Si quieres que los bordes sean redondeados, iguala este valor */
+    border-radius: 5px;
 }
 
 .button-container1 {
-    text-align: right; /* Alinea los botones a la derecha */
-    margin: 20px; /* Espaciado alrededor del contenedor */
+    text-align: right;
+    margin: 20px;
 }
 
-.footer1{
-
+.footer1 {
     color: black;
     text-align: center;
     padding: 10px;
@@ -409,110 +364,107 @@
     position: relative;
     bottom: 0;
 }
+
 .priceFilter {
     padding-left: 3px;
     padding-top: 6px;
     color: rgba(0,0,0,.55);
     display: flex;
-    align-items: center; /* Alinea verticalmente los elementos en el centro */
-    gap: 10px; /* Espacio entre el texto y el slider */
+    align-items: center;
+    gap: 10px;
 }
 
 .priceFilter label {
-    margin: 0; /* Elimina el margen por defecto del label si es necesario */
+    margin: 0;
 }
 
 .priceFilter input[type="range"] {
-    flex: 1; /* Hace que el slider ocupe el espacio restante */
+    flex: 1;
 }
 
-.nav-bar1{
-
+.nav-bar1 {
     display: flex;
-    justify-content: center; /* Centra horizontalmente el contenedor */
-    padding: 20px; /* Espacio alrededor del contenedor (opcional) */
+    justify-content: center;
+    padding: 20px;
 }
 
 .pagination {
     display: flex;
-    gap: 10px; /* Espacio entre los elementos de paginación */
+    gap: 10px;
     padding: 0;
     margin: 0;
-    list-style: none; /* Elimina los puntos de lista */
+    list-style: none;
 }
 
 .page-link {
     display: block;
-    padding: 10px 15px; /* Espaciado interno del enlace */
-    border: 1px solid rgba(0, 0, 0, 0.125); /* Borde translúcido */
-    border-radius: 4px; /* Bordes redondeados */
-    background-color: transparent; /* Fondo translúcido */
-    color: #42282c; /* Color del texto */
-    text-decoration: none; /* Quita el subrayado */
-    transition: background-color 0.3s; /* Transición para el cambio de color */
+    padding: 10px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 4px;
+    background-color: transparent;
+    color: #42282c;
+    text-decoration: none;
+    transition: background-color 0.3s;
 }
 
 .page-link:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Fondo al pasar el ratón sobre el enlace */
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-.modal-title{
-
+.modal-title {
     color: black;
 }
 
-.modal-body{
-
-    color:black;
+.modal-body {
+    color: black;
 }
 
 .btn-primary {
-  background-color: #6d997a; /* Color de fondo del botón */
-  border-color: #6d997a;
-  color: white; /* Color del texto del botón */
+    background-color: #6d997a;
+    border-color: #6d997a;
+    color: white;
 }
 
-/* Cambiar el color del botón al pasar el mouse */
-.btn-primary:hover, .btn:focus, .btn:active {
-  background-color: #42282c; /* Color de fondo al pasar el mouse */
+.btn-primary:hover,
+.btn:focus,
+.btn:active {
+    background-color: #42282c;
 }
 
 .btn-secondary {
-    background-color: #42282c; /* Color de fondo del botón */
+    background-color: #42282c;
     border-color: #42282c;
-    color: white; /* Color del texto del botón */
-    display: inline-flex; /* Usa Flexbox para alinear elementos en línea */
-    align-items: center; /* Alinea verticalmente el contenido en el centro */
-    padding: 10px 20px; /* Ajusta el tamaño y el espaciado del botón */
-    margin-left: 10px; /* Espacio entre los botones */
-    border: none; /* Elimina el borde del botón */
-    border-radius: 4px; /* Opcional: redondea las esquinas del botón */
-    cursor: pointer; /* Cambia el cursor a una mano al pasar sobre el botón */
-    font-size: 16px; /* Tamaño del texto del botón */
-    text-decoration: none; /* Elimina el subrayado en el texto */
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
 }
 
-/* Cambiar el color del botón al pasar el mouse */
 .btn-secondary:hover {
-  background-color: #50373b; /* Color de fondo al pasar el mouse */
+    background-color: #50373b;
 }
 
 .btn-secondary i {
-    margin-right: 8px; /* Espacio entre el ícono y el texto */
+    margin-right: 8px;
 }
 
 .menu-list {
-    list-style: disc; /* Muestra los puntos de lista predeterminados */
-    padding-left: 20px; /* Ajusta el espacio a la izquierda para alinear con los puntos */
+    list-style: disc;
+    padding-left: 20px;
 }
 
 .menu-list li {
     display: flex;
-    align-items: center; /* Alinea verticalmente el contenido */
+    align-items: center;
 }
 
 .alsoButton {
-    margin-left: 8px; /* Espacio entre el punto y el contenido */
+    margin-left: 8px;
 }
-
 </style>

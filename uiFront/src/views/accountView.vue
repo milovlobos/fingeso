@@ -360,4 +360,47 @@
         color: black;
     }
 
+    .navbar {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%; /* Asegura que la barra ocupe todo el ancho del contenedor */
+    max-width: 1200px; /* Ajusta según tu diseño para limitar el tamaño máximo */
+    margin: 0 auto; /* Centra el navbar dentro de su contenedor */
+    }
+
+    .navbar .container-fluid {
+        display: flex;
+        flex-wrap: wrap; /* Permite que los elementos se ajusten y no se desborden */
+        align-items: center;
+        justify-content: space-between; /* Espacio entre elementos */
+    }
+
+    .nav-item {
+        margin-right: 20px; /* Espaciado entre los elementos del menú */
+    }
+
+    .priceFilter {
+        display: flex;
+        align-items: center; /* Alinea verticalmente los elementos en el centro */
+        gap: 10px; /* Espacio entre el texto y el slider */
+    }
+
+    .form-control {
+        width: 150px; /* Ajusta el ancho del input de búsqueda */
+        margin-right: 10px; /* Espacio entre el input y el botón */
+    }
+
+    .btn-primary {
+        background-color: #6d997a; /* Color de fondo del botón */
+        border-color: #6d997a;
+        color: white; /* Color del texto del botón */
+        padding: 5px 15px; /* Ajusta el tamaño y el espaciado del botón */
+    }
+
+    /* Cambiar el color del botón al pasar el mouse */
+    .btn-primary:hover, .btn:focus, .btn:active {
+        background-color: #42282c; /* Color de fondo al pasar el mouse */
+    }
+
+
 </style>

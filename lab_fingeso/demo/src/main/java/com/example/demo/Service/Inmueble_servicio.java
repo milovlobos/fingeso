@@ -152,11 +152,10 @@ public class Inmueble_servicio {
     }
 
     // Método para obtener una lista paginada de inmuebles
-    public List<Inmueble> getInmuebles(int pageNumber, int pageSize) {
-        // Configurar la paginación usando `PageRequest` y obtener la página de inmuebles
+    public Page<Inmueble> getInmuebles(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<Inmueble> page = inmuebleRepo.findAll(pageable);
-        // Devolver la lista de inmuebles en la página solicitada
-        return page.getContent();
+        return inmuebleRepo.findAll(pageable); // Esto devuelve un Page<Inmueble>
     }
+
+
 }
