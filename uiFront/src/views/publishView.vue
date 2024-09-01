@@ -14,16 +14,16 @@
             <div class="colum-content1">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a :class="{'nav-link': true, 'active': activeItem === 1}" @click="setActive(1)">Datos personales</a>
+                        <a :class="{'nav-link': true, 'active': activeItem === 1}" @click.prevent="setActive(1); changeSection(1)" >Datos personales</a>
                     </li>
                     <li class="nav-item">
-                        <a :class="{'nav-link': true, 'active': activeItem === 2}" @click="setActive(2)">Datos de la vivienda</a>
+                        <a :class="{'nav-link': true, 'active': activeItem === 2}" @click.prevent="setActive(2); changeSection(2)">Datos de la vivienda</a>
                     </li>
                     <li class="nav-item">
-                        <a :class="{'nav-link': true, 'active': activeItem === 3}" @click="setActive(3)">Metodos de pago</a>
+                        <a :class="{'nav-link': true, 'active': activeItem === 3}" @click.prevent="setActive(3); changeSection(3)">Metodos de pago</a>
                     </li>
                     <li class="nav-item">
-                        <a :class="{'nav-link': true, 'active': activeItem === 4}" @click="setActive(4)">Nivel de verificacion</a>
+                        <a :class="{'nav-link': true, 'active': activeItem === 4}" @click.prevent="setActive(4); changeSection(4)">Nivel de verificacion</a>
                     </li>
                 </ul>
             </div>
@@ -308,44 +308,44 @@
                 } else if(this.propertyDate == null){
 
                     alert("Debes indicar una fecha limite");
-                }
+                }else{
 
-                const property = { 
-                    "propertyIdUser": this.userLogged.id,
-                    "propertyType": this.propertyType,
-                    "propertyName": this.propertyName,
-                    "propertyDress": this.propertyDirection,
-                    "propertyPrice": this.propertyPrice,
-                    "propertyDescription": this.propertyDescription,
-                    "propertyMeter2": this.propertyM2,
-                    "propertyPhotoURL": null,
-                    "propertyEnd_Date":this.propertyDate,
-                };
-                try{
-                    console.log(property);
-                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/property/create",property); //Se envian los datos de la propiedad al servidor
+                    const property = { 
+                        "propertyIdUser": this.userLogged.id,
+                        "propertyType": this.propertyType,
+                        "propertyName": this.propertyName,
+                        "propertyDress": this.propertyDirection,
+                        "propertyPrice": this.propertyPrice,
+                        "propertyDescription": this.propertyDescription,
+                        "propertyMeter2": this.propertyM2,
+                        "propertyPhotoURL": null,
+                        "propertyEnd_Date":this.propertyDate,
+                    };
+                    try{
+                        console.log(property);
+                        const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/property/create",property); //Se envian los datos de la propiedad al servidor
 
-                    if(respuesta.data != null){ //Si la publicacion es exitosa se redirige al usuario a la pagina principal
+                        if(respuesta.data != null){ //Si la publicacion es exitosa se redirige al usuario a la pagina principal
 
-                        alert("Publicacion exitosa");
-                        try{
-                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/usuario/" + this.userLogged.id);
-                            sessionStorage.setItem('userProperties',JSON.stringify(respuesta.data));
+                            alert("Publicacion exitosa");
+                            try{
+                                const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/usuario/" + this.userLogged.id);
+                                sessionStorage.setItem('userProperties',JSON.stringify(respuesta.data));
 
-                        }catch(error){
+                            }catch(error){
 
-                            console.log("Error en axios: Busqueda de propiedades");
+                                console.log("Error en axios: Busqueda de propiedades");
 
+                            }
+                            redirectMain();
                         }
-                        redirectMain();
+
+                    }catch(error){ //En caso de error se muestra un mensaje de alerta
+
+                        console.log(error);
+                        alert("Fallo en la conexion con el servidor");
                     }
-
-                }catch(error){ //En caso de error se muestra un mensaje de alerta
-
-                    console.log(error);
-                    alert("Fallo en la conexion con el servidor");
                 }
-
             },
             //Metodos que permiten la navegacion entre las distintas secciones de la vista
             setActive(index) {
@@ -374,6 +374,10 @@
                 } else {
                     this.imageSrc = null;
                 }
+            },
+            changeSection(num){
+                this.activeItem = num;
+                this.progress = (25*num);
             },
             async setPremium(){
 

@@ -193,14 +193,11 @@
         <nav class="nav-bar1" aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item" :class="{ disabled: currentPage === 1 }">
-            <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
+                <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
             </li>
-            <li 
-            v-for="page in totalPages" 
-            :key="page" 
-            class="page-item" 
+            <li v-for="page in totalPages" :key="page" class="page-item" 
             :class="{ active: currentPage === page }"
             >
             <a class="page-link" href="#" @click.prevent="changePage(page)">{{ page }}</a>
@@ -225,7 +222,24 @@
 import mainComponent from '../components/mainComponent.vue'
 
     export default{
-        
+        beforeRouteEnter (to, from, next) {
+            const hasReloaded = sessionStorage.getItem('hasReloaded');
+
+            if (!hasReloaded) {
+                sessionStorage.setItem('hasReloaded', 'true');
+                next(vm => {
+                    // Recargar la página solo la primera vez que se entra en la vista
+                    window.location.reload();
+                });
+            } else {
+                next();
+            }
+        },
+        beforeRouteLeave(to, from, next) {
+            // Limpiar el estado al salir de la vista para permitir futuros refrescos
+            sessionStorage.removeItem('hasReloaded');
+            next();
+        },
         components: {
             mainComponent
         },
@@ -239,7 +253,6 @@ import mainComponent from '../components/mainComponent.vue'
                 isDropdownVisible: false, //Variable para el despliegue del dropdown
                 locationFilter: false, //Variable para el filtro de ubicacion
                 weekRange: '', //Variable para el rango de la semana
-
                 currentPage: 1,
                 propertiesPerPage: 20,
                 
@@ -293,7 +306,7 @@ import mainComponent from '../components/mainComponent.vue'
             },
             async aplicateTypeFilter(type) { 
                 // Pedir lista de publicaciones
-
+                this.propertiesSelected = []
                 this.selectedCategory = true;
                 sessionStorage.setItem('selectedCategory', JSON.stringify(true));
 
@@ -312,7 +325,7 @@ import mainComponent from '../components/mainComponent.vue'
             
             async aplicateAsosiationFilter(byId) { 
                 // Pedir lista de publicaciones
-
+                this.propertiesSelected = []
                 this.selectedCategory = true;
                 sessionStorage.setItem('selectedCategory', JSON.stringify(true));
 
@@ -328,6 +341,7 @@ import mainComponent from '../components/mainComponent.vue'
             },
 
             handleClick(){
+                this.propertiesSelected = []
                 this.selectedCategory = false;
                 sessionStorage.setItem('selectedCategory', JSON.stringify(false));
             },
@@ -338,7 +352,6 @@ import mainComponent from '../components/mainComponent.vue'
                 }
             },
         },
-
 
     }
 
