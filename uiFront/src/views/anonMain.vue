@@ -3,7 +3,7 @@
     <div class="container main">
         <header>
             <section class="header-section">
-                <img class="main-logo" src="./media/logo.png">
+                <img class="main-logo" src="./media/logo.png" @click="handleClick()">
                 <div class="button-container1" v-if="isLogged"> <!--Si el usuario se encuentra logeado se mostraran los botones de publicar, cuenta y cerrar sesion-->
                         <router-link to = "/publish">
                             <div type="button" class="btn btn-secondary">
@@ -39,23 +39,12 @@
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Ubicacion
+                                    Tipo de propiedad
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" id="location1">RM</a></li>
-                                    <li><a class="dropdown-item" id="location2">Valparaiso</a></li>
-                                    <li><a class="dropdown-item" id="location3">Viña del mar</a></li>
-                                    <li><a class="dropdown-item" id="location4">Rancagua</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Tipo de propiedad
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" id="location1">Casa</a></li>
-                                    <li><a class="dropdown-item" id="location2">Terreno</a></li>
-                                    <li><a class="dropdown-item" id="location3">Departamento</a></li>
+                                    <li><button class="dropdown-item" @click="aplicateTypeFilter('Casa')" id="location1">Casa</button></li>
+                                    <li><button class="dropdown-item" @click="aplicateTypeFilter('Terreno')" id="location2">Terreno</button></li>
+                                    <li><button class="dropdown-item" @click="aplicateTypeFilter('Departamento')" id="location3">Departamento</button></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -63,8 +52,8 @@
                                 Asociacion
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" id="location1">Viel.cl</a></li>
-                                    <li><a class="dropdown-item" id="location2">Target</a></li>
+                                    <li><button class="dropdown-item" @click="aplicateAsosiationFilter(70)" id="location1">Viel.cl</button></li>
+                                    <li><button class="dropdown-item" @click="aplicateAsosiationFilter(69)" id="location2">Target</button></li>
                                 </ul>
                             </li>
                             <li class="nav-item">
@@ -84,7 +73,7 @@
             </nav>
         </section>
 
-        <section id="properties"> <!--Seccion de propiedades destacadas-->
+        <section id="properties"v-if="!selectedCategory"> <!--Seccion de propiedades destacadas-->
             <h1 class="main-title">Mejores 10 publicaciones</h1>
             <h class="main-title">Semana: {{ weekRange }}</h>
             <div class="card-container">
@@ -186,22 +175,42 @@
             </div>
         </section>
 
-        <nav class="nav-bar1"aria-label="Page navigation example"><!--Componente de paginacion de la web, el cual se espera habilitar una vez se poblen las tablas de propiedades-->
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
+        <section id="filtered properties" v-if="selectedCategory">
+            <div class="grid-container">
+                <div v-for="property in paginatedProperties" :key="property.id" class="card">
+                    <img :src="property.property_photourl ? property.property_photourl : './media/terreno_stock.jpg'" alt="Imagen de la propiedad">
+                    <div class="card-content">
+                        <h3 >{{ property.property_name }}</h3>
+                        <p><strong>Descripción:</strong> {{ property.property_description }}</p>
+                        <p><strong>Precio:</strong> ${{ property.property_price }}</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
+                    </div>
+                </div>    
+            </div>
+
+        </section>
+
+        <nav class="nav-bar1" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+            <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+            </li>
+            <li 
+            v-for="page in totalPages" 
+            :key="page" 
+            class="page-item" 
+            :class="{ active: currentPage === page }"
+            >
+            <a class="page-link" href="#" @click.prevent="changePage(page)">{{ page }}</a>
+            </li>
+            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+            <a class="page-link" href="#" @click.prevent="changePage(currentPage + 1)" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+            </li>
+        </ul>
         </nav>
 
         <div id="app">
@@ -212,7 +221,8 @@
 
 <script>
 
-    import mainComponent from '../components/mainComponent.vue'
+    import axios from 'axios';
+import mainComponent from '../components/mainComponent.vue'
 
     export default{
         
@@ -223,10 +233,15 @@
 
             return{ //Se inicializan las variables de la vista
 
+                propertiesSelected: [],
+                selectedCategory: false,
                 isLogged:false,
                 isDropdownVisible: false, //Variable para el despliegue del dropdown
                 locationFilter: false, //Variable para el filtro de ubicacion
                 weekRange: '', //Variable para el rango de la semana
+
+                currentPage: 1,
+                propertiesPerPage: 20,
                 
             }
         },
@@ -240,6 +255,16 @@
             const sessionLog = JSON.parse(sessionStorage.getItem('isLogged'));
             this.isLogged = sessionLog;
 
+        },
+        computed: {
+            totalPages() {
+            return Math.ceil(this.propertiesSelected.length / this.propertiesPerPage);
+            },
+            paginatedProperties() {
+            const start = (this.currentPage - 1) * this.propertiesPerPage;
+            const end = start + this.propertiesPerPage;
+            return this.propertiesSelected.slice(start, end);
+            }
         },
         methods:{//Se mapean las acciones de la store para su uso en la vista
 
@@ -265,8 +290,53 @@
                 const end = lastDay.toLocaleDateString('es-ES', options);
 
                 this.weekRange = `${start} - ${end}`;
-            }
+            },
+            async aplicateTypeFilter(type) { 
+                // Pedir lista de publicaciones
 
+                this.selectedCategory = true;
+                sessionStorage.setItem('selectedCategory', JSON.stringify(true));
+
+                try {
+                    const answer = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/search", {
+                        params: { "type": type }
+                    });
+                    
+                    // Almacenar las propiedades recibidas
+                    this.propertiesSelected = answer.data;
+
+                } catch (error) {
+                    console.log("Error en axios: Búsqueda de propiedades", error);
+                }
+            },
+            
+            async aplicateAsosiationFilter(byId) { 
+                // Pedir lista de publicaciones
+
+                this.selectedCategory = true;
+                sessionStorage.setItem('selectedCategory', JSON.stringify(true));
+
+                try {
+                    const answer = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/user/" + byId);
+                    
+                    // Almacenar las propiedades recibidas
+                    this.propertiesSelected = answer.data;
+
+                } catch (error) {
+                    console.log("Error en axios: Búsqueda de propiedades", error);
+                }
+            },
+
+            handleClick(){
+                this.selectedCategory = false;
+                sessionStorage.setItem('selectedCategory', JSON.stringify(false));
+            },
+            
+            changePage(page) {
+                if (page > 0 && page <= this.totalPages) {
+                    this.currentPage = page;
+                }
+            },
         },
 
 
@@ -297,11 +367,6 @@
     align-items: center;
 }
 
-.page-title {
-    text-align: left;
-    color: black;
-    margin: 0;
-}
 .main-title{
 
     padding-top: 15px;
@@ -515,4 +580,20 @@
     margin-left: 8px; /* Espacio entre el punto y el contenido */
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+.page-item.disabled .page-link {
+  pointer-events: none;
+  color: #6c757d;
+}
 </style>

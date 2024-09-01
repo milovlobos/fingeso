@@ -67,7 +67,7 @@ public class Property_Controller {
 
 
     // Obtener todos los inmuebles de un usuario
-    @GetMapping("/usuario/{idUser}")
+    @GetMapping("/user/{idUser}")
     public List<Property> getPropertyByUserId(@PathVariable Long idUser) {
         return Property_service.findByIdUser(idUser);
     }
@@ -91,8 +91,8 @@ public class Property_Controller {
     }
 
     // Comprar un inmueble
-    @PostMapping("/comprar/{PropertyId}")
-    public ballot BuyProperty(@PathVariable long PropertyId, @RequestParam long userId, @RequestParam String metodoPago) {
-        return Property_service.BuyProperty(PropertyId, userId, metodoPago);
+    @PostMapping("/buy/{PropertyId}")
+    public ballot BuyProperty(@PathVariable long PropertyId, @RequestParam long userId, @RequestParam String methodPayment) {
+        return Property_service.BuyProperty(PropertyId, userId, methodPayment);
     }
 }

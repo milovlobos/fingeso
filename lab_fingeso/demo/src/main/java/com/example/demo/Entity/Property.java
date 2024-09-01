@@ -91,63 +91,63 @@ public class Property {
         return propertyMeter2;
     }
 
-    public void setPropertyMeter2(long metroCuadrados) {
-        this.propertyMeter2 = metroCuadrados;
+    public void setPropertyMeter2(long squareMeters) {
+        this.propertyMeter2 = squareMeters;
     }
 
     public String getPropertyType() {
         return propertyType;
     }
 
-    public void setPropertyType(String tipo) {
-        this.propertyType = tipo;
+    public void setPropertyType(String type) {
+        this.propertyType = type;
     }
 
     public String getPropertyDress() {
         return propertyDress;
     }
 
-    public void setPropertyDress(String direccion) {
-        this.propertyDress = direccion;
+    public void setPropertyDress(String adress) {
+        this.propertyDress = adress;
     }
 
     public long getPropertyPrice() {
         return propertyPrice;
     }
 
-    public void setPropertyPrice(long precio) {
-        this.propertyPrice = precio;
+    public void setPropertyPrice(long price) {
+        this.propertyPrice = price;
     }
 
     public String getPropertyPhotoURL() {
         return propertyPhotoURL;
     }
 
-    public void setPropertyPhotoURL(String fotoUrl) {
-        this.propertyPhotoURL = fotoUrl;
+    public void setPropertyPhotoURL(String photoUrl) {
+        this.propertyPhotoURL = photoUrl;
     }
 
     public boolean isPropertyCheck_Admin() {
         return propertyCheck_Admin;
     }
 
-    public void setPropertyCheck_Admin(boolean verificado_admin) {
-        this.propertyCheck_Admin = verificado_admin;
+    public void setPropertyCheck_Admin(boolean check_admin) {
+        this.propertyCheck_Admin = check_admin;
     }
 
     public boolean isPropertyCheck() {
         return propertyCheck;
     }
 
-    public void setPropertyCheck(boolean verificado) {
-        this.propertyCheck = verificado;
+    public void setPropertyCheck(boolean check) {
+        this.propertyCheck = check;
     }
 
     public LocalDate getPropertyEnd_Date() {
         return propertyEnd_Date;
     }
 
-    public void setPropertyEnd_Date(LocalDate fecha_termino) {
-        this.propertyEnd_Date = fecha_termino;
+    public void setPropertyEnd_Date(LocalDate End_Date) {
+        this.propertyEnd_Date = End_Date;
     }
 }

@@ -88,7 +88,7 @@ public class User {
         return userAsist;
     }
 
-    public void setUserAsist(boolean asistente) {
-        this.userAsist = asistente;
+    public void setUserAsist(boolean assistant) {
+        this.userAsist = assistant;
     }
 }
