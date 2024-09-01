@@ -1,7 +1,6 @@
-usuario
 -- Inserción de datos en la tabla usuario
 
-INSERT INTO usuario (name, password, email, premium, admin, asistente)
+INSERT INTO "user" (username, user_password, user_email, user_premium, user_admin, user_asist)
 VALUES 
 ('Admin Test', 'admin123', 'admin@gmail.com', TRUE, TRUE, FALSE),
 ('Test1', 'test1123', 'test1@gmail.com', FALSE, FALSE, TRUE),
@@ -9,10 +8,9 @@ VALUES
 ('Test3', 'test3123', 'test3@gmail.com', FALSE, FALSE, FALSE),
 ('Test4', 'test4123', 'test4@gmail.com', FALSE, FALSE, FALSE);
 
-propiedades
 -- Inserción de datos en la tabla inmueble
 
-INSERT INTO inmueble (idUser, name, description, metros2, type, direccion, precio, fotoUrl, verificado_admin, verificado)
+INSERT INTO property (property_id_user, property_name, property_description, property_meter2, property_type, property_dress, property_price, property_photoUrl, property_check_admin, property_check)
 VALUES 
 (1, 'Casa en la playa', 'Hermosa casa con vista al mar', 120, 'Casa', 'Avenida del Mar, 23', 250000, 'https://imgix.cosentino.com/es/wp-content/uploads/2023/07/Lumire-70-Facade-MtWaverley-vic-1.jpg?auto=format%2Ccompress&ixlib=php-3.3.0', FALSE, FALSE),
 (2, 'Oficina en el centro', 'Espacio de oficina con excelentes instalaciones', 60, 'Oficina', 'Calle Central, 45', 75000, 'https://http2.mlstatic.com/D_NQ_NP_839640-MLC53605509708_022023-O.webp', FALSE, FALSE),

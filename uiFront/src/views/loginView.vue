@@ -103,12 +103,12 @@ export default{
             };
             try{
 
-                const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/login",user);
+                const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/user/login",user);
                 if(respuesta.data == 1){
 
                     sessionStorage.setItem('isLogged',JSON.stringify(true));
                     try{
-                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/usuario/getusuario",{params:{"email":this.usermail}});
+                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getusuario",{params:{"email":this.usermail}});
                         sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
                         this.userLogged = respuesta.data;
                     } catch(error){
@@ -117,7 +117,7 @@ export default{
                     }
 
                     try{
-                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/inmueble/usuario/" + this.userLogged.id);
+                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/user/" + this.userLogged.id);
                         sessionStorage.setItem('userProperties',JSON.stringify(respuesta.data));
 
                     }catch(error){
@@ -156,14 +156,14 @@ export default{
 
                     const new_user = {
 
-                        "name":this.nameRegister,
-                        "email":this.useremailRegister,
-                        "password":this.passwordRegister,
+                        "username":this.nameRegister,
+                        "userEmail":this.useremailRegister,
+                        "userPassword":this.passwordRegister,
                         
                     };
                     try{
 
-                        const registro = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/register",new_user); 
+                        const registro = await axios.post(import.meta.env.VITE_BASE_URL + "api/user/register",new_user); 
                         console.log(registro);
                         alert("Usuario creado con exito");
 
