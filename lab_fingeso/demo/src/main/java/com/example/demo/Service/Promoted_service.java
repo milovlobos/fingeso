@@ -17,7 +17,9 @@ public class Promoted_service {
     private Promoted_Repository promotedRepository;
 
 
+
     // Método para promocionar un inmueble en una fecha específica
+
 
 
     public int Top_10(LocalDate date, long propertyId) {
@@ -92,6 +94,21 @@ public class Promoted_service {
             e.printStackTrace();
             return -1; // Retorna -1 si hubo un error durante la operación
         }
+    }
+
+    //Metodo para obtener los id de las publicaciones promocionadas
+    public Promoted getTop10(LocalDate date) {
+        try {
+            Optional<Promoted> existingPromotedOpt = promotedRepository.findByDate(date);
+            Promoted promoted;
+            if (existingPromotedOpt.isPresent()) {
+                promoted = existingPromotedOpt.get();
+                return promoted;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     public List<LocalDate> getDatesWithNoAvailability() {
