@@ -97,4 +97,18 @@ public class Promoted_service {
         }
     }
 
+    //Metodo para obtener los id de las publicaciones promocionadas
+    public Promoted getTop10(LocalDate date) {
+        try {
+            Optional<Promoted> existingPromotedOpt = promotedRepository.findByDate(date);
+            Promoted promoted;
+            if (existingPromotedOpt.isPresent()) {
+                promoted = existingPromotedOpt.get();
+                return promoted;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }

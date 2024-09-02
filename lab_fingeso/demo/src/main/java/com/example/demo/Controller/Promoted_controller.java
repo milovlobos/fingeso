@@ -21,4 +21,11 @@ public class Promoted_controller {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return promotedservice.Top_10(date, PropertyId);
     }
+
+    @PostMapping("/getTop10")
+    public Promoted Promoted_Property_date(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return promotedservice.getTop10(date);
     }
+
+}
