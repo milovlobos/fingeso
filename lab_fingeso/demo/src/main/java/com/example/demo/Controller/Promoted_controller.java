@@ -1,14 +1,15 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Entity.Promoted;
+import com.example.demo.Entity.Property;
 import com.example.demo.Service.Promoted_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -24,8 +25,8 @@ public class Promoted_controller {
         return promotedservice.Top_10(date, PropertyId);
     }
 
-    @PostMapping("/getTop10")
-    public Promoted Promoted_Property_date(
+    @GetMapping("/getTop10")
+    public List<Property> Promoted_Property_date(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return promotedservice.getTop10(date);
     }

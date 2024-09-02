@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Entity.Promoted;
+import com.example.demo.Entity.Property;
 import com.example.demo.Repository.Promoted_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ public class Promoted_service {
     @Autowired
     private Promoted_Repository promotedRepository;
 
+    @Autowired
+    private Property_Service propertyService;
 
 
     // Método para promocionar un inmueble en una fecha específica
@@ -96,20 +99,7 @@ public class Promoted_service {
         }
     }
 
-    //Metodo para obtener los id de las publicaciones promocionadas
-    public Promoted getTop10(LocalDate date) {
-        try {
-            Optional<Promoted> existingPromotedOpt = promotedRepository.findByDate(date);
-            Promoted promoted;
-            if (existingPromotedOpt.isPresent()) {
-                promoted = existingPromotedOpt.get();
-                return promoted;
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
+
 
     public List<LocalDate> getDatesWithNoAvailability() {
         try {
@@ -129,4 +119,55 @@ public class Promoted_service {
         }
 
     }
+
+    public List<Property> getTop10(LocalDate date) {
+        try {
+            Optional<Promoted> existingPromotedOpt = promotedRepository.findByDate(date);
+            if (existingPromotedOpt.isPresent()) {
+                Promoted promoted = existingPromotedOpt.get();
+
+                // Crear una lista para almacenar las propiedades
+                List<Property> properties = new ArrayList<>();
+
+                // Obtener cada propiedad utilizando el ID y agregarla a la lista
+                if (promoted.getProperti_id_1() != 0) {
+                    properties.add(propertyService.getPropertyById(promoted.getProperti_id_1()));
+                }
+                if (promoted.getProperti_id_2() != 0) {
+                    properties.add(propertyService.getPropertyById(promoted.getProperti_id_2()));
+                }
+                if (promoted.getProperti_id_3() != 0) {
+                    properties.add(propertyService.getPropertyById(promoted.getProperti_id_3()));
+                }
+                if (promoted.getProperti_id_4() != 0) {
+                    properties.add(propertyService.getPropertyById(promoted.getProperti_id_4()));
+                }
+                if (promoted.getProperti_id_5() != 0) {
+                    properties.add(propertyService.getPropertyById(promoted.getProperti_id_5()));
+                }
+                if (promoted.getProperti_id_6() != 0) {
+                    properties.add(propertyService.getPropertyById(promoted.getProperti_id_6()));
+                }
+                if (promoted.getProperti_id_7() != 0) {
+                    properties.add(propertyService.getPropertyById(promoted.getProperti_id_7()));
+                }
+                if (promoted.getProperti_id_8() != 0) {
+                    properties.add(propertyService.getPropertyById(promoted.getProperti_id_8()));
+                }
+                if (promoted.getProperti_id_9() != 0) {
+                    properties.add(propertyService.getPropertyById(promoted.getProperti_id_9()));
+                }
+                if (promoted.getProperti_id_10() != 0) {
+                    properties.add(propertyService.getPropertyById(promoted.getProperti_id_10()));
+                }
+
+                // Retornar la lista de propiedades
+                return properties;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return new ArrayList<>(); // Retornar una lista vacía si no se encuentra el registro
+    }
 }
+
