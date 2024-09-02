@@ -36,15 +36,20 @@ public class Property_Service {
 
     // Método para crear un nuevo inmueble
     public Property createProperty(long userId, String name, String description, long meter2, String type, String dress, long price, String photoUrl, LocalDate end_date) {
-        // Buscar el usuario por su ID, lanzar excepción si no se encuentra
+        // Verificar si ya existe una propiedad con la misma dirección
+        Optional<Property> existingProperty = PropertyRepo.findByPropertyDress(dress);
+
+        if (existingProperty.isPresent()) {
+            // Si existe una propiedad con la misma dirección, lanza una excepción o retorna null, según tu preferencia
+            throw new IllegalArgumentException("Ya existe una propiedad con esta dirección.");
+        }
 
         // Crear y configurar un nuevo inmueble con los detalles proporcionados
-        Property property = new Property(false,false,photoUrl,price,dress,type,meter2,description,name,userId, end_date);
+        Property property = new Property(false, false, photoUrl, price, dress, type, meter2, description, name, userId, end_date);
 
         // Guardar el inmueble en la base de datos y devolverlo
         return PropertyRepo.save(property);
     }
-
     // Método para actualizar un inmueble existente
     public Property updateProperty(long id, String name, String description, long meter2, String type, String dress, long price, String photoUrl, boolean checkAdmin, boolean check) {
         // Buscar el inmueble por su ID, si no se encuentra lanzar excepción

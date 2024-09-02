@@ -18,6 +18,7 @@ public interface Property_Repository extends JpaRepository<Property, Long> {
 
     // Método para obtener una lista de todos los inmuebles en la base de datos
     List<Property> findAll();
+    Optional<Property> findByPropertyDress(String dress);
 
     // Método personalizado para buscar inmuebles según criterios específicos:
     // - tipo: Filtra por el tipo de inmueble, si es NULL, no aplica filtro.
