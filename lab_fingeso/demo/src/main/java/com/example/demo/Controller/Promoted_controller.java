@@ -21,4 +21,21 @@ public class Promoted_controller {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return promotedservice.Top_10(date, PropertyId);
     }
+
+    @PostMapping("/getTop10")
+    public Promoted Promoted_Property_date(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return promotedservice.getTop10(date);
     }
+@GetMapping("/no-availability-dates")
+    public ResponseEntity<List<LocalDate>> getNoAvailabilityDates() {
+        try {
+            List<LocalDate> noAvailabilityDates = promotedservice.getDatesWithNoAvailability();
+            return ResponseEntity.ok(noAvailabilityDates);
+        } catch (Exception e) {
+            // Manejar la excepción y/o registrar el error
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+}

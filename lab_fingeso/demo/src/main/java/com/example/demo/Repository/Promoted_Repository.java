@@ -14,4 +14,5 @@ public interface Promoted_Repository extends JpaRepository<Promoted, Long> {
 
     // Método que cuenta cuántas entradas de Promoted tienen la fecha especificada
     Optional<Promoted> findByDate(LocalDate date);
+    List<Promoted> findByAvailableFalse();
 }

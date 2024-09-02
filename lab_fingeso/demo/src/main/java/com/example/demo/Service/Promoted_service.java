@@ -2,13 +2,12 @@ package com.example.demo.Service;
 
 import com.example.demo.Entity.Promoted;
 import com.example.demo.Repository.Promoted_Repository;
-import com.example.demo.Repository.User_Repository;
-import com.example.demo.Repository.Property_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class Promoted_service {
@@ -40,7 +39,7 @@ public class Promoted_service {
                     return 0; // Retorna 0 si la propiedad ya está en la lista para esta fecha
                 }
 
-                if (promoted.isDisponibilidad()) {
+                if (promoted.isAvailable()) {
                     boolean added = false;
 
                     // Lógica para añadir el PropertyId
@@ -74,11 +73,11 @@ public class Promoted_service {
                     } else if (promoted.getProperti_id_10() == 0) {
                         promoted.setProperti_id_10(propertyId);
                         added = true;
-                        promoted.setDisponibilidad(false); // Si se llena, cambiar disponibilidad a false
+                        promoted.setAvailable(false); // Si se llena, cambiar disponibilidad a false
                     }
 
                     if (!added) {
-                        promoted.setDisponibilidad(false); // Si no se pudo agregar, se marca como no disponible
+                        promoted.setAvailable(false); // Si no se pudo agregar, se marca como no disponible
                     }
                 }
             } else {
@@ -97,4 +96,37 @@ public class Promoted_service {
         }
     }
 
+    //Metodo para obtener los id de las publicaciones promocionadas
+    public Promoted getTop10(LocalDate date) {
+        try {
+            Optional<Promoted> existingPromotedOpt = promotedRepository.findByDate(date);
+            Promoted promoted;
+            if (existingPromotedOpt.isPresent()) {
+                promoted = existingPromotedOpt.get();
+                return promoted;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public List<LocalDate> getDatesWithNoAvailability() {
+        try {
+            // Busca todas las instancias de Promoted donde la disponibilidad es false
+            List<Promoted> unavailablePromotions = promotedRepository.findByAvailableFalse();
+
+            // Extrae las fechas de esas instancias
+            List<LocalDate> datesWithNoAvailability = unavailablePromotions.stream()
+                    .map(Promoted::getDate)
+                    .collect(Collectors.toList());
+
+            return datesWithNoAvailability;
+        } catch (Exception e) {
+            // Manejar la excepción y/o registrar el error
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener las fechas con disponibilidad false");
+        }
+
+    }
 }
