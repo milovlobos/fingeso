@@ -56,9 +56,6 @@
             </div>
         </div>
     </main>
-    <div id="app">
-        <mainComponent/>
-    </div> 
 </template>
 
 <script> 
@@ -196,6 +193,7 @@ export default{
     background-position: center;
     height: auto; /* Ajusta la altura según el contenido */
     min-height: 100vh;
+    
 }
 .sessionButton{
 

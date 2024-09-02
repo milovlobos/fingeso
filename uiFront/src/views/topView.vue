@@ -12,12 +12,12 @@
 
         <div class="content"><!--Seccion que indica la navegacion entre las distintas secciones de la vista-->
             <div class="card">
-                <img src="./media/dpto_stock.jpg" alt="Imagen de la propiedad">
-                <div class="card-content">
+                <img :src="propertyToPromote.propertyPhotoURL ? propertyToPromote.propertyPhotoURL : 'https://www.webempresa.com/foro/wp-content/uploads/wpforo/attachments/3200/318277=80538-Sin_imagen_disponible.jpg'" alt="Imagen de la propiedad">
+                <div class="card-content-account">
                     <h3 class="letter">{{ propertyToPromote.propertyName }}</h3>
-                    <p class="letter">{{ propertyToPromote.propertyDescription }}</p>
-                    <p class="letter">{{ propertyToPromote.propertyPrice }}</p>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Promocionar</button>
+                    <p class="letter">Direccion: {{ propertyToPromote.propertyDress }}</p>
+                    <p class="letter">Precio: ${{ propertyToPromote.propertyPrice }}</p>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" @click="viewDate()">Ver más</button>
                 </div>
             </div>
         </div>
@@ -30,10 +30,16 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <h3 id="modalTitle">{{propertyToPromote.propertyName}}</h3>
-                        <p id="modalDescription">{{propertyToPromote.propertyDescription}}</p>
-                        <p id="modalValue">{{propertyToPromote.propertyPrice}}</p>
-                        <h3 id="modalTitle" v-if="this.selectedDate==null">Fecha invalida</h3>
+                        <img :src="propertyToPromote.propertyPhotoURL ? propertyToPromote.propertyPhotoURL : 'https://www.webempresa.com/foro/wp-content/uploads/wpforo/attachments/3200/318277=80538-Sin_imagen_disponible.jpg'" alt="Imagen de la propiedad">
+                        <h2 class="modal-property" id="modalTitle">{{ propertyToPromote.propertyName }}</h2>
+                        <h4 class="title-modal-description" id="modalDescription">Descripcion:</h4>
+                        <p id="modalDescription">{{ propertyToPromote.propertyDescription }}</p>
+                        <h4 class="title-modal-description" id="modalDescription">Caracteristicas:</h4>
+                        <p id="modalValue">Precio: ${{ propertyToPromote.propertyPrice }}</p>
+                        <p id="modalValue">Metros cuadrados: {{ propertyToPromote.propertyMeter2 }}</p>
+                        <p id="modalValue">Direccion: {{ propertyToPromote.propertyDress }}</p>
+                        <p id="modalValue">Disponible hasta: {{ propertyToPromote.propertyEnd_Date }}</p>
+                        <h3 id="modalTitle" v-if="this.selectedDate==null">Fecha seleccionada invalida</h3>
                         <h3 id="modalTitle" v-if="this.selectedDate!=null">Dia en el top: {{ promotedDate }}</h3>
                     </div>
                     <div class="modal-footer">
@@ -118,17 +124,33 @@
                 try{
                     
                     const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/promoted/top_10",null,{params:param});
-                    if(respuesta == 1){
+                    console.log(respuesta.data);
+                    if(respuesta.data == 1){
 
                         alert("Tu publicacion se ha promocionado con exito!");
+                        const param ={
+
+                            "date" : new Date().toISOString().split('T')[0],
+                        };
+                        try{
+
+                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/promoted/getTop10",{params:param});
+                            sessionStorage.setItem('top10',JSON.stringify(respuesta.data));
+
+                        }catch(error){
+
+                            console.log("Error en axios: Top 10",error);
+
+                        }
+                        redirectMain();
 
                     } 
-                    if(respuesta == 0){
+                    if(respuesta.data == 0){
 
                         alert("Tu publicacion ya esta listada en el top");
+                        redirectMain();
                     }
-                    alert("Tu publicacion se ha promocionado con exito!");
-                    redirectMain();
+                    
                 }catch(error){
 
                     console.log("Error en axios: Promocion de la propiedad",error);
@@ -138,9 +160,25 @@
 
                 const date1 = new Date();
                 const date2 = new Date(this.promotedDate);
-                if(this.promotedDate in this.dateNoDispo || date2 < date1){
+                const date3 = new Date(this.propertyToPromote.propertyEnd_Date);
+                if(this.promotedDate in this.dateNoDispo){
 
-                    this.promotedDate = "Fecha no disponible";
+                    alert('Dia lleno');
+                    this.promotedDate = null;
+                    this.selectedDate = null;
+                }
+
+                if(date2 < date1){
+
+                    alert('No se puede promocionar en fechas anteriores a la actual');
+                    this.promotedDate = null;
+                    this.selectedDate = null;
+                }
+
+                if(date2 > date3){
+
+                    alert('No se puede promocionar en fechas luego del termino de la publicacion'); 
+                    this.promotedDate = null;
                     this.selectedDate = null;
                 }
 
@@ -356,6 +394,7 @@
 
     .card {
         color: black;
+        background-color: #f8f6f691;
         flex: 1; /* La carta toma todo el espacio disponible */
         margin: 10px 0; /* Añade márgenes verticales */
         border: 1px solid #ddd;
@@ -365,20 +404,20 @@
         flex-direction: column;
     }
 
-.card img {
-    width: 100%;
-    height: auto;
-}
+    .card img {
+        width: 100%;
+        height: auto;
+    }
 
-.card-content {
-    color: black;
-    padding: 15px;
-    flex: 1; /* Asegura que el contenido se expanda para llenar el espacio */
-}
+    .card-content {
+        color: black;
+        padding: 15px;
+        
+    }
 
-.card-content h3 {
-    text-decoration: underline;
-}
+    .card-content h3 {
+        text-decoration: underline;
+    }
 
     .check-pay{
 
@@ -482,4 +521,19 @@
         color: black;
     }
 
+    .modal-body img{
+
+        border-radius: 5%;
+    }
+    
+    .modal-property{
+        padding-top: 3px;
+    }
+
+    .title-modal-description{
+
+        margin-bottom: 8px;
+        border-bottom: 1px solid #ddd;
+
+    }
 </style>

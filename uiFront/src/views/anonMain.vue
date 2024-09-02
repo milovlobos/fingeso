@@ -79,12 +79,12 @@
             <section>
             <div class="account-propieties">
                 <div class="card-container-account">
-                    <div class="card-account" v-for="(property, index) in top10" :key="index">
+                    <div class="card" v-for="(property, index) in top10" :key="index">
                         <img :src="property.propertyPhotoURL ? property.propertyPhotoURL : 'https://www.webempresa.com/foro/wp-content/uploads/wpforo/attachments/3200/318277=80538-Sin_imagen_disponible.jpg'" alt="Imagen de la propiedad">
-                        <div class="card-content-account">
+                        <div class="card-content">
                             <h3 class="letter">{{ property.propertyName }}</h3>
-                            <p class="letter">{{ property.propertyDescription }}</p>
-                            <p class="letter">${{ property.propertyPrice }}</p>
+                            <p class="letter">Direccion: {{ property.propertyDress }}</p>
+                            <p class="letter">Precio: ${{ property.propertyPrice }}</p>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" @click="openModal(property)">Ver más</button>
                         </div>
                     </div>
@@ -101,11 +101,14 @@
                         </div>
                         <div class="modal-body">
                             <img :src="propertySelected.propertyPhotoURL ? propertySelected.propertyPhotoURL : 'https://www.webempresa.com/foro/wp-content/uploads/wpforo/attachments/3200/318277=80538-Sin_imagen_disponible.jpg'" alt="Imagen de la propiedad">
-                            <h3 id="modalTitle">{{ propertySelected.propertyName }}</h3>
-                            <p id="modalDescription">{{ propertySelected.propertyDescription }}</p>
-                            <p id="modalValue">Precio: ${{ propertySelected.propertyPrice }}</p>
-                            <p id="modalValue">Metros cuadrados: {{ propertySelected.propertyMeter2 }}</p>
-                            <p id="modalValue">Direccion: {{ propertySelected.propertyDress }}</p>
+                        <h2 class="modal-property" id="modalTitle">{{ propertySelected.propertyName }}</h2>
+                        <h4 class="title-modal-description" id="modalDescription">Descripcion:</h4>
+                        <p id="modalDescription">{{ propertySelected.propertyDescription }}</p>
+                        <h4 class="title-modal-description" id="modalDescription">Caracteristicas:</h4>
+                        <p id="modalValue">Precio: ${{ propertySelected.propertyPrice }}</p>
+                        <p id="modalValue">Metros cuadrados: {{ propertySelected.propertyMeter2 }}</p>
+                        <p id="modalValue">Direccion: {{ propertySelected.propertyDress }}</p>
+                        <p id="modalValue">Disponible hasta: {{ propertySelected.propertyEnd_Date }}</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
@@ -121,9 +124,9 @@
                 <div v-for="property in paginatedProperties" :key="property.id" class="card">
                     <img :src="property.propertyPhotoURL ? property.propertyPhotoURL : './media/terreno_stock.jpg'" alt="Imagen de la propiedad">
                     <div class="card-content">
-                        <h3 >{{ property.propertyName }}</h3>
-                        <p><strong>Descripción:</strong> {{ property.propertyDescription }}</p>
-                        <p><strong>Precio:</strong> ${{ property.propertyPrice }}</p>
+                        <h3 class="letter">{{ property.propertyName }}</h3>
+                        <p class="letter">Direccion: {{ property.propertyDress }}</p>
+                        <p class="letter">Precio: ${{ property.propertyPrice }}</p>
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
                     </div>
                 </div>    
@@ -199,7 +202,6 @@
 
                     const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/promoted/getTop10",{params:param});
                     sessionStorage.setItem('top10',JSON.stringify(respuesta.data));
-                    console.log(respuesta.data);
 
                 }catch(error){
 
@@ -345,7 +347,7 @@
     background: linear-gradient(45deg, #ded1b6, #ded1b6, #6ca19e, #6d997a);
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    min-height: 1080px;
     padding: 20px;
 }
 
@@ -654,5 +656,18 @@
 
     .button-container-account {
         text-align: right; 
+    }
+    .modal-body img{
+
+        border-radius: 5%;
+    }
+    .modal-property{
+        padding-top: 3px;
+    }
+    .title-modal-description{
+
+        margin-bottom: 8px;
+        border-bottom: 1px solid #ddd;
+
     }
 </style>

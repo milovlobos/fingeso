@@ -174,7 +174,7 @@
             </form>
 
             <form class="row g-3" v-show="progress==100">
-                <div class="row"v-if="!this.userLogged.premium">
+                <div class="row"v-if="!this.userLogged.userPremium">
                     <fieldset class="row mb-3">
                         <div class="content-premium2">
                             <h1>Hazte premium y adquiere todos sus beneficios!</h1>
@@ -198,7 +198,7 @@
                         </div>
                     </fieldset>
                 </div>
-                <div class="row" v-if="this.userLogged.premium">
+                <div class="row" v-if="this.userLogged.userPremium">
                     <div class="content-premium1">
                         <img src="./media/success.png" alt="Success">
                         <h1>Ya eres premium. Prueba todos sus beneficios en el apartado de tu cuenta!</h1>
@@ -401,8 +401,9 @@
                     if(respuesta.data == 1){
 
                         try{
-                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getusuario",{params:{"UserEmail":this.userLogged.email}});
+                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getuser",{params:{"UserEmail":this.userLogged.userEmail}});
                             sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
+                            this.userLogged = respuesta.data
                         } catch(error){
 
                             console.log("Error en axios: Busqueda del usuario");
@@ -437,6 +438,7 @@
         background: linear-gradient(45deg, #ded1b6, #ded1b6, #6ca19e, #6d997a);
         background-repeat: no-repeat;
         background-size: cover;
+        max-width: 1920px;
         background-position: center;
         height: auto; 
         min-height: 100vh;

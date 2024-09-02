@@ -22,9 +22,9 @@ public class Promoted_controller {
     public int Promoted_Property(
             @RequestParam long PropertyId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return promotedservice.Top_10(date, PropertyId);
+        int result = promotedservice.Top_10(date, PropertyId);
+        return result;
     }
-
     @GetMapping("/getTop10")
     public List<Property> Promoted_Property_date(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {

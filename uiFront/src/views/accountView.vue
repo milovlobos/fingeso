@@ -6,10 +6,18 @@
             <router-link to ="/">
                 <img class="main-logo-account" src="./media/logo.png">
             </router-link>
-            <div class="button-container-acount">
-                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#premiumModal" v-if="!userLogged?.userPremium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
+            <div class="profile-content">
+                <div class="profile-main"> <!--Seccion de perfil de usuario-->
+                    <img src="./media/profile.jpg" alt="Foto de perfil" class="profile-picture">
+                    <div class="profile-info">
+                        <h2>{{ userLogged?.username }}</h2>
+                        <p>{{ userLogged?.userEmail }}</p>
+                    </div>
+                </div>
+                <div class="button-container-acount">
+                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#premiumModal" v-if="!userLogged?.userPremium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
+                </div>
             </div>
-
             <div class="modal fade" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -39,14 +47,6 @@
 
         </header>
 
-        <div class="profile-main"> <!--Seccion de perfil de usuario-->
-            <img src="./media/profile.jpg" alt="Foto de perfil" class="profile-picture">
-            <div class="profile-info">
-                <h2>{{ userLogged?.username }}</h2>
-                <p>{{ userLogged?.userEmail }}</p>
-            </div>
-        </div>
-
         <section>
             <div class="account-propieties">
                 <h1 class="main-title-account">Tus propiedades</h1>
@@ -55,8 +55,8 @@
                         <img :src="property.propertyPhotoURL ? property.propertyPhotoURL : 'https://www.webempresa.com/foro/wp-content/uploads/wpforo/attachments/3200/318277=80538-Sin_imagen_disponible.jpg'" alt="Imagen de la propiedad">
                         <div class="card-content-account">
                             <h3 class="letter">{{ property.propertyName }}</h3>
-                            <p class="letter">{{ property.propertyDescription }}</p>
-                            <p class="letter">${{ property.propertyPrice }}</p>
+                            <p class="letter">Direccion: {{ property.propertyDress }}</p>
+                            <p class="letter">Precio: ${{ property.propertyPrice }}</p>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" @click="openModal(property)">Ver más</button>
                         </div>
                     </div>
@@ -73,11 +73,14 @@
                     </div>
                     <div class="modal-body">
                         <img :src="propertySelected.propertyPhotoURL ? propertySelected.propertyPhotoURL : 'https://www.webempresa.com/foro/wp-content/uploads/wpforo/attachments/3200/318277=80538-Sin_imagen_disponible.jpg'" alt="Imagen de la propiedad">
-                        <h3 id="modalTitle">{{ propertySelected.propertyName }}</h3>
+                        <h2 class="modal-property" id="modalTitle">{{ propertySelected.propertyName }}</h2>
+                        <h4 class="title-modal-description" id="modalDescription">Descripcion:</h4>
                         <p id="modalDescription">{{ propertySelected.propertyDescription }}</p>
+                        <h4 class="title-modal-description" id="modalDescription">Caracteristicas:</h4>
                         <p id="modalValue">Precio: ${{ propertySelected.propertyPrice }}</p>
                         <p id="modalValue">Metros cuadrados: {{ propertySelected.propertyMeter2 }}</p>
                         <p id="modalValue">Direccion: {{ propertySelected.propertyDress }}</p>
+                        <p id="modalValue">Disponible hasta: {{ propertySelected.propertyEnd_Date }}</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
@@ -86,41 +89,6 @@
                 </div>
             </div>
         </div>
-        
-        <section><!--Seccion de propiedades favoritas del usuario-->
-            <div class="account-propieties">
-                <h1 class="main-title-account">Tus favoritos</h1>
-                <div class="card-container-account">
-                    <div class="card-account">
-                        <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
-                        <div class="card-content-account">
-                            <h3 class="letter">Propiedad 1</h3>
-                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                            <p class="letter">Valor:"Texto de ejemplo"</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                        </div>
-                    </div>
-                    <div class="card-account">
-                        <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
-                        <div class="card-content-account">
-                            <h3 class="letter">Propiedad 2</h3>
-                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                            <p class="letter">Valor:"Texto de ejemplo"</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                        </div>
-                    </div>
-                    <div class="card-account">
-                        <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
-                        <div class="card-content-account">
-                            <h3 class="letter">Propiedad 3</h3>
-                            <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                            <p class="letter">Valor:"Texto de ejemplo"</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <div id="app">
             <mainComponent/>
@@ -180,6 +148,7 @@
                         try{
                             const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getuser",{params:{"UserEmail":this.userLogged.userEmail}});
                             sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
+                            this.userLogged = respuesta.data;
                         } catch(error){
 
                             console.log("Error en axios: Busqueda del usuario");
@@ -248,7 +217,7 @@
         background-position: center;
         background-repeat: no-repeat;
         padding: 20px;
-        max-width: 1200px;
+        min-height: 1080px;
         margin: 0 auto;
         padding: 20px;
     }
@@ -266,6 +235,9 @@
         align-items: center;  
         padding-top: 15px;
         color: black;   
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 8px;
+        padding-left: 15px;
     }
 
     .profile-header {
@@ -275,9 +247,11 @@
     }
 
     .profile-main {
+
         display: flex;
-        align-items: center;
-        flex-direction: column; 
+        align-items: rigth;
+        margin-bottom: 20px;
+        margin-top: 15px;
     }
 
     .profile-picture {
@@ -289,18 +263,21 @@
     }
 
     .profile-info {
-        text-align: center;
+        display: flex;
+        padding-left: 5px;
+        flex-direction: column; /* Alinea el texto en columna */
+        justify-content: center;
     }
 
     .profile-info h2 {
         margin: 0;
-        font-size: 20px;
+        font-size: 30px;
         color: #333
     }
 
     .profile-info p {
         margin: 0;
-        font-size: 16px;
+        font-size: 19px;
         color: #777;
     }
 
@@ -349,7 +326,7 @@
 
     .card-account {
         
-        background-color: white;
+        background-color: #f8f6f691;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         transition: transform 0.3s;
@@ -368,6 +345,7 @@
 
     .button-container-account {
         text-align: right; 
+        margin-top: 20px;
     }
 
     .main-logo-account{
@@ -380,5 +358,17 @@
 
         color: black;
     }
+    .modal-body img{
 
+        border-radius: 5%;
+    }
+    .modal-property{
+        padding-top: 3px;
+    }
+    .title-modal-description{
+
+        margin-bottom: 8px;
+        border-bottom: 1px solid #ddd;
+    
+    }
 </style>
