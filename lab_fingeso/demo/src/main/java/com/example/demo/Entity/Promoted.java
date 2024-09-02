@@ -16,7 +16,7 @@ public class Promoted {
     // Almacena la fecha y hora de la promoción
     private LocalDate date;
 
-    private  boolean disponibilidad;
+    private  boolean available;
 
     @JoinColumn(name = "inmueble_id_1", referencedColumnName = "id")
     // Define la columna que hace referencia a la clave foránea (foreign key) del inmueble asociado
@@ -56,9 +56,9 @@ public class Promoted {
     // Define la columna que hace referencia a la clave foránea (foreign key) del inmueble asociado
     private long Properti_id_10;
 
-    public Promoted(LocalDate date, boolean disponibilidad, long properti_id_1, long properti_id_2, long properti_id_3, long properti_id_4, long properti_id_5, long properti_id_6, long properti_id_7, long properti_id_8, long properti_id_9, long properti_id_10) {
+    public Promoted(LocalDate date, boolean available, long properti_id_1, long properti_id_2, long properti_id_3, long properti_id_4, long properti_id_5, long properti_id_6, long properti_id_7, long properti_id_8, long properti_id_9, long properti_id_10) {
         this.date = date;
-        this.disponibilidad = disponibilidad;
+        this.available = available;
         Properti_id_1 = properti_id_1;
         Properti_id_2 = properti_id_2;
         Properti_id_3 = properti_id_3;
@@ -91,12 +91,12 @@ public class Promoted {
         this.date = date;
     }
 
-    public boolean isDisponibilidad() {
-        return disponibilidad;
+    public boolean isAvailable() {
+        return available;
     }
 
-    public void setDisponibilidad(boolean disponibilidad) {
-        this.disponibilidad = disponibilidad;
+    public void setAvailable(boolean disponibilidad) {
+        this.available = disponibilidad;
     }
 
     public long getProperti_id_1() {
