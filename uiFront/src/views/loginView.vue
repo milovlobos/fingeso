@@ -108,7 +108,7 @@ export default{
 
                     sessionStorage.setItem('isLogged',JSON.stringify(true));
                     try{
-                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getusuario",{params:{"UserEmail":this.usermail}});
+                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getuser",{params:{"UserEmail":this.usermail}});
                         sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
                         this.userLogged = respuesta.data;
                     } catch(error){
