@@ -94,7 +94,6 @@
                     <div class="col-md-6">
                         <label for="inputType" class="form-label">Tipo de propiedad*</label>
                         <select v-model="propertyType"id="inputType" class="form-select">
-                            <option selected>...</option>
                             <option>Departamento</option>
                             <option>Casa</option>
                             <option>Terreno</option>
@@ -137,7 +136,6 @@
                         <div class="col-md-6">
                             <label for="inputusername4" class="form-label">Tipo de publicacion</label>
                             <select id="inputRegion" class="form-select">
-                                <option selected>...</option>
                                 <option>Venta</option>
                                 <option>Arriendo</option>
                             </select>
@@ -339,7 +337,7 @@
 
                             alert("Publicacion exitosa");
                             try{
-                                const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/usuario/" + this.userLogged.id);
+                                const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/user/" + this.userLogged.id);
                                 sessionStorage.setItem('userProperties',JSON.stringify(respuesta.data));
 
                             }catch(error){

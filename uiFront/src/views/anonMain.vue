@@ -76,82 +76,21 @@
         <section id="properties"v-if="!selectedCategory"> <!--Seccion de propiedades destacadas-->
             <h1 class="main-title">Mejores 10 publicaciones</h1>
             <h class="main-title">Semana: {{ weekRange }}</h>
-            <div class="card-container">
-                <div class="card">
-                    <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 1</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal">Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/dpto_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 2</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/dpto_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 3</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 4</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
+            <section>
+            <div class="account-propieties">
+                <div class="card-container-account">
+                    <div class="card-account" v-for="(property, index) in top10" :key="index">
+                        <img :src="property.propertyPhotoURL ? property.propertyPhotoURL : 'https://www.webempresa.com/foro/wp-content/uploads/wpforo/attachments/3200/318277=80538-Sin_imagen_disponible.jpg'" alt="Imagen de la propiedad">
+                        <div class="card-content-account">
+                            <h3 class="letter">{{ property.propertyName }}</h3>
+                            <p class="letter">{{ property.propertyDescription }}</p>
+                            <p class="letter">${{ property.propertyPrice }}</p>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" @click="openModal(property)">Ver más</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card-container">
-                <div class="card">
-                    <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 5</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/casa_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 6</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/terreno_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 7</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="./media/dpto_stock.jpg" alt="Imagen de la propiedad">
-                    <div class="card-content">
-                        <h3 class="letter">Propiedad 8</h3>
-                        <p class="letter">Descripcion de la propiedad:"Texto de ejemplo"</p>
-                        <p class="letter">Valor:"Texto de ejemplo"</p>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
-                    </div>
-                </div>
-            </div>
+            </section>
 
             <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
                 <div class="modal-dialog modal-lg">
@@ -161,10 +100,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <img id="modalImage" src="" alt="Imagen de la propiedad">
-                            <h3 id="modalTitle"></h3>
-                            <p id="modalDescription"></p>
-                            <p id="modalValue"></p>
+                            <img :src="propertySelected.propertyPhotoURL ? propertySelected.propertyPhotoURL : 'https://www.webempresa.com/foro/wp-content/uploads/wpforo/attachments/3200/318277=80538-Sin_imagen_disponible.jpg'" alt="Imagen de la propiedad">
+                            <h3 id="modalTitle">{{ propertySelected.propertyName }}</h3>
+                            <p id="modalDescription">{{ propertySelected.propertyDescription }}</p>
+                            <p id="modalValue">Precio: ${{ propertySelected.propertyPrice }}</p>
+                            <p id="modalValue">Metros cuadrados: {{ propertySelected.propertyMeter2 }}</p>
+                            <p id="modalValue">Direccion: {{ propertySelected.propertyDress }}</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
@@ -219,7 +160,8 @@
 <script>
 
     import axios from 'axios';
-import mainComponent from '../components/mainComponent.vue'
+    import mainComponent from '../components/mainComponent.vue';
+    import { ref , onMounted } from 'vue';
 
     export default{
         beforeRouteEnter (to, from, next) {
@@ -243,6 +185,34 @@ import mainComponent from '../components/mainComponent.vue'
         components: {
             mainComponent
         },
+        setup(){
+
+            const dateTop = new Date().toISOString().split('T')[0];
+            
+            const fetchData = async () =>{
+
+                const param ={
+
+                    "date" : dateTop,
+                };
+                try{
+
+                    const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/promoted/getTop10",{params:param});
+                    sessionStorage.setItem('top10',JSON.stringify(respuesta.data));
+                    console.log(respuesta.data);
+
+                }catch(error){
+
+                    console.log("Error en axios: Top 10",error);
+
+                }
+            }
+
+            onMounted(() => {
+                fetchData();
+            });
+
+        },
         data(){
 
             return{ //Se inicializan las variables de la vista
@@ -255,6 +225,8 @@ import mainComponent from '../components/mainComponent.vue'
                 weekRange: '', //Variable para el rango de la semana
                 currentPage: 1,
                 propertiesPerPage: 20,
+                top10: [],
+                propertySelected:[],
                 
             }
         },
@@ -267,6 +239,9 @@ import mainComponent from '../components/mainComponent.vue'
 
             const sessionLog = JSON.parse(sessionStorage.getItem('isLogged'));
             this.isLogged = sessionLog;
+
+            const top = JSON.parse(sessionStorage.getItem('top10'));
+            this.top10 = top;
 
         },
         computed: {
@@ -350,6 +325,11 @@ import mainComponent from '../components/mainComponent.vue'
                 if (page > 0 && page <= this.totalPages) {
                     this.currentPage = page;
                 }
+            },
+            openModal(property){
+
+                this.propertySelected = property;
+
             },
         },
 
@@ -609,4 +589,70 @@ import mainComponent from '../components/mainComponent.vue'
   pointer-events: none;
   color: #6c757d;
 }
+
+.card-account:hover{
+        transform: scale(1.05);
+    }
+
+    .card-account img{
+
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-content-account h3{
+
+        font-size: 1.5em;
+        margin: 0.5em 0;
+    }
+
+    .card-content-account button{
+
+        background-color: #6d997a;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .card-content-account button:hover{
+
+        background-color: #42282c;
+    }
+
+    .card-container-account {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between; 
+        flex-wrap: wrap; 
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .card-account {
+        
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        color: black;
+        flex: 1 1 30%; 
+        margin: 10px; 
+        border: 1px solid #ddd;
+        border-radius: 8px; 
+        overflow: hidden;
+    }
+
+    .card-content-account {
+        color: black;
+        padding: 15px; 
+    }
+
+    .button-container-account {
+        text-align: right; 
+    }
 </style>

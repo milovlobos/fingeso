@@ -17,12 +17,46 @@
                     <h3 class="letter">{{ propertyToPromote.propertyName }}</h3>
                     <p class="letter">{{ propertyToPromote.propertyDescription }}</p>
                     <p class="letter">{{ propertyToPromote.propertyPrice }}</p>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Ver mas</button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" >Promocionar</button>
                 </div>
             </div>
         </div>
 
-        <div class="content2" id="personal-form" @submit.prevent="handleSubmit"> <!--Seccion de rellenado de datos-->
+        <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="propertyModalLabel">Detalles de la promocion en el Top diario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h3 id="modalTitle">{{propertyToPromote.propertyName}}</h3>
+                        <p id="modalDescription">{{propertyToPromote.propertyDescription}}</p>
+                        <p id="modalValue">{{propertyToPromote.propertyPrice}}</p>
+                        <h3 id="modalTitle" v-if="this.selectedDate==null">Fecha invalida</h3>
+                        <h3 id="modalTitle" v-if="this.selectedDate!=null">Dia en el top: {{ promotedDate }}</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary" @click="promoteProperty()" :disabled="this.selectedDate==null">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content2"> <!--Seccion de rellenado de datos-->
+
+            <div class="calendar-container">
+                <vue-cal
+                    :disable-views="['years', 'year', 'month','day']"
+                    @cell-click="onDateSelect"
+                    :selected-date= today
+                    :disabled-past="true"
+                    :disabled-dates="dateNoDispo"
+                    locale="es"
+                ></vue-cal>
+            </div>
+
         </div>
     </div>
 
@@ -32,17 +66,31 @@
 
     import mainComponent from '../components/mainComponent.vue';
     import logoComponent from '../components/logoComponent.vue';
+    import VueCal from 'vue-cal';
+    import 'vue-cal/dist/vuecal.css';
+    import axios from 'axios';
+    
+    function redirectMain(){
+
+        window.location.href = '/account';
+    }
 
     export default {
+        
         components: {
             mainComponent,
-            logoComponent
+            logoComponent,
+            VueCal,
         },
         data(){
 
             return{
 
                 propertyToPromote:[],
+                dateNoDispo:[],
+                selectedDate: null,
+                promotedDate: null,
+                today: new Date(),
             }
 
         },
@@ -50,11 +98,54 @@
 
             const property = JSON.parse(sessionStorage.getItem('propertyToPromote'));
             this.propertyToPromote = property;
-
+            
+            const noDispo = JSON.parse(sessionStorage.getItem('dateNoDispo'));
+            this.dateNoDispo = noDispo;
         },
         methods:{
 
+            onDateSelect(date) {
+                this.selectedDate = date;
+                this.promotedDate = date.date.toISOString().split('T')[0];
+            },
+            async promoteProperty(){
+                
+                const param = {
 
+                    "date":this.promotedDate,
+                    "PropertyId":this.propertyToPromote.id,
+                };
+                try{
+                    
+                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/promoted/top_10",null,{params:param});
+                    if(respuesta == 1){
+
+                        alert("Tu publicacion se ha promocionado con exito!");
+
+                    } 
+                    if(respuesta == 0){
+
+                        alert("Tu publicacion ya esta listada en el top");
+                    }
+                    alert("Tu publicacion se ha promocionado con exito!");
+                    redirectMain();
+                }catch(error){
+
+                    console.log("Error en axios: Promocion de la propiedad",error);
+                }
+            },
+            viewDate(){
+
+                const date1 = new Date();
+                const date2 = new Date(this.promotedDate);
+                if(this.promotedDate in this.dateNoDispo || date2 < date1){
+
+                    this.promotedDate = "Fecha no disponible";
+                    this.selectedDate = null;
+                }
+
+
+            },
         }
     }
 
@@ -357,4 +448,38 @@
         align-items: center;
         margin-top: 20px;
     }
+
+    .calendar-container {
+        width: 100%; /* Ajustar al 100% del ancho del contenedor padre */
+        width: 1000px; /* O cualquier tamaño máximo que prefieras */
+        height: 550px; /* Altura específica para el contenedor */
+        margin: auto;
+        border: 1px solid #ddd; /* Opcional: Añadir un borde para visualizar el contenedor */
+        overflow: hidden; /* Asegurarse de que el contenido no desborde el contenedor */
+    }
+
+    .custom-calendar {
+        height: 100%; /* Asegurar que el calendario ocupe todo el alto del contenedor */
+    }
+
+    .vuecal__body {
+        height: 550px; /* Ajustar la altura del cuerpo del calendario */
+        
+    }
+
+    .vuecal__body hover{
+        height: 550px; /* Ajustar la altura del cuerpo del calendario */
+    
+    }
+
+    .vuecal__header {
+        color: black;
+        margin-bottom: 42px;
+    }
+
+    .modal-content{
+
+        color: black;
+    }
+
 </style>

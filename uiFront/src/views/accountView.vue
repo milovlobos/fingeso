@@ -7,7 +7,7 @@
                 <img class="main-logo-account" src="./media/logo.png">
             </router-link>
             <div class="button-container-acount">
-                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#premiumModal" v-if="!userLogged?.premium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#premiumModal" v-if="!userLogged?.userPremium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
             </div>
 
             <div class="modal fade" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
@@ -81,7 +81,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" @click="toPromote()">Promocionar</button>
+                        <button type="button" class="btn btn-primary" @click="toPromote()" :disabled="!userLogged?.userPremium">Promocionar</button>
                     </div>
                 </div>
             </div>
@@ -174,11 +174,11 @@
                 }
                 try{
 
-                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/usuario/premium",param);
+                    const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/user/premium",param);
                     if(respuesta.data == 1){
 
                         try{
-                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/usuario/getusuario",{params:{"email":this.userLogged.email}});
+                            const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getuser",{params:{"UserEmail":this.userLogged.userEmail}});
                             sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
                         } catch(error){
 
@@ -220,9 +220,18 @@
                     return './media/fail.jpg';
                 }
             },
-            toPromote(){
+            async toPromote(){
 
                 sessionStorage.setItem('propertyToPromote',JSON.stringify(this.propertySelected));
+                try{
+
+                    const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/promoted/no-availability-dates");
+                    sessionStorage.setItem('dateNoDispo',JSON.stringify(respuesta.data));
+
+                }catch(error){
+
+                    console.log("Error en axios: Busqueda de fechas");
+                }
                 redirectPromo();
             }
         }
