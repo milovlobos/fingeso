@@ -102,7 +102,6 @@ export default{
 
             };
             try{
-
                 const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/user/login",user);
                 if(respuesta.data == 1){
 
@@ -117,9 +116,10 @@ export default{
                     }
 
                     try{
-                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/usuario/" + this.userLogged.id);
+                        const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/user/" + this.userLogged.id);
                         sessionStorage.setItem('userProperties',JSON.stringify(respuesta.data));
-
+                        this.userProperties = respuesta.data;
+                      
                     }catch(error){
 
                         console.log("Error en axios: Busqueda de propiedades");

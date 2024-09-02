@@ -47,17 +47,17 @@
             </div>
         </div>
 
-        <section> <!--Seccion de propiedades del usuario-->
+        <section>
             <div class="account-propieties">
                 <h1 class="main-title-account">Tus propiedades</h1>
                 <div class="card-container-account">
-                    <div class="card-account" v-for="(property,index) in userProperties" :key="index">
+                    <div class="card-account" v-for="(property, index) in userProperties" :key="index">
                         <img :src="property.propertyPhotoURL ? property.propertyPhotoURL : 'https://www.webempresa.com/foro/wp-content/uploads/wpforo/attachments/3200/318277=80538-Sin_imagen_disponible.jpg'" alt="Imagen de la propiedad">
                         <div class="card-content-account">
                             <h3 class="letter">{{ property.propertyName }}</h3>
                             <p class="letter">{{ property.propertyDescription }}</p>
                             <p class="letter">${{ property.propertyPrice }}</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" @click="openModal(property)" >Ver mas</button>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal" @click="openModal(property)">Ver más</button>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <img id="modalImage" :src="getImageByType(propertySelected.propertyType)" alt="Imagen de la propiedad">
+                        <img :src="propertySelected.propertyPhotoURL ? propertySelected.propertyPhotoURL : 'https://www.webempresa.com/foro/wp-content/uploads/wpforo/attachments/3200/318277=80538-Sin_imagen_disponible.jpg'" alt="Imagen de la propiedad">
                         <h3 id="modalTitle">{{ propertySelected.propertyName }}</h3>
                         <p id="modalDescription">{{ propertySelected.propertyDescription }}</p>
                         <p id="modalValue">Precio: ${{ propertySelected.propertyPrice }}</p>
@@ -147,16 +147,18 @@
         data() {
             return {
                 userLogged:null,
-                userProperties:null,
+                userProperties:[],
                 propertySelected:[],
             }
         },
         mounted(){
 
             const user = JSON.parse(sessionStorage.getItem('userLogged'));
+            console.log('Datos del usuario cargados:', user); // Depuración
             this.userLogged = user;
 
             const properties = JSON.parse(sessionStorage.getItem('userProperties'));
+            console.log('Propiedades del usuario cargadas:', properties); // Depuración
             this.userProperties = properties;
 
         },

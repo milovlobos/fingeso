@@ -314,7 +314,7 @@
 
                     alert("Debes indicar una fecha limite");
 
-                } else if (this.propertyPhotoURL === '') {
+                } else if (this.propertyPhotoURL == '') {
 
                     alert("Debes proporcionar la URL de la imagen de la propiedad");
 
