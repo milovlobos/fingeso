@@ -2,20 +2,30 @@
 
 INSERT INTO "user" (username, user_password, user_email, user_premium, user_admin, user_asist)
 VALUES 
-('Admin Test', 'admin123', 'admin@gmail.com', TRUE, TRUE, FALSE),
-('Test1', 'test1123', 'test1@gmail.com', FALSE, FALSE, TRUE),
-('Test2', 'test2123', 'test2@gmail.com', FALSE, FALSE, FALSE),
-('Test3', 'test3123', 'test3@gmail.com', FALSE, FALSE, FALSE),
-('Test4', 'test4123', 'test4@gmail.com', FALSE, FALSE, FALSE);
+('Admin Test', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'admin@gmail.com', TRUE, TRUE, FALSE),
+('Test', '1409a44f7251299226f8035ac185cd5a6f85ab3337a6509bb1fc6b6273e18688', 'test1@gmail.com', FALSE, FALSE, TRUE),
+('Test2', 'ba77a08dfe703be1a0bb4575e24c8b67b2b53b0ded8d706b24ace0237e1b8c77', 'test2@gmail.com', FALSE, FALSE, FALSE),
+('Test3', 'f437f7ea227f6cf1ca83bf3543176e2b48f9e675afe3c47c58910d414c036d5c', 'test3@gmail.com', FALSE, FALSE, FALSE),
+('Test4', 'f0dc122fccfb5e3886792d4d72f9be78fab41dc654fc80d85d4ee9ff50c7a764', 'test4@gmail.com', FALSE, FALSE, FALSE);
 
 -- Inserción de datos en la tabla inmueble
 
-INSERT INTO property (property_id_user, property_name, property_description, property_meter2, property_type, property_dress, property_price, property_photoUrl, property_check_admin, property_check)
+INSERT INTO property (id, property_id_user, property_name, property_description, property_meter2, property_type, property_dress, property_price, property_photoUrl, property_check_admin, property_check, property_end_date)
 VALUES 
-(1, 'Casa en la playa', 'Hermosa casa con vista al mar', 120, 'Casa', 'Avenida del Mar, 23', 250000, 'https://imgix.cosentino.com/es/wp-content/uploads/2023/07/Lumire-70-Facade-MtWaverley-vic-1.jpg?auto=format%2Ccompress&ixlib=php-3.3.0', FALSE, FALSE),
-(2, 'Oficina en el centro', 'Espacio de oficina con excelentes instalaciones', 60, 'Oficina', 'Calle Central, 45', 75000, 'https://http2.mlstatic.com/D_NQ_NP_839640-MLC53605509708_022023-O.webp', FALSE, FALSE),
-(3, 'Loft moderno', 'Loft con diseño contemporáneo', 80, 'Loft', 'Plaza del Arte, 12', 95000, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_zLI-8I5ddNnubnWKljaFGs4brq4IRzhcHA&s', FALSE, FALSE),
-(4, 'Chalet en la montaña', 'Chalet acogedor en una ubicación montañosa', 150, 'Chalet', 'Camino de la Sierra, 78', 300000, 'https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/newsletter/_FI.jpg?1563747560', FALSE, FALSE),
-(1, 'Departamento en suburbio', 'Departamento cómodo en una zona tranquila', 90, 'Departamento', 'Calle del Sol, 56', 95000, 'https://images.homify.com/v1441307340/p/photo/image/876952/19TV.jpg', FALSE, FALSE),
-(2, 'Estudio en el casco antiguo', 'Estudio acogedor en el casco antiguo de la ciudad', 45, 'Estudio', 'Plaza Vieja, 8', 60000, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGJyqVx9PviD1rqIsUhLtHRVFDAbv6DOVm8Q&s', FALSE, FALSE),
-(3, 'Bungalow en la colina', 'Bungalow con vista panorámica en una colina', 100, 'Bungalow', 'Camino de la Colina, 99', 120000, 'https://proxyimg.ecn.cl/120/imgclasificados1.emol.com/Proyectos/imagenes/docs_corredores/archivos/1070/1368209/b9c20f64226eee28a81ad799fe5b40c0.jpg', FALSE, FALSE);
+(1, 2, 'Relleno 1', 'Estudio acogedor en el casco antiguo de la ciudad', 45, 'Departamento', 'Plaza Vieja, 9', 60000, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGJyqVx9PviD1rqIsUhLtHRVFDAbv6DOVm8Q&s', FALSE, FALSE,'2024-09-09'),
+(2, 1, 'Casa en la playa', 'Hermosa casa con vista al mar', 120, 'Casa', 'Avenida del Mar, 23', 250000, 'https://imgix.cosentino.com/es/wp-content/uploads/2023/07/Lumire-70-Facade-MtWaverley-vic-1.jpg?auto=format%2Ccompress&ixlib=php-3.3.0', FALSE, FALSE,'2024-09-05'),
+(3, 2, 'Oficina en el centro', 'Espacio de oficina con excelentes instalaciones', 60, 'Departamento', 'Calle Central, 45', 75000, 'https://http2.mlstatic.com/D_NQ_NP_839640-MLC53605509708_022023-O.webp', FALSE, FALSE,'2024-09-04'),
+(4, 3, 'Loft moderno', 'Loft con diseño contemporáneo', 80, 'Casa', 'Plaza del Arte, 12', 95000, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_zLI-8I5ddNnubnWKljaFGs4brq4IRzhcHA&s', FALSE, FALSE,'2024-09-04'),
+(5, 4, 'Chalet en la montaña', 'Chalet acogedor en una ubicación montañosa', 150, 'Casa', 'Camino de la Sierra, 78', 300000, 'https://images.adsttc.com/media/images/5d34/e507/284d/d109/5600/0240/newsletter/_FI.jpg?1563747560', FALSE, FALSE,'2024-09-04'),
+(6, 1, 'Departamento en suburbio', 'Departamento cómodo en una zona tranquila', 90, 'Departamento', 'Calle del Sol, 56', 95000, 'https://images.homify.com/v1441307340/p/photo/image/876952/19TV.jpg', FALSE, FALSE,'2024-09-07'),
+(7, 2, 'Estudio en el casco antiguo', 'Estudio acogedor en el casco antiguo de la ciudad', 45, 'Departamento', 'Plaza Vieja, 8', 60000, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGJyqVx9PviD1rqIsUhLtHRVFDAbv6DOVm8Q&s', FALSE, FALSE,'2024-09-04'),
+(8, 2, 'Relleno 2', 'Estudio acogedor en el casco antiguo de la ciudad', 45, 'Departamento', 'Plaza Vieja, 10', 60000, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGJyqVx9PviD1rqIsUhLtHRVFDAbv6DOVm8Q&s', FALSE, FALSE,'2024-09-07'),
+(9, 2, 'Relleno 3', 'Estudio acogedor en el casco antiguo de la ciudad', 45, 'Departamento', 'Plaza Vieja, 11', 60000, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGJyqVx9PviD1rqIsUhLtHRVFDAbv6DOVm8Q&s', FALSE, FALSE,'2024-09-09'),
+(10, 3, 'Bungalow en la colina', 'Bungalow con vista panorámica en una colina', 100, 'Casa', 'Camino de la Colina, 99', 120000, 'https://proxyimg.ecn.cl/120/imgclasificados1.emol.com/Proyectos/imagenes/docs_corredores/archivos/1070/1368209/b9c20f64226eee28a81ad799fe5b40c0.jpg', FALSE, FALSE,'2024-09-06');
+
+-- Inserción de datos en tabla promoted
+
+INSERT INTO promoted (properti_id_1 , properti_id_2 , properti_id_3 , properti_id_4 , properti_id_5 , properti_id_6 , properti_id_7 , properti_id_8 , properti_id_9 , properti_id_10 , available, date)
+VALUES
+(9, 10, 2, 3, 7, 0, 0, 0, 0, 0, TRUE, '2024-09-04'),
+(1, 9, 10, 8, 5, 6, 7, 2, 3, 4, FALSE,'2024-09-05');
