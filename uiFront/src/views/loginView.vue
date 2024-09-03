@@ -59,22 +59,23 @@
 </template>
 
 <script> 
+//Importaciones para la logica de la vista
 import axios from 'axios'
 import mainComponent from '../components/mainComponent.vue'
 
-function redirectUser(){
+function redirectUser(){//Funcion para redirigir al usuario a la pagina principal
 
     window.location.href = '/';
 }
 
 export default{
 
-    components: {
+    components: {//Componente principal de la vista
         mainComponent
     },
     data(){
 
-        return{
+        return{//Variables de la vista
 
             usermail: '',
             password: '',
@@ -88,9 +89,9 @@ export default{
         }
     },
 
-    methods:{
+    methods:{//Metodos de la vista
 
-        async login(){
+        async login(){//Metodo para el inicio de sesion
 
             const user = {
 
@@ -103,7 +104,7 @@ export default{
                 if(respuesta.data == 1){
 
                     sessionStorage.setItem('isLogged',JSON.stringify(true));
-                    try{
+                    try{//Busqueda del usuario logueado
                         const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getuser",{params:{"UserEmail":this.usermail}});
                         sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
                         this.userLogged = respuesta.data;
@@ -112,7 +113,7 @@ export default{
                         console.log("Error en axios: Busqueda del usuario");
                     }
 
-                    try{
+                    try{//Busqueda de propiedades del usuario logueado
                         const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/user/" + this.userLogged.id);
                         sessionStorage.setItem('userProperties',JSON.stringify(respuesta.data));
                         this.userProperties = respuesta.data;
@@ -135,12 +136,12 @@ export default{
 
             }
         },
-        handleChanger(){
+        handleChanger(){//Manejador de opciones para cambiar entre iniciar sesion y registrarse
 
             this.register = !this.register;
             console.log(this.register);
         },
-        anon(){
+        anon(){//Inicio de sesion anonimo
 
             this.name= "anon";
             redirectUser();

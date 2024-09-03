@@ -3,6 +3,7 @@
     <div class="container main">
 
         <header>
+            <!--Componente cabecera de la vista con el logo de la web y los datos del usuario-->
             <router-link to ="/">
                 <img class="main-logo-account" src="./media/logo.png">
             </router-link>
@@ -14,10 +15,15 @@
                         <p>{{ userLogged?.userEmail }}</p>
                     </div>
                 </div>
+
+            <!--Boton de suscripcion premium-->
                 <div class="button-container-acount">
                     <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#premiumModal" v-if="!userLogged?.userPremium"> Hazte Premium </button> <!--Boton que proporcionara direccion a la vista de opciones premium-->
                 </div>
+
             </div>
+
+            <!--Modal de suscripcion premium-->
             <div class="modal fade" id="premiumModal" tabindex="-1" aria-labelledby="premiumModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -44,9 +50,9 @@
                     </div>
                 </div>
             </div>
-
         </header>
 
+        <!--Seccion de propiedades del usuario-->
         <section>
             <div class="account-propieties">
                 <h1 class="main-title-account">Tus propiedades</h1>
@@ -63,8 +69,9 @@
                 </div>
             </div>
         </section>
-        
-        <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true"><!--Componente de despliegue de los detalles de la propiedad-->
+
+        <!--Modal de propiedad seleccionada que despliega los detalles de la propiedad-->
+        <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -89,7 +96,7 @@
                 </div>
             </div>
         </div>
-
+        <!--Componente exportado para finalizar el contenido con un pie de pagina-->
         <div id="app">
             <mainComponent/>
         </div> 
@@ -99,27 +106,28 @@
 
 <script>
 
+    //Importaciones para la logica de la vista
     import mainComponent from '../components/mainComponent.vue'
     import axios from 'axios'
 
-    function redirectPromo(){
+    function redirectPromo(){//Funcion para redirigir a la vista de promocion de propiedades
 
         window.location.href = '/top';
     }   
 
     export default {
 
-        components: {
+        components: {//Componente principal de la vista
             mainComponent
         },
         data() {
-            return {
+            return {//Datos de la vista
                 userLogged:null,
                 userProperties:[],
                 propertySelected:[],
             }
         },
-        mounted(){
+        mounted(){//Metodo de carga de datos de la vista
 
             const user = JSON.parse(sessionStorage.getItem('userLogged'));
             console.log('Datos del usuario cargados:', user); // Depuración
@@ -130,9 +138,9 @@
             this.userProperties = properties;
 
         },
-        methods: {
+        methods: {//Metodos de la vista
 
-            async setPremium(){
+            async setPremium(){//Metodo para activar la suscripcion premium del usuario
 
                 const param ={
 
@@ -145,7 +153,7 @@
                     const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/user/premium",param);
                     if(respuesta.data == 1){
 
-                        try{
+                        try{//Busqueda del usuario para actualizar la sesion
                             const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getuser",{params:{"UserEmail":this.userLogged.userEmail}});
                             sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
                             this.userLogged = respuesta.data;
@@ -166,15 +174,15 @@
                 }
 
             },
-            openModal(property){
+            openModal(property){//Metodo para abrir el modal de la propiedad seleccionada
 
                 this.propertySelected = property;
 
             },
-            submitForm() {
+            submitForm() {//Metodo para enviar el formulario de la vista
                 alert('Formulario enviado');
             },
-            getImageByType(type){
+            getImageByType(type){//Metodo para obtener la imagen de la propiedad segun su tipo
                 if(type == 'Departamento'){
 
                     return './media/dpto_stock.jpg';
@@ -189,7 +197,7 @@
                     return './media/fail.jpg';
                 }
             },
-            async toPromote(){
+            async toPromote(){//Metodo para redirigir a la vista de promocion de propiedades
 
                 sessionStorage.setItem('propertyToPromote',JSON.stringify(this.propertySelected));
                 try{
@@ -210,7 +218,7 @@
 
 <style>
 
-    .main{ 
+    .main{/*Estilos de la vista*/
 
         background: linear-gradient(45deg, #ded1b6, #ded1b6, #6ca19e, #6d997a);
         background-size: cover;
@@ -222,14 +230,14 @@
         padding: 20px;
     }
     
-    header {
+    header {/*Estilos de la cabecera de la vista*/
         display: flex;
         justify-content: space-between; 
         align-items: center; 
         padding: 10px; 
     }
 
-    .main-title-account{
+    .main-title-account{/*Estilos del titulo principal de la vista*/
         display: flex;      
         justify-content: center;  
         align-items: center;  
@@ -240,13 +248,13 @@
         padding-left: 15px;
     }
 
-    .profile-header {
+    .profile-header {/*Estilos de la cabecera del perfil de usuario*/
         padding: 10px 20px;
         background-color: #f5f5f5;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .profile-main {
+    .profile-main {/*Estilos de la seccion principal del perfil de usuario*/
 
         display: flex;
         align-items: rigth;
@@ -254,7 +262,7 @@
         margin-top: 15px;
     }
 
-    .profile-picture {
+    .profile-picture {/*Estilos de la imagen de perfil de usuario*/
         width: 60px;
         height: 60px;
         border-radius: 50%;
@@ -262,43 +270,43 @@
         border: 2px solid #ccc;
     }
 
-    .profile-info {
+    .profile-info {/*Estilos de la informacion del perfil de usuario*/
         display: flex;
         padding-left: 5px;
-        flex-direction: column; /* Alinea el texto en columna */
+        flex-direction: column; 
         justify-content: center;
     }
 
-    .profile-info h2 {
+    .profile-info h2 {/*Estilos del titulo de la informacion del perfil de usuario*/
         margin: 0;
         font-size: 30px;
         color: #333
     }
 
-    .profile-info p {
+    .profile-info p {/*Estilos del parrafo de la informacion del perfil de usuario*/
         margin: 0;
         font-size: 19px;
         color: #777;
     }
 
-    .card-account:hover{
+    .card-account:hover{/*Estilos de la tarjeta de propiedades al pasar el cursor*/
         transform: scale(1.05);
     }
 
-    .card-account img{
+    .card-account img{/*Estilos de la imagen de la tarjeta de propiedades*/
 
         width: 100%;
         height: 200px;
         object-fit: cover;
     }
 
-    .card-content-account h3{
+    .card-content-account h3{/*Estilos del titulo de la tarjeta de propiedades*/
 
         font-size: 1.5em;
         margin: 0.5em 0;
     }
 
-    .card-content-account button{
+    .card-content-account button{/*Estilos del boton de la tarjeta de propiedades*/
 
         background-color: #6d997a;
         border: none;
@@ -309,12 +317,12 @@
         width: 100%;
     }
 
-    .card-content-account button:hover{
+    .card-content-account button:hover{/*Estilos del boton de la tarjeta de propiedades al pasar el cursor*/
 
         background-color: #42282c;
     }
 
-    .card-container-account {
+    .card-container-account {/*Estilos del contenedor de tarjetas de propiedades*/
         margin-top: 30px;
         display: flex;
         justify-content: space-between; 
@@ -324,7 +332,7 @@
         gap: 20px;
     }
 
-    .card-account {
+    .card-account {/*Estilos de la tarjeta de propiedades*/
         
         background-color: #f8f6f691;
         border-radius: 8px;
@@ -338,34 +346,34 @@
         overflow: hidden;
     }
 
-    .card-content-account {
+    .card-content-account {/*Estilos del contenido de la tarjeta de propiedades*/
         color: black;
         padding: 15px; 
     }
 
-    .button-container-account {
+    .button-container-account {/*Estilos del contenedor de botones de la vista*/
         text-align: right; 
         margin-top: 20px;
     }
 
-    .main-logo-account{
+    .main-logo-account{/*Estilos del logo principal de la vista*/
         margin-bottom: 10px;
         width: 250px;
         height: 80px;
     }
 
-    .fade{
+    .fade{/*Estilos de la animacion de desvanecimiento de la vista*/
 
         color: black;
     }
-    .modal-body img{
+    .modal-body img{/*Estilos de la imagen del modal de la vista*/
 
         border-radius: 5%;
     }
-    .modal-property{
+    .modal-property{/*Estilos del titulo del modal de la vista*/
         padding-top: 3px;
     }
-    .title-modal-description{
+    .title-modal-description{/*Estilos del titulo de la descripcion del modal de la vista*/
 
         margin-bottom: 8px;
         border-bottom: 1px solid #ddd;

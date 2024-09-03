@@ -69,28 +69,28 @@
 </template>
 
 <script>
-
+    //Importaciones para la logica de la vista
     import mainComponent from '../components/mainComponent.vue';
     import logoComponent from '../components/logoComponent.vue';
     import VueCal from 'vue-cal';
     import 'vue-cal/dist/vuecal.css';
     import axios from 'axios';
     
-    function redirectMain(){
+    function redirectMain(){//Funcion de redireccionamiento a la vista principal
 
         window.location.href = '/account';
     }
 
     export default {
         
-        components: {
+        components: {//Componentes de la vista
             mainComponent,
             logoComponent,
             VueCal,
         },
         data(){
 
-            return{
+            return{//Variables de la vista
 
                 propertyToPromote:[],
                 dateNoDispo:[],
@@ -100,7 +100,7 @@
             }
 
         },
-        mounted(){
+        mounted(){//Funcion que se ejecuta al cargar la vista
 
             const property = JSON.parse(sessionStorage.getItem('propertyToPromote'));
             this.propertyToPromote = property;
@@ -108,13 +108,13 @@
             const noDispo = JSON.parse(sessionStorage.getItem('dateNoDispo'));
             this.dateNoDispo = noDispo;
         },
-        methods:{
+        methods:{//Funciones de la vista
 
-            onDateSelect(date) {
+            onDateSelect(date) {//Funcion que se ejecuta al seleccionar una fecha en el calendario
                 this.selectedDate = date;
                 this.promotedDate = date.date.toISOString().split('T')[0];
             },
-            async promoteProperty(){
+            async promoteProperty(){//Funcion que promociona la propiedad seleccionada
                 
                 const param = {
 
@@ -132,7 +132,7 @@
 
                             "date" : new Date().toISOString().split('T')[0],
                         };
-                        try{
+                        try{//Se obtienen las propiedades promocionadas en el top 10
 
                             const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/promoted/getTop10",{params:param});
                             sessionStorage.setItem('top10',JSON.stringify(respuesta.data));
@@ -156,7 +156,7 @@
                     console.log("Error en axios: Promocion de la propiedad",error);
                 }
             },
-            viewDate(){
+            viewDate(){//Funcion que valida la fecha seleccionada para promocionar la propiedad
 
                 const date1 = new Date();
                 const date2 = new Date(this.promotedDate);

@@ -214,23 +214,23 @@
 </template>
 
 <script>
+    //Importaciones para la logica de la vista
     import axios from 'axios';
     import { ref } from 'vue';
     import Datepicker from '@vuepic/vue-datepicker';
     import '@vuepic/vue-datepicker/dist/main.css';
-
     import mainComponent from '../components/mainComponent.vue'
 
-    function redirectMain(){
+    function redirectMain(){//Funcion que redirige al usuario a la pagina principal
         window.location.href = '/';
     }   
 
     export default{
-        components: {
+        components: {//Componentes que se utilizan en la vista
             Datepicker,
             mainComponent
         },
-        setup(){
+        setup(){//Variables reactivas que se utilizan en la vista
 
             const propertyDate = ref(null);
 
@@ -240,7 +240,7 @@
 
                 return date.toISOString().split('T')[0];
             }
-            return{
+            return{//Variables que se utilizan en la vista
 
                 propertyDate,
                 formatDate,
@@ -250,7 +250,7 @@
         },
         data(){
 
-            return{
+            return{//Variables que se utilizan en la vista
 
                 activeItem: 1,
                 progress: 25,
@@ -264,7 +264,7 @@
                 propertyPhotoURL: '',
             }
         },
-        mounted(){
+        mounted(){//Metodo que se ejecuta al cargar la vista
 
             const user = JSON.parse(sessionStorage.getItem('userLogged'));
             this.userLogged = user;
@@ -336,7 +336,7 @@
                         if(respuesta.data != null){ //Si la publicacion es exitosa se redirige al usuario a la pagina principal
 
                             alert("Publicacion exitosa");
-                            try{
+                            try{//Se actualiza la lista de propiedades del usuario
                                 const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/property/user/" + this.userLogged.id);
                                 sessionStorage.setItem('userProperties',JSON.stringify(respuesta.data));
 
@@ -387,7 +387,7 @@
                 this.activeItem = num;
                 this.progress = (25*num);
             },
-            async setPremium(){
+            async setPremium(){//Metodo que permite al usuario adquirir la membresia premium
 
                 const param ={
 
@@ -400,7 +400,7 @@
                     const respuesta = await axios.post(import.meta.env.VITE_BASE_URL + "api/user/premium",param);
                     if(respuesta.data == 1){
 
-                        try{
+                        try{//Se actualiza la informacion del usuario
                             const respuesta = await axios.get(import.meta.env.VITE_BASE_URL + "api/user/getuser",{params:{"UserEmail":this.userLogged.userEmail}});
                             sessionStorage.setItem('userLogged',JSON.stringify(respuesta.data));
                             this.userLogged = respuesta.data
